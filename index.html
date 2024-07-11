@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>RYYTHAMWAVE</title>
+
+    <style>
+        @font-face {
+            font-family: lato;
+            src: url(public/assets/fonts/Lato-Regular.ttf);
+        }
+
+
+        *{
+            box-sizing: border-box;
+        }
+
+        body{
+            main-width: 350px;
+            font-family: lato, sans-serif, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0%;
+            padding: 0%;
+        }
+
+        body img{
+            width: 100%;
+        }
+
+        body a{
+            text-decoration: none;
+        }
+
+        header{
+            display: flex;
+        }
+
+        header .active{
+            border-bottom: solid 4px rgb(0, 255, 128);
+        }
+
+        .logo-head{
+            flex: 1;
+            max-width: 100px;
+        }
+
+        .header-div{
+            flex: auto;
+
+        }
+
+        .main-nav{
+            display: flex;
+        }
+
+        .nav-item{
+            padding: 10px;
+            text-align: center;
+        }
+        
+        .main-title{
+            padding: 10px;
+        }
+
+        .dropdown{
+            position: relative;
+        }
+
+        .dropdown-list{
+            position: absolute;
+            border: solid thin rgb(182, 182, 182);
+            background-color: white;
+            margin-top: 10px;
+        }
+
+        .image-bg{
+            height: 500px;  /* work akunilla Y no idea "height: 500px;" koduthu but the size is not changing according to my choice */
+            object-fit: cover;
+        }
+
+        .content{
+            padding: 20px;
+        }
+        .music-card{
+            width: 200px;
+            margin: 20px;
+        }
+        
+    </style>
+
+    <header>        <!-- js use chayanam -->
+        <div class="logo-head">
+            <a href=""><img class="logo" src="public/assets/images/logo.png"></a>  <!-- check chayan ullathu bz error thannu nerathe logo size edit-->
+        </div>
+        <div>
+            <div class="main-title">RYYTHAMWAVE</div>
+            <div class="main-nav">
+                <div class="nav-item active"><a href="">Home</a></div>
+                <div class="nav-item"><a href="">Music</a></div>
+                <div class="nav-item dropdown"><a href="">Category</a>
+                    <div class="dropdown-list">
+                        <div class="nav-item"><a href="">Category1</a></div>  <!-- pinne add chayan ulllatha category -->
+                        <div class="nav-item"><a href="">Category2</a></div>
+                        <div class="nav-item"><a href="">Category3</a></div>
+                        <div class="nav-item"><a href="">Category4</a></div>
+                    </div>
+                </div>
+                <div class="nav-item"><a href="">Artists</a></div>
+                <div class="nav-item"><a href="">About</a></div>
+                <div class="nav-item dropdown"><a href="">Hi user</a>
+                    <div class="dropdown-list">
+                        <div class="nav-item"><a href="">Account</a></div>
+                        <div class="nav-item"><a href="">Admin</a></div>
+                        <div class="nav-item"><a href="">Logout</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </header>
+
+
+</head>
+<body>
+    <section class="image-bg">
+        <img src="public/assets/images/background images.jpg" alt="">
+    </section>
+
+    <section class="content">
+        <h3>Top Music</h3>
+
+        <div class="music-card">        <!-- music card-->
+            <div style="overflow: hidden;">
+                <img src="">
+            </div>
+            <div class="card-content">
+                <div class="card-title">Song title</div>
+                <div class="card-subtitle">artist</div>
+            </div>
+        </div>                          <!-- music card-->
+    </section>
+
+</body>
+</html>
