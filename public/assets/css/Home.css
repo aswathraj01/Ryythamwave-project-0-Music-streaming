@@ -1,0 +1,170 @@
+@font-face {
+    font-family: lato;
+    src: url(public/assets/fonts/Lato-Regular.ttf);
+}
+
+
+*{
+    box-sizing: border-box;
+}
+
+body{
+    main-width: 350px;
+    font-family: lato, sans-serif, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0%;
+    padding: 0%;
+}
+
+body img{
+    width: 100%;
+}
+
+body a{
+    text-decoration: none;
+}
+
+header{
+    display: flex;
+}
+
+/* Main header css*/
+
+header .active{
+    border-bottom: solid 4px rgb(0, 255, 128);
+}
+
+.logo-head{
+    flex: 1;
+    max-width: 100px;
+}
+
+.header-div{
+    flex: auto;
+
+}
+
+.main-nav{
+    display: flex;
+}
+
+.nav-item{
+    padding: 10px;
+    text-align: center;
+}
+
+.main-title{
+    padding: 10px;
+}
+
+.dropdown{
+    position: relative;
+}
+
+.dropdown-list{
+    position: absolute;
+    border: solid thin rgb(182, 182, 182);
+    background-color: white;
+    margin-top: 10px;
+}
+
+
+/*search box */
+.header-search{
+    display: flex;
+    position: absolute;
+    left: 590px;
+    top: 40px;
+    size: 20px;
+}
+.form-control{
+    width: 250px;
+    padding: 10px;
+    border-radius: 25px;
+    border: 2px solid #e2e2e2
+}
+.btn{
+    border-radius: 25px;
+    border: 1px solid #e2e2e2;
+    padding: 10px;
+}
+.form-group{
+    display: flex;
+}
+.btn:hover{
+    background-color: #b4b4b4;
+}
+
+
+/*bg image*/
+.image-bg{
+    height: 700px;
+    object-fit: cover;
+}
+
+/*Music content card css*/
+.section-title{
+    margin-left: 20px;
+    font-size: 30px;
+    font-weight: bold;
+    margin-top: 40px;
+}
+.content{
+    padding: 4px 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.music-card{
+    width: 200px;
+    margin: 20px;
+    background-color: rgb(243, 241, 241);
+}
+.music-card img{
+    height: 200px;
+    object-fit: cover;
+    transition: all .5s ease;
+}
+.music-card img:hover{
+    transform: scale(1.1);
+
+}
+.card-content{
+    padding: 4px;
+}
+.card-title{
+    font-size: 18px;
+}
+.card-subtitle{
+    opacity: 0.7;
+}
+
+/*Footer area */
+
+.bi{
+    margin: 5px
+}
+
+footer{
+    display: flex;
+    padding: 20px;
+    background-color: #b4b4b4;
+    color: white;
+}
+
+.footer-div{
+    flex: 1;
+    padding: 10px;
+}
+.form-control-footer{
+    width: 400px;
+    padding: 10px;
+    border: solid thin rgb(209, 209, 209);
+}
+.btn-footer{
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+.form-group{
+    display: flex;
+}
