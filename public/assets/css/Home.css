@@ -168,3 +168,12 @@ footer{
 .form-group{
     display: flex;
 }
+
+/* Visited Link*/
+
+a:visited{
+    color: black;
+}
+a{
+    color: black;
+}
