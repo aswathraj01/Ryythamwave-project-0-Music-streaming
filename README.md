@@ -6,4 +6,6 @@ Icons used are taken from https://icons.getbootstrap.com/
 
 <meta name="viewport" content="width=device-width, initial-scale=1"> taken from getbootstrap.com doc in the introduction to get a responsive design
 
-Need to fix the login PHP file as it contains bug in the version 1.2
+Need to fix the login PHP file as it contains bug in the version 1.2 not yet fixed
+
+Added the admin panel login section and the user login segment has bean improved. its currently V1.5
