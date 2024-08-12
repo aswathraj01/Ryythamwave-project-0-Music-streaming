@@ -11,13 +11,11 @@ body, html {
     margin: 0;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(90deg, #6812c4, #1900ff);
+    background: transparent;
     color: white;
 }
 #video-bg {
     position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover; /* Ensures the video covers the entire container */
@@ -27,18 +25,19 @@ body, html {
 .container {
     display: flex;
     width: 70%;
+    border: 2px;
     max-width: 1000px;
-    background: #ffffff;
     border-radius: 15px;
+    border:  2px solid rgba(255, 255, 255, .2);
     overflow: hidden;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    
 }
 
 .welcome-section {
     flex: 1;
     padding: 50px;
-    background: linear-gradient(45deg, #6812c4, #1900ff);
-    color: white;
+    background: transparent;
+    backdrop-filter: blur(10px);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -116,11 +115,32 @@ button:hover {
     background: linear-gradient(45deg, #1900ff, #6812c4);
 }
 
-#a {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+/*Admin area*/
+
+.admin-button {
+    position: absolute; /* Positioning the button absolutely */
+    top: 20px; /* Distance from the top of the page */
+    right: 20px; /* Distance from the right side of the page */
     font-size: 0.9em;
     color: #6a11cb;
+    border-radius: 25px;
+    cursor: pointer;
+    text-decoration: none;
+    z-index: 10; /* Ensure it stays on top of other elements */
+}
 
+.admin-link {
+    padding: 10px 20px;
+    background-color: #6812c4;
+    color: white;
+    text-decoration: none;
+    border-radius: 25px;
+    display: inline-block;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.admin-link:hover {
+    background-color: #1900ff;
 }
