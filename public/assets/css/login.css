@@ -145,3 +145,32 @@ button:hover {
 .admin-link:hover {
     background-color: #1900ff;
 }
+
+
+/* Create account */
+#a{
+    flex: 1;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* Copyright area */
+.copy{
+    display: flex;
+    flex: 1;
+    align-items: center;
+    position: absolute;
+    bottom: 10px;
+}
+
+.copy img{
+    max-width: 10px;
+}
+
+.copy h6{
+    padding-left: 5px;
+}

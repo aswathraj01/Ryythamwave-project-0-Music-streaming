@@ -101,3 +101,21 @@ body {
 .admin-header-userlogin:hover {
     background: #0e7a94;
 }
+
+/* Copyright area */
+.copy{
+    display: flex;
+    flex: 1;
+    align-items: center;
+    position: absolute;
+    bottom: -10px;
+}
+
+.copy img{
+    max-width: 10px;
+}
+
+.copy h6{
+    color: white;
+    padding-left: 5px;
+}
