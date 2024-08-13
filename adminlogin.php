@@ -35,7 +35,7 @@ if ($stmt->num_rows == 1) {
         // Password is correct
         $_SESSION['admin_id'] = $id;
         $_SESSION['admin_username'] = $admin_username;
-        header("Location: index.html"); // Redirect to admin dashboard
+        header("Location: home.html"); // Redirect to admin dashboard
         exit();
     } else {
         // Password is incorrect
