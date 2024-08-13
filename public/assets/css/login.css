@@ -174,3 +174,16 @@ button:hover {
 .copy h6{
     padding-left: 5px;
 }
+
+.input-group img{
+    display: flex;
+    flex: 1;
+    align-items: center;
+    position: absolute;
+    top: 370px;
+    right: 630px;
+}
+
+#lock{
+    top: 439px;
+}
