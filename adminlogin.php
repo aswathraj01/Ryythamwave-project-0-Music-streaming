@@ -3,9 +3,9 @@ session_start();
 
 // Database connection
 $servername = "localhost";
-$username = "root"; // Change this if necessary
-$password = ""; // Change this if necessary
-$dbname = "ryythmwave"; // Replace with your database name
+$username = "root";
+$password = "";
+$dbname = "ryythmwave";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
