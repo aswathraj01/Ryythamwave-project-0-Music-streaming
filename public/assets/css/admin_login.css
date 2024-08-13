@@ -23,6 +23,8 @@ body {
     margin-bottom: 20px;
 }
 
+/* Login text box */
+
 .login-box h2 {
     color: white;
     font-weight: 500;
@@ -45,6 +47,22 @@ body {
     font-size: 18px;
 }
 
+.textbox label{
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+    font-size: 1em;
+    color: white;
+    pointer-events: none;
+    transition: .4s;
+}
+
+.textbox input:focus~label,
+.textbox input:valid~label{
+    top: -5px;
+}
+
 .btn {
     width: 100%;
     background: #0c697d;
@@ -60,30 +78,26 @@ body {
     background: #0e7a94;
 }
 
-.admin-header{
-    position: relative;
-}
+
 
 .admin-header-div{
     position: absolute;
-    top: -450px;
-    left: -650px;
+    top: 20px;
+    left: 20px;
     z-index: 10;
-    display: flex;
-    gap: 10px;
+}
+.admin-header-div button{
+    font-size: 0.9em;
+    background-color: #0c697d;
+    color: white;
+    border-radius: 15px;
+    cursor: pointer;
+    text-decoration: none;
 }
 
-.admin-header-home{
-    background: #0c697d;
-    padding: 7px;
-    cursor: pointer;
-    color: white;
-    border-radius: 15px;
+.admin-header-home:hover {
+    background: #0e7a94;
 }
-.admin-header-userlogin{
-    background: #0c697d;
-    padding: 7px;
-    cursor: pointer;
-    color: white;
-    border-radius: 15px;
+.admin-header-userlogin:hover {
+    background: #0e7a94;
 }

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to RYYTHWAVE</title>
+    <link rel="stylesheet" href="public/assets/css/userreg.css">
+</head>
+<body>
+    <video autoplay muted loop id="video-bg"> <!-- background video ivide anu -->
+        <source src="public/assets/images/bg_video3_V1.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <div class="container">
+        <div class="welcome-section">
+            <h1>Welcome to RYYTHWAVE</h1>
+            <p>"Where words fail, music speaks." - Hans Christian Andersen ‎ ‎ ‎ ‎ ‎ </p>
+        </div>
+        <div class="login-section"> <!-- e section anu loin creds-->
+            <h2>User Registration</h2>
+            <form action="userreg.php" method="post">
+                <div class="input-group">
+                    <input type="text" placeholder="First Name" name="fname" required>
+                </div>
+                <div class="input-group">
+                    <input type="text" placeholder="Last Name" name="lname" required>
+                </div>
+                <div class="input-group">
+                    <input type="text" placeholder="Username" name="username" required>
+                </div>
+                <div class="input-group">
+                    <input type="text" placeholder="Email id" name="email" required>
+                </div>
+                <div class="input-group">
+                    <input type="password" placeholder="Password" name="password" required>
+                </div>
+                <button type="submit">Create Account</button>
+            </form>
+            
+        </div>
+    </div>
+</body>
+</html>

@@ -8,8 +8,8 @@
 </head>
 <header class="admin-header">
     <div class="admin-header-div">
-        <a href="Login.html"><button type="button" class="admin-header-home">Home</button></a>
-        <a href="Login.html"><button type="button" class="admin-header-userlogin">USER Login</button></a>
+        <a href="Login.html"><button type="button">Home</button></a>
+        <a href="Login.html"><button type="button">USER Login</button></a>
     </div>
 </header>
 <body>
@@ -18,12 +18,14 @@
             <img src="public/assets/icons/key_icon.png" alt="Key Icon">
         </div>
         <h2>Admin Panel</h2>
-        <form>
+        <form action="adminlogin.php" method="post">
             <div class="textbox">
-                <input type="text" placeholder="Username" name="username" required>
+                <input type="text" name="username" required>
+                <label>Username</label>
             </div>
             <div class="textbox">
-                <input type="password" placeholder="Password" name="password" required>
+                <input type="password" name="password" required>
+                <label>Password</label>
             </div>
             <button type="submit" class="btn">Login</button>
         </form>
