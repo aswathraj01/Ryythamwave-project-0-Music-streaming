@@ -12,8 +12,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Database connection
     $servername = "localhost";
-    $dbusername = "root"; // Change if needed
-    $dbpassword = ""; // Change if needed
+    $dbusername = "root";
+    $dbpassword = "";
     $dbname = "ryythmwave";
 
     $conn = new mysqli($servername, $dbusername, $dbpassword, $dbname);
