@@ -42,7 +42,10 @@ $users = $conn->query("SELECT * FROM user_table");
     <title>Admin Panel</title>
     <link rel="stylesheet" href="public/assets/css/admin_panel.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         function showSection(sectionId) {
             document.querySelectorAll('.section').forEach(function (section) {
@@ -72,41 +75,88 @@ $users = $conn->query("SELECT * FROM user_table");
 });
 
 window.onload = function() {
-    showSection('dashboard');
+            showSection('dashboard');
 
-    const ctx = document.getElementById('myChart').getContext('2d');
-    const myChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: ['Tracks', 'Albums', 'Artists', 'Users'],
-            datasets: [{
-                label: '# of Entries',
-                data: [<?php echo $tracksCount; ?>, <?php echo $albumsCount; ?>, <?php echo $artistsCount; ?>, <?php echo $usersCount; ?>],
-                backgroundColor: [
-                    'rgba(255, 0, 0, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(0, 0, 0, 0.2)',
-                    'rgba(255, 0, 255, 0.2)'
-                ],
-                borderColor: [
-                    'rgba(255, 0, 0, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(0, 0, 0, 1)',
-                    'rgba(255, 0, 255, 1)'
-                ],
-                borderWidth: 2
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
+            // Chart for Tracks, Albums, Artists, and Users
+            const ctx = document.getElementById('myChart').getContext('2d');
+            const myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Tracks', 'Albums', 'Artists', 'Users'],
+                    datasets: [{
+                        label: '# of Entries',
+                        data: [<?php echo $tracksCount; ?>, <?php echo $albumsCount; ?>, <?php echo $artistsCount; ?>, <?php echo $usersCount; ?>],
+                        backgroundColor: [
+                            'rgba(255, 0, 0, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(0, 0, 0, 0.2)',
+                            'rgba(255, 0, 255, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 0, 0, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(0, 0, 0, 1)',
+                            'rgba(255, 0, 255, 1)'
+                        ],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
                 }
-            }
+            });
+
+            // Additional Charts (Users and Traffic)
+            const userCtx = document.getElementById('userChart').getContext('2d');
+            const userChart = new Chart(userCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                    datasets: [{
+                        label: 'Users',
+                        data: [<?php echo implode(', ', array_fill(0, 12, $usersCount / 12)); ?>],
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1,
+                        fill: true
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            const trafficCtx = document.getElementById('trafficChart').getContext('2d');
+            const trafficChart = new Chart(trafficCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                    datasets: [{
+                        label: 'Traffic',
+                        data: [<?php echo implode(', ', array_fill(0, 12, rand(50, 100))); ?>],
+                        backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                        borderColor: 'rgba(153, 102, 255, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
         }
-    });
-}
-</script>
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
@@ -157,10 +207,19 @@ window.onload = function() {
         </div>
     </div>
 
-    <!-- Graph Section -->
-    <div style="width: 100%; max-width: 600px; margin: 0 auto; padding:80px;">
+<!-- Graph Section -->
+<div class="graph-container">
+    <div class="chart-box">
         <canvas id="myChart"></canvas>
     </div>
+    <div class="chart-box">
+        <canvas id="userChart"></canvas>
+    </div>
+    <div class="chart-box">
+        <canvas id="trafficChart"></canvas>
+    </div>
+</div>
+
 </section>
 
     <!-- Tracks Section -->
