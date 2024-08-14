@@ -41,6 +41,8 @@ $users = $conn->query("SELECT * FROM user_table");
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel</title>
     <link rel="stylesheet" href="public/assets/css/admin_panel.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <script>
         function showSection(sectionId) {
             document.querySelectorAll('.section').forEach(function (section) {
@@ -52,7 +54,60 @@ $users = $conn->query("SELECT * FROM user_table");
         window.onload = function() {
             showSection('dashboard');
         }
-    </script>
+        document.querySelectorAll('.sidebar ul li a').forEach(item => {
+    item.addEventListener('click', event => {
+        document.querySelectorAll('.section').forEach(section => {
+            section.style.display = 'none';
+        });
+
+        const sectionId = item.getAttribute('onclick').split("'")[1];
+        document.getElementById(sectionId).style.display = 'block';
+
+        document.querySelectorAll('.sidebar ul li a').forEach(link => {
+            link.classList.remove('active');
+        });
+
+        item.classList.add('active');
+    });
+});
+
+window.onload = function() {
+    showSection('dashboard');
+
+    const ctx = document.getElementById('myChart').getContext('2d');
+    const myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Tracks', 'Albums', 'Artists', 'Users'],
+            datasets: [{
+                label: '# of Entries',
+                data: [<?php echo $tracksCount; ?>, <?php echo $albumsCount; ?>, <?php echo $artistsCount; ?>, <?php echo $usersCount; ?>],
+                backgroundColor: [
+                    'rgba(255, 0, 0, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(0, 0, 0, 0.2)',
+                    'rgba(255, 0, 255, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 0, 0, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(0, 0, 0, 1)',
+                    'rgba(255, 0, 255, 1)'
+                ],
+                borderWidth: 2
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+}
+</script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
@@ -62,11 +117,11 @@ $users = $conn->query("SELECT * FROM user_table");
         <p>Welcome, <?php echo $_SESSION['admin_username']; ?></p>
     </div>
     <ul>
-        <li><a href="javascript:void(0);" onclick="showSection('dashboard')">Dashboard</a></li>
-        <li><a href="javascript:void(0);" onclick="showSection('tracks')">Tracks</a></li>
-        <li><a href="javascript:void(0);" onclick="showSection('albums')">Albums</a></li>
-        <li><a href="javascript:void(0);" onclick="showSection('artists')">Artists</a></li>
-        <li><a href="javascript:void(0);" onclick="showSection('users')">Users</a></li>
+        <li><a href="javascript:void(0);" onclick="showSection('dashboard')">Dashboard<img id="dash" src="public/assets/icons/dashboard.svg"></a></li>
+        <li><a href="javascript:void(0);" onclick="showSection('tracks')">Tracks<img src="public/assets/icons/file-music.svg"></a></li>
+        <li><a href="javascript:void(0);" onclick="showSection('albums')">Albums<img src="public/assets/icons/journal-album.svg"></a></li>
+        <li><a href="javascript:void(0);" onclick="showSection('artists')">Artists<img src="public/assets/icons/disc.svg"></a></li>
+        <li><a href="javascript:void(0);" onclick="showSection('users')">Users<img src="public/assets/icons/people.svg"></a></li>
     </ul>
 </div>
 
@@ -81,27 +136,32 @@ $users = $conn->query("SELECT * FROM user_table");
     </header>
 
     <!-- Dashboard Section -->
-    <section id="dashboard" class="section">
-        <h2>Dashboard</h2>
-        <div class="dashboard-stats">
-            <div class="stat">
-                <h3>Total Tracks</h3>
-                <p><?php echo $tracksCount; ?></p>
-            </div>
-            <div class="stat">
-                <h3>Total Albums</h3>
-                <p><?php echo $albumsCount; ?></p>
-            </div>
-            <div class="stat">
-                <h3>Total Artists</h3>
-                <p><?php echo $artistsCount; ?></p>
-            </div>
-            <div class="stat">
-                <h3>Total Users</h3>
-                <p><?php echo $usersCount; ?></p>
-            </div>
+    <section id="dashboard" class="section active">
+    <h2>Dashboard</h2>
+    <div class="dashboard-stats">
+        <div class="stat">
+            <h3>Total Tracks</h3>
+            <p><?php echo $tracksCount; ?></p>
         </div>
-    </section>
+        <div class="stat">
+            <h3>Total Albums</h3>
+            <p><?php echo $albumsCount; ?></p>
+        </div>
+        <div class="stat">
+            <h3>Total Artists</h3>
+            <p><?php echo $artistsCount; ?></p>
+        </div>
+        <div class="stat">
+            <h3>Total Users</h3>
+            <p><?php echo $usersCount; ?></p>
+        </div>
+    </div>
+
+    <!-- Graph Section -->
+    <div style="width: 100%; max-width: 600px; margin: 0 auto; padding:80px;">
+        <canvas id="myChart"></canvas>
+    </div>
+</section>
 
     <!-- Tracks Section -->
     <section id="tracks" class="section" style="display: none;">
