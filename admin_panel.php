@@ -9,8 +9,8 @@ if (!isset($_SESSION['admin_logged_in'])) {
 
 // Database connection
 $servername = "localhost";
-$username = "root"; // Change this if needed
-$password = ""; // Change this if needed
+$username = "root";
+$password = "";
 $dbname = "ryythmwave";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -50,7 +50,7 @@ $users = $conn->query("SELECT * FROM user_table");
         }
 
         window.onload = function() {
-            showSection('dashboard'); // Show the dashboard by default
+            showSection('dashboard');
         }
     </script>
 </head>
