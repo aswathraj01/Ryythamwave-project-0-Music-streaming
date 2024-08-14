@@ -1,0 +1,264 @@
+/* Admin Panel Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.sidebar {
+    width: 200px;
+    float: left;
+    background-color: #1b2a38;
+    height: 100vh;
+    overflow: auto;
+    color: white;
+}
+
+.sidebar .profile {
+    padding: 20px;
+    background-color: #1b2a38;
+    text-align: center;
+}
+
+.sidebar .profile h2 {
+    margin: 0;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar ul li {
+    padding: 10px;
+}
+
+.sidebar ul li a {
+    text-decoration: none;
+    color: #ffffff;
+    display: block;
+    padding: 10px;
+}
+
+.sidebar ul li a:hover {
+    background-color: #463f3f;
+}
+
+.main-content {
+    margin-left: 200px;
+    padding: 20px;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #1b2a38;
+    color: #fff;
+}
+
+.header-title h1 {
+    color: white;
+    margin: 0;
+}
+
+.logout a {
+    color: #fff;
+    text-decoration: none;
+    background-color: #f44336;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.logout a:hover {
+    background-color: #d32f2f;
+}
+
+.section {
+    display: none;
+}
+
+.section.active {
+    display: block;
+}
+
+/* Dashboard Styles */
+.dashboard-stats {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+    background-color: #f4f4f4;
+}
+
+.stat {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+    text-align: center;
+    width: 20%;
+}
+
+.stat h3 {
+    margin: 0;
+    font-size: 1.2em;
+}
+
+.stat p {
+    font-size: 1.5em;
+    margin: 0;
+}
+
+/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+
+thead {
+    background-color: #f4f4f4;
+}
+
+a {
+    text-decoration: none;
+    color: #007bff;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Login Box Styles */
+.login-box {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.login-box .key-icon img {
+    width: 50px;
+    height: 50px;
+}
+
+.login-box h2 {
+    margin: 20px 0;
+}
+
+.textbox {
+    margin: 15px 0;
+    position: relative;
+}
+
+.textbox input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.textbox label {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: #999;
+    transition: 0.3s;
+}
+
+.textbox input:focus + label,
+.textbox input:not(:placeholder-shown) + label {
+    top: -15px;
+    left: 5px;
+    font-size: 0.75em;
+    color: #007bff;
+}
+
+.btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+
+.copy {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.copy img {
+    width: 30px;
+    height: 30px;
+}
+
+.copy h6 {
+    margin: 5px 0 0;
+    color: #999;
+}
+
+/* Tracks Management */
+
+#tracks table th {
+    background-color: #e3f2fd; /* Light blue background for table headers */
+}
+
+#tracks table tr:nth-child(even) {
+    background-color: #f9f9f9; /* Light grey for even rows */
+}
+
+#tracks table tr:nth-child(odd) {
+    background-color: #ffffff; /* White for odd rows */
+}
+
+#tracks button {
+    background-color: #2196F3; /* Blue for action buttons */
+}
+
+#tracks button:hover {
+    background-color: #1976D2; /* Darker blue on hover */
+}
+
+/* Albums Management */
+
+#albums table th {
+    background-color: #e3f2fd; /* Light blue background for table headers */
+}
+
+#albums table tr:nth-child(even) {
+    background-color: #f9f9f9; /* Light grey for even rows */
+}
+
+#albums table tr:nth-child(odd) {
+    background-color: #ffffff; /* White for odd rows */
+}
+
+#albums button {
+    background-color: #2196F3; /* Blue for action buttons */
+}
+
+#albums button:hover {
+    background-color: #1976D2; /* Darker blue on hover */
+}

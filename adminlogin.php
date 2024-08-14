@@ -1,51 +1,44 @@
 <?php
 session_start();
 
-// Database connection
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "ryythmwave";
+// Error reporting for debugging
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Sanitize input
+    $username = isset($_POST['username']) ? trim($_POST['username']) : '';
+    $password = isset($_POST['password']) ? trim($_POST['password']) : '';
 
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+    // Database connection
+    $servername = "localhost";
+    $dbusername = "root"; // Change if needed
+    $dbpassword = ""; // Change if needed
+    $dbname = "ryythmwave";
 
-// Get username and password from the form
-$admin_username = $_POST['username'];
-$admin_password = $_POST['password'];
+    $conn = new mysqli($servername, $dbusername, $dbpassword, $dbname);
 
-// Prepare and bind
-$stmt = $conn->prepare("SELECT id, password FROM admin_table WHERE username = ?");
-$stmt->bind_param("s", $admin_username);
-$stmt->execute();
-$stmt->store_result();
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
 
-// Check if username exists
-if ($stmt->num_rows == 1) {
-    $stmt->bind_result($id, $stored_password);
-    $stmt->fetch();
+    // Prepare and execute query
+    $stmt = $conn->prepare("SELECT * FROM admin_table WHERE username = ? AND password = ?");
+    $stmt->bind_param("ss", $username, $password);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-    // Verify password
-    if ($admin_password === $stored_password) {
-        // Password is correct
-        $_SESSION['admin_id'] = $id;
-        $_SESSION['admin_username'] = $admin_username;
-        header("Location: home.html"); // Redirect to admin dashboard
+    if ($result->num_rows == 1) {
+        $_SESSION['admin_logged_in'] = true;
+        $_SESSION['admin_username'] = $username;
+        header("Location: admin_panel.php");
         exit();
     } else {
-        // Password is incorrect
         echo "Invalid username or password.";
     }
-} else {
-    // Username does not exist
-    echo "Invalid username or password.";
-}
 
-$stmt->close();
-$conn->close();
+    $stmt->close();
+    $conn->close();
+}
 ?>
