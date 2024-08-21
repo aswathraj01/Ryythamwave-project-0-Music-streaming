@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 20, 2024 at 10:16 PM
+-- Generation Time: Aug 21, 2024 at 09:49 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -48,16 +48,18 @@ INSERT INTO `admin_table` (`id`, `username`, `password`) VALUES
 
 CREATE TABLE `albums` (
   `id` int(11) NOT NULL,
-  `album_name` varchar(255) NOT NULL
+  `album_name` varchar(255) NOT NULL,
+  `album_cover` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `albums`
 --
 
-INSERT INTO `albums` (`id`, `album_name`) VALUES
-(1, 'Album 1'),
-(2, 'Album 2');
+INSERT INTO `albums` (`id`, `album_name`, `album_cover`) VALUES
+(1, 'Album 1', ''),
+(2, 'Album 2', ''),
+(3, 'Album 3', '');
 
 -- --------------------------------------------------------
 
@@ -88,16 +90,17 @@ CREATE TABLE `tracks` (
   `id` int(11) NOT NULL,
   `title` varchar(255) NOT NULL,
   `album_id` int(11) DEFAULT NULL,
-  `artist_id` int(11) DEFAULT NULL
+  `artist_id` int(11) DEFAULT NULL,
+  `duration` time DEFAULT NULL,
+  `file_path` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tracks`
 --
 
-INSERT INTO `tracks` (`id`, `title`, `album_id`, `artist_id`) VALUES
-(1, 'Track 1', 1, 1),
-(2, 'Track 2', 2, 2);
+INSERT INTO `tracks` (`id`, `title`, `album_id`, `artist_id`, `duration`, `file_path`) VALUES
+(1, 'Big Dawgs', 1, 2, '00:02:01', 'public/assets/resource/Big Dawgs.mp3');
 
 -- --------------------------------------------------------
 
@@ -109,15 +112,18 @@ CREATE TABLE `user_table` (
   `id` int(11) NOT NULL,
   `username` varchar(30) NOT NULL,
   `password` varchar(30) NOT NULL,
-  `email` varchar(65) NOT NULL
+  `email` varchar(65) NOT NULL,
+  `first_name` varchar(30) NOT NULL,
+  `last_name` varchar(20) NOT NULL,
+  `mobile_no` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `user_table`
 --
 
-INSERT INTO `user_table` (`id`, `username`, `password`, `email`) VALUES
-(1, 'user', 'user123', 'user123@gmail.com');
+INSERT INTO `user_table` (`id`, `username`, `password`, `email`, `first_name`, `last_name`, `mobile_no`) VALUES
+(1, 'user', 'user123', 'user123@gmail.com', 'Test', 'User', '9745448465');
 
 --
 -- Indexes for dumped tables
@@ -170,7 +176,7 @@ ALTER TABLE `admin_table`
 -- AUTO_INCREMENT for table `albums`
 --
 ALTER TABLE `albums`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `artists`
@@ -182,13 +188,13 @@ ALTER TABLE `artists`
 -- AUTO_INCREMENT for table `tracks`
 --
 ALTER TABLE `tracks`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `user_table`
 --
 ALTER TABLE `user_table`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables
