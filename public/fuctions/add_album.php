@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $servername = "localhost";
     $username = "root";
     $password = ""; 
-    $dbname = "ryhythmwave";
+    $dbname = "ryythmwave";
 
     $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -55,6 +55,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stmt->close();
     $conn->close();
 }
+
+// Fetch albums from the database
+$conn = new mysqli("localhost", "root", "", "ryythmwave");
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+$albums = $conn->query("SELECT * FROM albums");
 ?>
 
 <!DOCTYPE html>
@@ -64,96 +72,124 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Album</title>
     <style>
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    color: #333;
-    background-color: #0c697d;
-}
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            background-color: #0c697d;
+        }
 
-.container {
-    padding: 20px;
-    
-}
+        .container {
+            padding: 20px;
+        }
 
-.header {
-    background-color: #2196F3;
-    color: #fff;
-    padding: 15px;
-    text-align: center;
-    font-size: 24px;
-    border-radius: 5px;
-    margin-bottom: 20px;
-}
-.form-container {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #ffffff;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
-}
+        .header {
+            background-color: #2196F3;
+            color: #fff;
+            padding: 15px;
+            text-align: center;
+            font-size: 24px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
 
-.form-container h2 {
-    color: #4CAF50; 
-    margin-bottom: 20px;
-}
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
 
-.form-group {
-    margin-bottom: 15px;
-}
+        .form-container h2 {
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
 
-.form-group label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-    color: #333; 
-}
+        .form-group {
+            margin-bottom: 15px;
+        }
 
-.form-group input[type="text"],
-.form-group input[type="file"] {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-sizing: border-box;
-}
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
 
-.form-group input[type="text"]:focus,
-.form-group input[type="file"]:focus {
-    border-color: #4CAF50;
-    outline: none;
-}
+        .form-group input[type="text"],
+        .form-group input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
 
-.submit-btn {
-    display: inline-block;
-    padding: 10px 20px;
-    font-size: 16px;
-    color: #fff;
-    background-color: #4CAF50;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    text-align: center;
-    text-decoration: none;
-}
+        .form-group input[type="text"]:focus,
+        .form-group input[type="file"]:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
 
-.submit-btn:hover {
-    background-color: #45a049;
-}
+        .submit-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+        }
 
-/* Error message styling */
-.error-message {
-    color: #f44336;
-    margin-top: 10px;
-}
+        .submit-btn:hover {
+            background-color: #45a049;
+        }
 
+        .back-button {
+            position: absolute;
+            left: 25px;
+            top: 25px;
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .back-button:hover {
+            background-color: #45a049;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
+            <a href="../../admin_panel.php" class="back-button">Back</a>
             Add New Album
         </div>
         <div class="form-container">
@@ -170,6 +206,32 @@ body {
                 <button type="submit" class="submit-btn">Add Album</button>
             </form>
         </div>
+
+        <div>
+            <h2>Existing Albums</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Album Name</th>
+                        <th>Album Cover</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php while ($album = $albums->fetch_assoc()) { ?>
+                    <tr>
+                        <td><?php echo $album['id']; ?></td>
+                        <td><?php echo $album['album_name']; ?></td>
+                        <td><img src="<?php echo $album['album_cover']; ?>" alt="<?php echo $album['album_name']; ?>" style="width: 100px; height: auto;"></td>
+                    </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
+        </div>
     </div>
 </body>
 </html>
+<?php
+// Close the database connection
+$conn->close();
+?>

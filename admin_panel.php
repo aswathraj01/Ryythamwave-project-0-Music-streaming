@@ -310,11 +310,16 @@ window.onload = function() {
     <!-- Users Section -->
     <section id="users" class="section" style="display: none;">
         <h2>Manage Users</h2>
+        <a href="public/fuctions/add_user.php">Add New Artist</a>
         <table>
             <thead>
                 <tr>
                     <th>ID</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
                     <th>Username</th>
+                    <th>Password</th>
+                    <th>Mobile No</th>
                     <th>Email</th>
                     <th>Actions</th>
                 </tr>
@@ -323,7 +328,11 @@ window.onload = function() {
                 <?php while ($user = $users->fetch_assoc()) { ?>
                 <tr>
                     <td><?php echo $user['id']; ?></td>
+                    <td><?php echo $user['first_name']; ?></td>
+                    <td><?php echo $user['last_name']; ?></td>
                     <td><?php echo $user['username']; ?></td>
+                    <td><?php echo $user['password']; ?></td>
+                    <td><?php echo $user['mobile_no']; ?></td>
                     <td><?php echo $user['email']; ?></td>
                     <td>
                         <a href="public/fuctions/edit_user.php?id=<?php echo $user['id']; ?>">Edit</a>

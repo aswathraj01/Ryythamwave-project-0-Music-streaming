@@ -175,15 +175,27 @@ button:hover {
     padding-left: 5px;
 }
 
-.input-group img{
-    display: flex;
-    flex: 1;
-    align-items: center;
-    position: absolute;
-    top: 370px;
-    right: 630px;
+.input-group {
+    position: relative;
+    margin-bottom: 20px;
 }
 
-#lock{
-    top: 439px;
+/*login icon*/
+
+.input-group input {
+    width: 100%;
+    padding: 15px 45px 15px 15px;
+    border-radius: 25px;
+    border: 1px solid #ddd;
+    font-size: 1em;
+    color: #333;
+}
+
+.input-group img {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%); 
+    width: 20px; 
+    height: 20px;
 }

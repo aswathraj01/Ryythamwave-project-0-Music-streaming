@@ -9,3 +9,9 @@ Icons used are taken from https://icons.getbootstrap.com/
 Need to fix the login PHP file as it contains bug in the version 1.2 not yet fixed
 
 Added the admin panel login section and the user login segment has bean improved. its currently V1.5
+
+Improved user reg page
+
+Added the new admin panel design
+
+Music player added
