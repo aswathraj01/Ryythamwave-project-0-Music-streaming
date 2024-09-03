@@ -10,6 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $last_name = $_POST['last_name'];
     $mobile_no = $_POST['mobile_no'];
     $email = $_POST['email'];
+    $username = $_POST['username']; // Fetch username
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
     $conn = new mysqli("localhost", "root", "", "ryythmwave");
@@ -18,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         die("Connection failed: " . $conn->connect_error);
     }
 
-    $sql = "INSERT INTO user_table (first_name, last_name, mobile_no, email, password) VALUES ('$first_name', '$last_name', '$mobile_no', '$email', '$password')";
+    $sql = "INSERT INTO user_table (first_name, last_name, username, mobile_no, email, password) VALUES ('$first_name', '$last_name', '$username', '$mobile_no', '$email', '$password')";
 
     if ($conn->query($sql) === TRUE) {
         echo "New user added successfully";
@@ -45,126 +46,126 @@ $users = $conn->query("SELECT * FROM user_table");
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add User</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            color: #333;
-            background-color: #0c697d;
-        }
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #333;
+    background-color: #0c697d;
+}
 
-        .container {
-            padding: 20px;
-        }
+.container {
+    padding: 20px;
+}
 
-        .header {
-            background-color: #2196F3;
-            color: #fff;
-            padding: 15px;
-            text-align: center;
-            font-size: 24px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            position: relative;
-        }
+.header {
+    background-color: #2196F3;
+    color: #fff;
+    padding: 15px;
+    text-align: center;
+    font-size: 24px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    position: relative;
+}
 
-        .form-container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #ffffff;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
+.form-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
 
-        .form-container h2 {
-            color: #4CAF50;
-            margin-bottom: 20px;
-        }
+.form-container h2 {
+    color: #4CAF50;
+    margin-bottom: 20px;
+}
 
-        .form-group {
-            margin-bottom: 15px;
-        }
+.form-group {
+    margin-bottom: 15px;
+}
 
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #333;
-        }
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+}
 
-        .form-group input[type="text"],
-        .form-group input[type="email"],
-        .form-group input[type="password"] {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
 
-        .form-group input[type="text"]:focus,
-        .form-group input[type="email"]:focus,
-        .form-group input[type="password"]:focus {
-            border-color: #4CAF50;
-            outline: none;
-        }
+.form-group input[type="text"]:focus,
+.form-group input[type="email"]:focus,
+.form-group input[type="password"]:focus {
+    border-color: #4CAF50;
+    outline: none;
+}
 
-        .submit-btn {
-            display: inline-block;
-            padding: 10px 20px;
-            font-size: 16px;
-            color: #fff;
-            background-color: #4CAF50;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-align: center;
-            text-decoration: none;
-        }
+.submit-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+}
 
-        .submit-btn:hover {
-            background-color: #45a049;
-        }
+.submit-btn:hover {
+    background-color: #45a049;
+}
 
-        .back-button {
-            position: absolute;
-            left: 20px;
-            top: 5px;
-            background-color: #4CAF50;
-            color: #fff;
-            padding: 10px 15px;
-            text-decoration: none;
-            border-radius: 5px;
-        }
+.back-button {
+    position: absolute;
+    left: 20px;
+    top: 5px;
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 10px 15px;
+    text-decoration: none;
+    border-radius: 5px;
+}
 
-        .back-button:hover {
-            background-color: #45a049;
-        }
+.back-button:hover {
+    background-color: #45a049;
+}
 
-        table {
-            width: 100%;
-            margin-top: 20px;
-            border-collapse: collapse;
-            max-width: 1000px;
-            margin-left: auto;
-            margin-right: auto;
-        }
+table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+}
 
-        table, th, td {
-            border: 1px solid #ddd;
-            padding: 6px; /* Reduced padding */
-        }
+table, th, td {
+    border: 1px solid #ddd;
+    padding: 6px;
+}
 
-        th {
-            background-color: #f2f2f2;
-            text-align: left;
-        }
+th {
+    background-color: #f2f2f2;
+    text-align: left;
+}
 
-        td {
-            font-size: 14px; /* Slightly smaller font size */
-            word-wrap: break-word; /* Ensure long text wraps */
-        }
+td {
+    font-size: 14px;
+    word-wrap: break-word;
+}
 
     </style>
 </head>
@@ -194,6 +195,10 @@ $users = $conn->query("SELECT * FROM user_table");
                     <input type="email" id="email" name="email" required>
                 </div>
                 <div class="form-group">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
                     <label for="password">Password:</label>
                     <input type="password" id="password" name="password" required>
                 </div>
@@ -209,7 +214,7 @@ $users = $conn->query("SELECT * FROM user_table");
                         <th>ID</th>
                         <th>First Name</th>
                         <th>Last Name</th>
-                        <th>User Name</th>
+                        <th>Username</th>
                         <th>Password</th>
                         <th>Mobile No.</th>
                         <th>Email</th>
