@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['admin_logged_in'])) {
-    header("Location: adminlogin.php");
+    header("Location: ../../adminlogin.php");
     exit();
 }
 
@@ -23,6 +23,6 @@ if ($conn->query($sql) === TRUE) {
 
 $conn->close();
 
-header("Location: adminpanel.php");
+header("Location: ../../admin_panel.php");
 exit();
 ?>

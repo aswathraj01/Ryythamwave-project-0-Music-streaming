@@ -19,6 +19,8 @@ body {
     padding: 20px;
     background-color: #1b2a38;
     text-align: center;
+    position: relative;
+    top: 25px;
 }
 
 .sidebar .profile h2 {
@@ -203,4 +205,197 @@ a:hover {
     padding: 15px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar {
+    width: 200px;
+    float: left;
+    background-color: #1b2a38;
+    height: 100vh;
+    overflow: auto;
+    color: white;
+    position: relative;
+}
+
+.sidebar .profile {
+    padding: 20px;
+    background-color: #1b2a38;
+    text-align: center;
+}
+
+.sidebar .profile h2 {
+    margin: 0;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar ul li {
+    padding: 10px;
+    position: relative;
+}
+
+.sidebar ul li a {
+    text-decoration: none;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    position: relative;
+}
+
+.sidebar ul li a img {
+    margin-left: auto;
+    filter: brightness(0) invert(1); /* Make the icon white */
+}
+
+.sidebar ul li a:hover {
+    background-color: #463f3f;
+}
+
+/* New CSS for settings icon */
+.sidebar .settings {
+    position: absolute;
+    bottom: 20px; /* Adjust as needed */
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px;
+}
+
+.sidebar .settings img {
+    width: 24px; /* Adjust size as needed */
+    filter: brightness(0) invert(1); /* Make the icon white */
+}
+
+/* Edit Profile Section Styles */
+#edit-profile {
+    padding: 20px;
+}
+
+#edit-profile .form-group {
+    margin-bottom: 15px;
+}
+
+#edit-profile label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+#edit-profile input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+#edit-profile button {
+    padding: 10px 15px;
+    background-color: #1b2a38;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#edit-profile button:hover {
+    background-color: #16323b;
+}
+
+/* Basic Sidebar Styles */
+.sidebar {
+    width: 60px; /* Small width by default */
+    float: left;
+    background-color: #1b2a38;
+    height: 100vh;
+    overflow: hidden;
+    color: white;
+    position: fixed;
+    transition: width 0.3s;
+}
+
+/* Expanded Sidebar Styles */
+.sidebar.expanded {
+    width: 200px; /* Expanded width */
+}
+
+/* Hide text in collapsed state */
+.sidebar.collapsed .text {
+    display: none;
+}
+
+.sidebar.collapsed .profile {
+    display: none; /* Hide profile section */
+}
+
+.sidebar.collapsed ul li a img {
+    margin: 0 auto; /* Center icons */
+}
+
+/* Show text in expanded state */
+.sidebar.expanded .text {
+    display: inline; /* Show text */
+}
+
+.sidebar.expanded .profile {
+    display: block; /* Show profile section */
+}
+
+.sidebar ul li {
+    padding: 10px;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+/* Adjust link styling */
+.sidebar ul li a {
+    text-decoration: none;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+}
+
+/* Adjust icon styling */
+.sidebar ul li a img {
+    margin-right: 10px; /* Space between icon and text */
+}
+
+/* Settings Icon Style */
+.sidebar .settings {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px;
+}
+
+.sidebar .settings img {
+    width: 24px;
+    filter: brightness(0) invert(1);
+}
+
+/* Toggle Button Styles */
+.toggle-button {
+    position: fixed;
+    top: 10px;
+    left: 20px;
+    z-index: 1000;
+    cursor: pointer;
+    color: white;
+    padding: 10px;
+    border-radius: 50%;
+}
+
+/* Main Content Adjustment */
+.main-content {
+    margin-left: 60px;
+    padding: 20px;
+}
+
+.sidebar.expanded ~ .main-content {
+    margin-left: 200px;
 }

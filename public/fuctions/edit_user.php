@@ -17,14 +17,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    $update_sql = "UPDATE user_table SET username='$username', email='$email' WHERE id='$id'";
     if ($password) {
         $password = password_hash($password, PASSWORD_DEFAULT);
         $update_sql = "UPDATE user_table SET username='$username', email='$email', password='$password' WHERE id='$id'";
+    } else {
+        $update_sql = "UPDATE user_table SET username='$username', email='$email' WHERE id='$id'";
     }
 
     if ($conn->query($update_sql) === TRUE) {
-        echo "User updated successfully";
+        echo "<p>User updated successfully</p>";
     } else {
         echo "Error: " . $update_sql . "<br>" . $conn->error;
     }
@@ -43,18 +44,130 @@ $user = $result->fetch_assoc();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit User</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            background-color: #0c697d;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        .header {
+            background-color: #2196F3;
+            color: #fff;
+            padding: 15px;
+            text-align: center;
+            font-size: 24px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .back-button {
+            position: absolute;
+            left: 20px;
+            top: 5px;
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .back-button:hover {
+            background-color: #45a049;
+        }
+
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-container h2 {
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .form-group input[type="text"]:focus,
+        .form-group input[type="email"]:focus,
+        .form-group input[type="password"]:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+
+        .submit-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .submit-btn:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
-    <h2>Edit User</h2>
-    <form action="edit_user.php" method="post">
-        <input type="hidden" name="id" value="<?php echo $user['id']; ?>">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" value="<?php echo $user['username']; ?>" required><br>
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" value="<?php echo $user['email']; ?>" required><br>
-        <label for="password">Password (leave blank to keep current password):</label>
-        <input type="password" id="password" name="password"><br>
-        <button type="submit">Update User</button>
-    </form>
+    <div class="container">
+        <div class="header">
+            <a href="../../admin_panel.php" class="back-button">Back to Admin Panel</a>
+            Edit User
+        </div>
+        <div class="form-container">
+            <h2>Edit User</h2>
+            <form action="edit_user.php" method="post">
+                <input type="hidden" name="id" value="<?php echo htmlspecialchars($user['id']); ?>">
+                <div class="form-group">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" value="<?php echo htmlspecialchars($user['username']); ?>" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($user['email']); ?>" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password (leave blank to keep current password):</label>
+                    <input type="password" id="password" name="password">
+                </div>
+                <button type="submit" class="submit-btn">Update User</button>
+            </form>
+        </div>
+    </div>
 </body>
 </html>

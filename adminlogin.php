@@ -76,9 +76,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input type="text" id="username" name="username" required>
                 <label for="username">Username</label>
             </div>
-            <div class="textbox">
+            <div class="textbox password-container">
                 <input type="password" id="password" name="password" required>
                 <label for="password">Password</label>
+                <img src="public/assets/icons/eye-slash.svg" alt="Show Password" class="eye-icon" id="eye-icon">
             </div>
             <button type="submit" class="btn">Login</button>
         </form>
@@ -87,5 +88,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <img src="public/assets/icons/toppng.com-copyright-symbol-png-white-copyright-logo-in-white-2000x2000.png" alt="Copyright Symbol">
         <h6>Copyright owned by Helix</h6>
     </div>
+    <script>
+        document.getElementById('eye-icon').addEventListener('click', function() {
+            var passwordField = document.getElementById('password');
+            var eyeIcon = document.getElementById('eye-icon');
+
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                eyeIcon.src = 'public/assets/icons/eye.svg';
+            } else {
+                passwordField.type = 'password';
+                eyeIcon.src = 'public/assets/icons/eye-slash.svg'; 
+            }
+        });
+    </script>
 </body>
 </html>

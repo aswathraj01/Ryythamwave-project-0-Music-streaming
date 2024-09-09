@@ -119,3 +119,22 @@ body {
     color: white;
     padding-left: 5px;
 }
+
+.password-container {
+    position: relative;
+    width: 100%;
+}
+
+.password-container input[type="password"] {
+    width: calc(100% - 40px); 
+}
+
+.password-container .eye-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    width: 20px;
+    color: white;
+}

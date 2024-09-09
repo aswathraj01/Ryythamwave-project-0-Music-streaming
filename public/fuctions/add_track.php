@@ -9,6 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $title = $_POST['title'];
     $album_id = $_POST['album_id'];
     $artist_id = $_POST['artist_id'];
+    $path = $_POST['path'];
 
     $conn = new mysqli("localhost", "root", "", "ryythmwave");
 
@@ -16,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         die("Connection failed: " . $conn->connect_error);
     }
 
-    $sql = "INSERT INTO tracks (title, album_id, artist_id) VALUES ('$title', '$album_id', '$artist_id')";
+    $sql = "INSERT INTO tracks (title, album_id, artist_id, path) VALUES ('$title', '$album_id', '$artist_id', '$path')";
 
     if ($conn->query($sql) === TRUE) {
         echo "New track added successfully";
@@ -43,6 +44,7 @@ $tracks = $conn->query("SELECT * FROM tracks");
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Track</title>
     <style>
+        /* Existing styles */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -177,6 +179,10 @@ $tracks = $conn->query("SELECT * FROM tracks");
                     <label for="artist_id">Artist ID:</label>
                     <input type="text" id="artist_id" name="artist_id" required>
                 </div>
+                <div class="form-group">
+                    <label for="path">Track Path:</label>
+                    <input type="text" id="path" name="path" required>
+                </div>
                 <button type="submit" class="submit-btn">Add Track</button>
             </form>
         </div>
@@ -190,6 +196,7 @@ $tracks = $conn->query("SELECT * FROM tracks");
                         <th>Title</th>
                         <th>Album ID</th>
                         <th>Artist ID</th>
+                        <th>Path</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -199,6 +206,7 @@ $tracks = $conn->query("SELECT * FROM tracks");
                         <td><?php echo $track['title']; ?></td>
                         <td><?php echo $track['album_id']; ?></td>
                         <td><?php echo $track['artist_id']; ?></td>
+                        <td><?php echo $track['path']; ?></td>
                     </tr>
                     <?php } ?>
                 </tbody>
