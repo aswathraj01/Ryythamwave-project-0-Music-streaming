@@ -32,4 +32,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $conn->close();
 }
+header("Location: ../../admin_panel.php");
+exit();
 ?>

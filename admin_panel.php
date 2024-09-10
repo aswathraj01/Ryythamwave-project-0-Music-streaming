@@ -258,24 +258,27 @@ while ($row = $traffic_result->fetch_assoc()) {
                     <th>Artist</th>
                     <th>Album</th>
                     <th>Duration</th>
+                    <th>File Path</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody>
+            <tbody>
                 <?php while ($track = $tracks->fetch_assoc()): ?>
                 <tr>
-                    <td><?php echo htmlspecialchars($track['id']); ?></td>
-                    <td><?php echo htmlspecialchars($track['title']); ?></td>
-                    <td><?php echo htmlspecialchars($track['artist']); ?></td>
-                    <td><?php echo htmlspecialchars($track['album']); ?></td>
-                    <td><?php echo htmlspecialchars($track['duration']); ?></td>
-                    <td>
-                        <a href="public/fuctions/edit_track.php?id=<?php echo htmlspecialchars($track['id']); ?>">Edit</a>
-                        <a href="public/fuctions/delete_track.php?id=<?php echo htmlspecialchars($track['id']); ?>" onclick="return confirm('Are you sure?')">Delete</a>
-                    </td>
-                </tr>
-                <?php endwhile; ?>
-            </tbody>
+                <td><?php echo isset($track['id']) ? htmlspecialchars($track['id']) : 'N/A'; ?></td>
+                <td><?php echo isset($track['title']) ? htmlspecialchars($track['title']) : 'N/A'; ?></td>
+                <td><?php echo isset($track['artist_id']) ? htmlspecialchars($track['artist_id']) : 'N/A'; ?></td>
+                <td><?php echo isset($track['album_id']) ? htmlspecialchars($track['album_id']) : 'N/A'; ?></td>
+                <td><?php echo isset($track['duration']) ? htmlspecialchars($track['duration']) : 'N/A'; ?></td>
+                <td><?php echo isset($track['file_path']) ? htmlspecialchars($track['file_path']) : 'N/A'; ?></td>
+                <td>
+                    <a href="public/fuctions/edit_track.php?id=<?php echo htmlspecialchars($track['id']); ?>">Edit</a>
+                    <a href="public/fuctions/delete_track.php?id=<?php echo htmlspecialchars($track['id']); ?>" onclick="return confirm('Are you sure?')">Delete</a>
+                </td>
+            </tr>
+            <?php endwhile; ?>
+        </tbody>
         </table>
     </section>
 
@@ -290,25 +293,25 @@ while ($row = $traffic_result->fetch_assoc()) {
                     <th>Title</th>
                     <th>Artist</th>
                     <th>Release Date</th>
-                    <th>Genre</th>
+                    <th>Album Cover</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody>
                 <?php while ($album = $albums->fetch_assoc()): ?>
                 <tr>
-                    <td><?php echo htmlspecialchars($album['id']); ?></td>
-                    <td><?php echo htmlspecialchars($album['title']); ?></td>
-                    <td><?php echo htmlspecialchars($album['artist']); ?></td>
-                    <td><?php echo htmlspecialchars($album['release_date']); ?></td>
-                    <td><?php echo htmlspecialchars($album['genre']); ?></td>
-                    <td>
-                        <a href="public/fuctions/edit_album.php?id=<?php echo htmlspecialchars($album['id']); ?>">Edit</a>
-                        <a href="public/fuctions/delete_album.php?id=<?php echo htmlspecialchars($album['id']); ?>" onclick="return confirm('Are you sure?')">Delete</a>
-                    </td>
-                </tr>
-                <?php endwhile; ?>
-            </tbody>
+                <td><?php echo $album['id']; ?></td>
+                <td><?php echo $album['album_name']; ?></td>
+                <td><?php echo $album['artist_name']; ?></td>
+                <td><?php echo $album['release_date']; ?></td>
+                <td><img src="<?php echo $album['album_cover']; ?>" alt="<?php echo $album['album_name']; ?>" style="width: 100px; height: auto;"></td>
+                <td>
+                    <a href="public/fuctions/edit_album.php?id=<?php echo htmlspecialchars($album['id']); ?>">Edit</a>
+                    <a href="public/fuctions/delete_album.php?id=<?php echo htmlspecialchars($album['id']); ?>" onclick="return confirm('Are you sure?')">Delete</a>
+                </td>
+            </tr>
+            <?php endwhile; ?>
+        </tbody>
         </table>
     </section>
 
@@ -321,18 +324,14 @@ while ($row = $traffic_result->fetch_assoc()) {
                 <tr>
                     <th>ID</th>
                     <th>Name</th>
-                    <th>Genre</th>
-                    <th>Country</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody>
                 <?php while ($artist = $artists->fetch_assoc()): ?>
                 <tr>
-                    <td><?php echo htmlspecialchars($artist['id']); ?></td>
-                    <td><?php echo htmlspecialchars($artist['name']); ?></td>
-                    <td><?php echo htmlspecialchars($artist['genre']); ?></td>
-                    <td><?php echo htmlspecialchars($artist['country']); ?></td>
+                    <td><?php echo $artist['id']; ?></td>
+                    <td><?php echo $artist['artist_name']; ?></td>
                     <td>
                         <a href="public/fuctions/edit_artist.php?id=<?php echo htmlspecialchars($artist['id']); ?>">Edit</a>
                         <a href="public/fuctions/delete_artist.php?id=<?php echo htmlspecialchars($artist['id']); ?>" onclick="return confirm('Are you sure?')">Delete</a>
@@ -377,7 +376,7 @@ while ($row = $traffic_result->fetch_assoc()) {
     <!-- Edit Profile Section -->
     <section id="edit-profile" class="section" style="display: none;">
         <h2>Edit Profile</h2>
-        <form action="update_profile.php" method="post">
+        <form action="public/fuctions/update_profile.php" method="post">
             <div class="form-group">
                 <label for="username">Username:</label>
                 <input type="text" id="username" name="username" value="<?php echo htmlspecialchars($_SESSION['admin_username'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" required>
