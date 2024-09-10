@@ -165,14 +165,6 @@ while ($row = $traffic_result->fetch_assoc()) {
             });
         }
     </script>
-    <script>
-    function toggleSidebar() {
-        const sidebar = document.querySelector('.sidebar');
-        sidebar.classList.toggle('collapsed');
-        sidebar.classList.toggle('expanded');
-    }
-</script>
-
 </head>
 <body>
 
@@ -182,6 +174,7 @@ while ($row = $traffic_result->fetch_assoc()) {
         <h2>Admin Panel</h2>
         <p>Welcome, <?php echo htmlspecialchars($_SESSION['admin_username'] ?? ''); ?></p>
     </div>
+    <hr>
     <ul>
         <li><a href="javascript:void(0);" onclick="showSection('dashboard')"><img id="dash" src="public/assets/icons/dashboard.svg"><span class="text">Dashboard</span></a></li>
         <li><a href="javascript:void(0);" onclick="showSection('tracks')"><img src="public/assets/icons/file-music.svg"><span class="text">Tracks</span></a></li>
@@ -193,12 +186,6 @@ while ($row = $traffic_result->fetch_assoc()) {
         </div>
     </ul>
 </div>
-<!-- Toggle Button -->
-<div class="toggle-button" onclick="toggleSidebar()">
-    <i class="fas fa-bars"></i>
-</div>
-
-
 <div class="main-content">
     <header>
         <div class="header-title">

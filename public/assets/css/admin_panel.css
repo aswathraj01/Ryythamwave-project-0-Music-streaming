@@ -2,7 +2,7 @@ body {
     font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
-    background:linear-gradient(180deg, #ffffff, #00ffff);
+    background: linear-gradient(180deg, #ffffff 0%, #00ffff 100%);
 }
 
 .sidebar {
@@ -16,11 +16,11 @@ body {
 }
 
 .sidebar .profile {
-    padding: 20px;
+    padding: 30px;
     background-color: #1b2a38;
     text-align: center;
     position: relative;
-    top: 25px;
+    top: 10px;
 }
 
 .sidebar .profile h2 {
@@ -44,16 +44,27 @@ body {
     display: flex;
     align-items: center;
     padding: 10px;
-    position: relative;
+    transition: background-color 0.3s, color 0.3s; /* Smooth transition */
+}
+
+.sidebar ul li a:hover {
+    background-color: #463f3f ; /* Slightly darker background on hover */
 }
 
 .sidebar ul li a img {
     margin-left: auto;
-    filter: brightness(0) invert(1); /* Make the icon white */
+    filter: brightness(0) invert(1); /* Keep the icon white */
 }
 
-.sidebar ul li a:hover {
-    background-color: #463f3f;
+/* Specific Styles for Settings Icon */
+.sidebar .settings a {
+    background-color: transparent; /* Ensures no background change */
+    color: white; /* Keeps the text color consistent */
+}
+
+.sidebar .settings a:hover {
+    background-color: transparent; /* Ensures no background color on hover */
+    color: white; /* Keeps text color consistent on hover */
 }
 
 .main-content {
@@ -106,7 +117,6 @@ header {
     margin-bottom: 30px;
     transition: transform 0.3s;
 }
-
 
 .stat {
     background: linear-gradient(135deg, #FAD961, #F76B1C, #FB8BBA);
@@ -187,7 +197,7 @@ a:hover {
     text-decoration: underline;
 }
 
-#dash{
+#dash {
     width: 20px;
 }
 
@@ -207,161 +217,11 @@ a:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.sidebar {
-    width: 200px;
-    float: left;
-    background-color: #1b2a38;
-    height: 100vh;
-    overflow: auto;
-    color: white;
-    position: relative;
-}
-
-.sidebar .profile {
-    padding: 20px;
-    background-color: #1b2a38;
-    text-align: center;
-}
-
-.sidebar .profile h2 {
-    margin: 0;
-}
-
-.sidebar ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-}
-
-.sidebar ul li {
-    padding: 10px;
-    position: relative;
-}
-
-.sidebar ul li a {
-    text-decoration: none;
-    color: #ffffff;
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    position: relative;
-}
-
-.sidebar ul li a img {
-    margin-left: auto;
-    filter: brightness(0) invert(1); /* Make the icon white */
-}
-
-.sidebar ul li a:hover {
-    background-color: #463f3f;
-}
-
-/* New CSS for settings icon */
-.sidebar .settings {
-    position: absolute;
-    bottom: 20px; /* Adjust as needed */
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 10px;
-}
-
-.sidebar .settings img {
-    width: 24px; /* Adjust size as needed */
-    filter: brightness(0) invert(1); /* Make the icon white */
-}
-
-/* Edit Profile Section Styles */
-#edit-profile {
-    padding: 20px;
-}
-
-#edit-profile .form-group {
-    margin-bottom: 15px;
-}
-
-#edit-profile label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-}
-
-#edit-profile input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-}
-
-#edit-profile button {
-    padding: 10px 15px;
-    background-color: #1b2a38;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-#edit-profile button:hover {
-    background-color: #16323b;
-}
-
-/* Basic Sidebar Styles */
-.sidebar {
-    width: 60px; /* Small width by default */
-    float: left;
-    background-color: #1b2a38;
-    height: 100vh;
-    overflow: hidden;
-    color: white;
-    position: fixed;
-    transition: width 0.3s;
-}
-
-/* Expanded Sidebar Styles */
-.sidebar.expanded {
-    width: 200px; /* Expanded width */
-}
-
-/* Hide text in collapsed state */
-.sidebar.collapsed .text {
-    display: none;
-}
-
-.sidebar.collapsed .profile {
-    display: none; /* Hide profile section */
-}
-
-.sidebar.collapsed ul li a img {
-    margin: 0 auto; /* Center icons */
-}
-
-/* Show text in expanded state */
-.sidebar.expanded .text {
-    display: inline; /* Show text */
-}
-
-.sidebar.expanded .profile {
-    display: block; /* Show profile section */
-}
-
 .sidebar ul li {
     padding: 10px;
     position: relative;
     display: flex;
     align-items: center;
-}
-
-/* Adjust link styling */
-.sidebar ul li a {
-    text-decoration: none;
-    color: #ffffff;
-    display: flex;
-    align-items: center;
-}
-
-/* Adjust icon styling */
-.sidebar ul li a img {
-    margin-right: 10px; /* Space between icon and text */
 }
 
 /* Settings Icon Style */
@@ -373,29 +233,58 @@ a:hover {
     padding: 10px;
 }
 
-.sidebar .settings img {
-    width: 24px;
-    filter: brightness(0) invert(1);
-}
-
-/* Toggle Button Styles */
-.toggle-button {
-    position: fixed;
-    top: 10px;
-    left: 20px;
-    z-index: 1000;
-    cursor: pointer;
-    color: white;
-    padding: 10px;
-    border-radius: 50%;
-}
-
-/* Main Content Adjustment */
-.main-content {
-    margin-left: 60px;
+/* General Styles for Edit Profile Section */
+#edit-profile {
     padding: 20px;
+    border-radius: 8px;
 }
 
-.sidebar.expanded ~ .main-content {
-    margin-left: 200px;
+#edit-profile h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #000000;
+}
+
+#edit-profile .form-group {
+    margin-bottom: 15px;
+}
+
+#edit-profile .form-group label {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 5px;
+    color: #000000;
+}
+
+#edit-profile .form-group input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+#edit-profile .form-group input:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+#edit-profile button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#edit-profile button:hover {
+    background-color: #0056b3;
+}
+
+#edit-profile button:focus {
+    outline: none;
 }
