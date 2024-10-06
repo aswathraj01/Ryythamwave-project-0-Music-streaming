@@ -15,3 +15,7 @@ Improved user reg page
 Added the new admin panel design
 
 Music player added
+
+Need to fix admin profile picture
+
+add, edit, delete fuctions corrections

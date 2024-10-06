@@ -20,11 +20,33 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+// Fetch admin details
+$adminId = $_SESSION['admin_id'] ?? null;
+$adminUsername = $_SESSION['admin_username'] ?? '';
+
+// Fetch admin profile picture
+$adminProfilePicture = "default_profile.png"; // default image if no profile picture is found
+if ($adminId) {
+    $profileQuery = "SELECT setting_value FROM admin_settings WHERE admin_id = ? AND setting_key = 'profile_picture'";
+    $stmt = $conn->prepare($profileQuery);
+    $stmt->bind_param("i", $adminId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($result->num_rows > 0) {
+        $profileRow = $result->fetch_assoc();
+        $adminProfilePicture = $profileRow['setting_value'] ?: "default_profile.png"; // use default if empty
+    }
+    $stmt->close();
+}
+
 // Fetch data counts
 $tracksCount = $conn->query("SELECT COUNT(*) as count FROM tracks")->fetch_assoc()['count'];
 $albumsCount = $conn->query("SELECT COUNT(*) as count FROM albums")->fetch_assoc()['count'];
 $artistsCount = $conn->query("SELECT COUNT(*) as count FROM artists")->fetch_assoc()['count'];
 $usersCount = $conn->query("SELECT COUNT(*) as count FROM user_table")->fetch_assoc()['count'];
+
+// Fetch playlists
+$playlists = $conn->query("SELECT * FROM playlists");
 
 // Fetch data for other sections
 $tracks = $conn->query("SELECT * FROM tracks");
@@ -170,9 +192,10 @@ while ($row = $traffic_result->fetch_assoc()) {
 
 <!-- Sidebar -->
 <div class="sidebar collapsed">
-    <div class="profile">
+<div class="profile">
         <h2>Admin Panel</h2>
-        <p>Welcome, <?php echo htmlspecialchars($_SESSION['admin_username'] ?? ''); ?></p>
+        <img src="uploads/<?php echo htmlspecialchars($adminProfilePicture); ?>" alt="Admin Profile" style="width: 100px; height: 100px; border-radius: 50%;">
+        <p>Welcome, <?php echo htmlspecialchars($adminUsername); ?></p>
     </div>
     <hr>
     <ul>
@@ -180,6 +203,7 @@ while ($row = $traffic_result->fetch_assoc()) {
         <li><a href="javascript:void(0);" onclick="showSection('tracks')"><img src="public/assets/icons/file-music.svg"><span class="text">Tracks</span></a></li>
         <li><a href="javascript:void(0);" onclick="showSection('albums')"><img src="public/assets/icons/journal-album.svg"><span class="text">Albums</span></a></li>
         <li><a href="javascript:void(0);" onclick="showSection('artists')"><img src="public/assets/icons/disc.svg"><span class="text">Artists</span></a></li>
+        <li><a href="javascript:void(0);" onclick="showSection('playlists')"><img src="public/assets/icons/music-note-list.svg"><span class="text">Playlists</span></a></li>
         <li><a href="javascript:void(0);" onclick="showSection('users')"><img src="public/assets/icons/people.svg"><span class="text">Users</span></a></li>
         <div class="settings">
             <li><a href="javascript:void(0);" onclick="showSection('edit-profile')"><img src="public/assets/icons/Sliders.svg"></a></li>
@@ -329,6 +353,73 @@ while ($row = $traffic_result->fetch_assoc()) {
         </table>
     </section>
 
+    <!-- Playlists Section -->
+    <section id="playlists" class="section">
+    <h2>Manage Playlists</h2>
+    <a href="add_playlist.php">Add New Playlist</a>
+    <table>
+        <thead>
+            <tr>
+                <th>Playlist ID</th>
+                <th>Playlist Name</th>
+                <th>User ID</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php while ($playlist = $playlists->fetch_assoc()) : ?>
+                <tr>
+                    <td><?php echo htmlspecialchars($playlist['id']); ?></td>
+                    <td><?php echo htmlspecialchars($playlist['name']); ?></td>
+                    <td><?php echo htmlspecialchars($playlist['user_id']); ?></td>
+                    <td>
+                        <a href="edit_playlist.php?id=<?php echo $playlist['id']; ?>">Edit</a> |
+                        <a href="delete_playlist.php?id=<?php echo $playlist['id']; ?>">Delete</a>
+                    </td>
+                </tr>
+                <tr class="track-list" style="display: none;">
+                    <td colspan="4">
+                        <strong>Tracks in Playlist:</strong>
+                        <ul>
+                            <?php
+                            // Fetch tracks for the current playlist
+                            $playlist_id = $playlist['id'];
+                            $track_query = "SELECT t.* FROM tracks t 
+                                            JOIN playlist_tracks pt ON t.id = pt.track_id 
+                                            WHERE pt.playlist_id = ?";
+                            $stmt = $conn->prepare($track_query);
+                            $stmt->bind_param("i", $playlist_id);
+                            $stmt->execute();
+                            $track_result = $stmt->get_result();
+
+                            if ($track_result && $track_result->num_rows > 0) {
+                                while ($track = $track_result->fetch_assoc()) {
+                                    echo '<li>' . htmlspecialchars($track['title']) . '</li>';
+                                }
+                            } else {
+                                echo '<li>No tracks found for this playlist.</li>';
+                            }
+                            ?>
+                        </ul>
+                    </td>
+                </tr>
+            <?php endwhile; ?>
+        </tbody>
+    </table>
+</section>
+
+<script>
+    // Toggle track list visibility
+    document.querySelectorAll('table tbody tr').forEach(function(row) {
+        row.addEventListener('click', function() {
+            const nextRow = this.nextElementSibling;
+            if (nextRow && nextRow.classList.contains('track-list')) {
+                nextRow.style.display = nextRow.style.display === 'none' ? '' : 'none';
+            }
+        });
+    });
+</script>
+
     <!-- Users Section -->
     <section id="users" class="section" style="display: none;">
         <h2>Manage Users</h2>
@@ -376,8 +467,13 @@ while ($row = $traffic_result->fetch_assoc()) {
                 <label for="email">Email:</label>
                 <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($_SESSION['admin_email'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" required>
             </div>
+            <div class="from-group">
+                <label for="profile_picture">Profile Picture:</label>
+                <input type="file" name="profile_picture" accept="image/*">
+            </div>
             <button type="submit">Update Profile</button>
         </form>
+        
     </section>
 </div>
 

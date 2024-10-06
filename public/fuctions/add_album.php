@@ -23,25 +23,36 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     // Prepare and bind
-    $stmt = $conn->prepare("INSERT INTO albums (album_name, album_cover) VALUES (?, ?)");
-    $stmt->bind_param("ss", $album_name, $album_cover);
+    $stmt = $conn->prepare("INSERT INTO albums (album_name, album_cover, artist_name, release_date) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("ssss", $album_name, $album_cover, $artist_name, $release_date);
 
     // Get form data
     $album_name = $_POST['album_name'];
+    $artist_name = $_POST['artist_name'];
+    $release_date = $_POST['release_date'];
 
     // Handle file upload
+    $album_cover = '';
     if (isset($_FILES['album_cover']) && $_FILES['album_cover']['error'] == 0) {
-        $upload_dir = 'uploads/';
-        $upload_file = $upload_dir . basename($_FILES['album_cover']['name']);
+        $upload_dir = '../../uploads/'; // Adjust this path based on your directory structure
 
+        // Create uploads directory if it does not exist
+        if (!is_dir($upload_dir)) {
+            mkdir($upload_dir, 0755, true);
+        }
+
+        $upload_file = $upload_dir . basename($_FILES['album_cover']['name']);
+        
         // Move uploaded file to the desired directory
         if (move_uploaded_file($_FILES['album_cover']['tmp_name'], $upload_file)) {
             $album_cover = $upload_file;
         } else {
-            $album_cover = '';
+            echo "<p>Error uploading file.</p>";
+            exit();
         }
     } else {
-        $album_cover = ''; // No file uploaded
+        echo "<p>No file uploaded or there was an error.</p>";
+        exit();
     }
 
     // Execute statement
@@ -55,6 +66,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stmt->close();
     $conn->close();
 }
+
+// Fetch artists from the database
+$conn = new mysqli($servername, $username, $password, $dbname);
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+$artists = $conn->query("SELECT id, artist_name FROM artists"); // Assume there's an artists table
+
 
 // Fetch albums from the database
 $conn = new mysqli("localhost", "root", "", "ryythmwave");
@@ -120,7 +139,9 @@ $albums = $conn->query("SELECT * FROM albums");
         }
 
         .form-group input[type="text"],
-        .form-group input[type="file"] {
+        .form-group input[type="file"],
+        .form-group select,
+        .form-group input[type="date"] {
             width: 100%;
             padding: 10px;
             border: 1px solid #ddd;
@@ -129,7 +150,9 @@ $albums = $conn->query("SELECT * FROM albums");
         }
 
         .form-group input[type="text"]:focus,
-        .form-group input[type="file"]:focus {
+        .form-group input[type="file"]:focus,
+        .form-group select:focus,
+        .form-group input[type="date"]:focus {
             border-color: #4CAF50;
             outline: none;
         }
@@ -184,6 +207,11 @@ $albums = $conn->query("SELECT * FROM albums");
         th {
             background-color: #f2f2f2;
         }
+
+        img {
+            width: 100px;
+            height: auto;
+        }
     </style>
 </head>
 <body>
@@ -200,8 +228,21 @@ $albums = $conn->query("SELECT * FROM albums");
                     <input type="text" id="album_name" name="album_name" required>
                 </div>
                 <div class="form-group">
+                    <label for="artist_id">Artist</label>
+                    <select id="artist_id" name="artist_id" required>
+                        <option value="">Select Artist</option>
+                        <?php while ($artist = $artists->fetch_assoc()) { ?>
+                            <option value="<?php echo $artist['id']; ?>"><?php echo htmlspecialchars($artist['artist_name']); ?></option>
+                        <?php } ?>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="release_date">Release Date</label>
+                    <input type="date" id="release_date" name="release_date" required>
+                </div>
+                <div class="form-group">
                     <label for="album_cover">Album Cover</label>
-                    <input type="file" id="album_cover" name="album_cover" required>
+                    <input type="file" id="album_cover" name="album_cover" accept="image/*" required>
                 </div>
                 <button type="submit" class="submit-btn">Add Album</button>
             </form>
@@ -214,17 +255,21 @@ $albums = $conn->query("SELECT * FROM albums");
                     <tr>
                         <th>ID</th>
                         <th>Album Name</th>
+                        <th>Artist Name</th>
+                        <th>Release Date</th>
                         <th>Album Cover</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php while ($album = $albums->fetch_assoc()) { ?>
+                    <?php while ($album = $albums->fetch_assoc()): ?>
                     <tr>
                         <td><?php echo $album['id']; ?></td>
                         <td><?php echo $album['album_name']; ?></td>
+                        <td><?php echo $album['artist_name']; ?></td>
+                        <td><?php echo $album['release_date']; ?></td>
                         <td><img src="<?php echo $album['album_cover']; ?>" alt="<?php echo $album['album_name']; ?>" style="width: 100px; height: auto;"></td>
                     </tr>
-                    <?php } ?>
+                    <?php endwhile; ?>
                 </tbody>
             </table>
         </div>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 11, 2024 at 12:21 AM
+-- Generation Time: Oct 07, 2024 at 12:16 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -54,7 +54,7 @@ CREATE TABLE `admin_table` (
 --
 
 INSERT INTO `admin_table` (`id`, `username`, `password`, `email`, `profile_picture`, `bio`) VALUES
-(1, 'admin', 'password123', NULL, NULL, NULL);
+(1, 'admin', 'password123', NULL, '../../uploads/pro.png', NULL);
 
 -- --------------------------------------------------------
 
@@ -75,9 +75,8 @@ CREATE TABLE `albums` (
 --
 
 INSERT INTO `albums` (`id`, `album_name`, `album_cover`, `artist_name`, `release_date`) VALUES
-(1, 'Album 1', '', '', NULL),
-(2, 'Album 2', '', '', NULL),
-(3, 'Album 3', '', '', NULL);
+(1, 'Album 1', '../../uploads/hanumankind1.jpg', '', NULL),
+(7, 'Album 2', '../../uploads/hanumankind.jpg', '1', '2023-02-23');
 
 -- --------------------------------------------------------
 
@@ -97,6 +96,47 @@ CREATE TABLE `artists` (
 INSERT INTO `artists` (`id`, `artist_name`) VALUES
 (1, 'Artist 1'),
 (2, 'Artist 2');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `playlists`
+--
+
+CREATE TABLE `playlists` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `playlists`
+--
+
+INSERT INTO `playlists` (`id`, `user_id`, `name`, `created_at`) VALUES
+(1, 1, 'test playlist', '2024-10-06 20:35:49'),
+(2, 3, 'test231', '2024-10-06 20:51:14');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `playlist_tracks`
+--
+
+CREATE TABLE `playlist_tracks` (
+  `id` int(11) NOT NULL,
+  `playlist_id` int(11) NOT NULL,
+  `track_id` int(11) NOT NULL,
+  `added_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `playlist_tracks`
+--
+
+INSERT INTO `playlist_tracks` (`id`, `playlist_id`, `track_id`, `added_at`) VALUES
+(1, 1, 1, '2024-10-06 20:36:03');
 
 -- --------------------------------------------------------
 
@@ -168,7 +208,8 @@ CREATE TABLE `user_table` (
 --
 
 INSERT INTO `user_table` (`id`, `username`, `password`, `email`, `first_name`, `last_name`, `mobile_no`, `registration_date`) VALUES
-(1, 'user', 'user123', 'user123@gmail.com', 'Test', 'User', '9745448465', '2024-09-10');
+(1, 'user', 'user123', 'user123@gmail.com', 'Test', 'User', '9745448465', '2024-09-10'),
+(3, 'testuser', '1234', 'aswathraj749@gmail.com', 'Aswath', 'Raj', '09400459035', '2024-09-28');
 
 --
 -- Indexes for dumped tables
@@ -199,6 +240,21 @@ ALTER TABLE `albums`
 --
 ALTER TABLE `artists`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `playlists`
+--
+ALTER TABLE `playlists`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
+-- Indexes for table `playlist_tracks`
+--
+ALTER TABLE `playlist_tracks`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `playlist_id` (`playlist_id`),
+  ADD KEY `track_id` (`track_id`);
 
 --
 -- Indexes for table `tracks`
@@ -247,13 +303,25 @@ ALTER TABLE `admin_table`
 -- AUTO_INCREMENT for table `albums`
 --
 ALTER TABLE `albums`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `artists`
 --
 ALTER TABLE `artists`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `playlists`
+--
+ALTER TABLE `playlists`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `playlist_tracks`
+--
+ALTER TABLE `playlist_tracks`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tracks`
@@ -277,7 +345,7 @@ ALTER TABLE `traffic_data`
 -- AUTO_INCREMENT for table `user_table`
 --
 ALTER TABLE `user_table`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables
@@ -288,6 +356,19 @@ ALTER TABLE `user_table`
 --
 ALTER TABLE `admin_settings`
   ADD CONSTRAINT `admin_settings_ibfk_1` FOREIGN KEY (`admin_id`) REFERENCES `admin_table` (`id`);
+
+--
+-- Constraints for table `playlists`
+--
+ALTER TABLE `playlists`
+  ADD CONSTRAINT `playlists_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user_table` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `playlist_tracks`
+--
+ALTER TABLE `playlist_tracks`
+  ADD CONSTRAINT `playlist_tracks_ibfk_1` FOREIGN KEY (`playlist_id`) REFERENCES `playlists` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `playlist_tracks_ibfk_2` FOREIGN KEY (`track_id`) REFERENCES `tracks` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `tracks`
