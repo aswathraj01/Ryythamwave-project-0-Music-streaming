@@ -67,14 +67,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $conn->close();
 }
 
-// Fetch artists from the database
-$conn = new mysqli($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-$artists = $conn->query("SELECT id, artist_name FROM artists"); // Assume there's an artists table
-
-
 // Fetch albums from the database
 $conn = new mysqli("localhost", "root", "", "ryythmwave");
 if ($conn->connect_error) {
@@ -98,11 +90,9 @@ $albums = $conn->query("SELECT * FROM albums");
             color: #333;
             background-color: #0c697d;
         }
-
         .container {
             padding: 20px;
         }
-
         .header {
             background-color: #2196F3;
             color: #fff;
@@ -112,7 +102,6 @@ $albums = $conn->query("SELECT * FROM albums");
             border-radius: 5px;
             margin-bottom: 20px;
         }
-
         .form-container {
             max-width: 600px;
             margin: 0 auto;
@@ -121,26 +110,21 @@ $albums = $conn->query("SELECT * FROM albums");
             border-radius: 5px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
-
         .form-container h2 {
             color: #4CAF50;
             margin-bottom: 20px;
         }
-
         .form-group {
             margin-bottom: 15px;
         }
-
         .form-group label {
             display: block;
             margin-bottom: 5px;
             font-weight: bold;
             color: #333;
         }
-
         .form-group input[type="text"],
         .form-group input[type="file"],
-        .form-group select,
         .form-group input[type="date"] {
             width: 100%;
             padding: 10px;
@@ -148,15 +132,6 @@ $albums = $conn->query("SELECT * FROM albums");
             border-radius: 5px;
             box-sizing: border-box;
         }
-
-        .form-group input[type="text"]:focus,
-        .form-group input[type="file"]:focus,
-        .form-group select:focus,
-        .form-group input[type="date"]:focus {
-            border-color: #4CAF50;
-            outline: none;
-        }
-
         .submit-btn {
             display: inline-block;
             padding: 10px 20px;
@@ -169,11 +144,9 @@ $albums = $conn->query("SELECT * FROM albums");
             text-align: center;
             text-decoration: none;
         }
-
         .submit-btn:hover {
             background-color: #45a049;
         }
-
         .back-button {
             position: absolute;
             left: 25px;
@@ -184,33 +157,23 @@ $albums = $conn->query("SELECT * FROM albums");
             text-decoration: none;
             border-radius: 5px;
         }
-
         .back-button:hover {
             background-color: #45a049;
         }
-
         table {
             width: 100%;
             margin-top: 20px;
             border-collapse: collapse;
         }
-
         table, th, td {
             border: 1px solid #ddd;
         }
-
         th, td {
             padding: 8px;
             text-align: left;
         }
-
         th {
             background-color: #f2f2f2;
-        }
-
-        img {
-            width: 100px;
-            height: auto;
         }
     </style>
 </head>
@@ -228,13 +191,8 @@ $albums = $conn->query("SELECT * FROM albums");
                     <input type="text" id="album_name" name="album_name" required>
                 </div>
                 <div class="form-group">
-                    <label for="artist_id">Artist</label>
-                    <select id="artist_id" name="artist_id" required>
-                        <option value="">Select Artist</option>
-                        <?php while ($artist = $artists->fetch_assoc()) { ?>
-                            <option value="<?php echo $artist['id']; ?>"><?php echo htmlspecialchars($artist['artist_name']); ?></option>
-                        <?php } ?>
-                    </select>
+                    <label for="artist_name">Artist Name</label>
+                    <input type="text" id="artist_name" name="artist_name" required>
                 </div>
                 <div class="form-group">
                     <label for="release_date">Release Date</label>
