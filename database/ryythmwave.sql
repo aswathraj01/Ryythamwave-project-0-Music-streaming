@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 07, 2024 at 12:16 AM
+-- Generation Time: Oct 08, 2024 at 10:44 AM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.0.30
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -96,6 +96,29 @@ CREATE TABLE `artists` (
 INSERT INTO `artists` (`id`, `artist_name`) VALUES
 (1, 'Artist 1'),
 (2, 'Artist 2');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `categories`
+--
+
+CREATE TABLE `categories` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `created_date` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `categories`
+--
+
+INSERT INTO `categories` (`id`, `name`, `created_date`) VALUES
+(1, 'Toxic', '2024-10-08 00:00:00'),
+(2, 'Gaming', '2024-10-08 00:00:00'),
+(3, 'Melody', '2024-10-08 00:00:00'),
+(4, 'New Category', '2024-10-08 00:00:00'),
+(5, 'Bass', '2024-10-08 14:12:49');
 
 -- --------------------------------------------------------
 
@@ -200,16 +223,19 @@ CREATE TABLE `user_table` (
   `first_name` varchar(30) NOT NULL,
   `last_name` varchar(20) NOT NULL,
   `mobile_no` varchar(15) NOT NULL,
-  `registration_date` date NOT NULL DEFAULT curdate()
+  `registration_date` date NOT NULL DEFAULT curdate(),
+  `user_profile` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `user_table`
 --
 
-INSERT INTO `user_table` (`id`, `username`, `password`, `email`, `first_name`, `last_name`, `mobile_no`, `registration_date`) VALUES
-(1, 'user', 'user123', 'user123@gmail.com', 'Test', 'User', '9745448465', '2024-09-10'),
-(3, 'testuser', '1234', 'aswathraj749@gmail.com', 'Aswath', 'Raj', '09400459035', '2024-09-28');
+INSERT INTO `user_table` (`id`, `username`, `password`, `email`, `first_name`, `last_name`, `mobile_no`, `registration_date`, `user_profile`) VALUES
+(1, 'user', 'user123', 'user123@gmail.com', 'Test', 'User', '9745448465', '2024-09-10', NULL),
+(3, 'testuser', '1234', '', 'Aswath', 'Raj', '09400459035', '2024-09-28', NULL),
+(4, 'Jishnu', '$2y$10$jbJP2suX1oYSVc38kn3W1eP', 'dhjfiodfji@gamil.com', 'Jishnu', 'MR', '3213213213212', '2024-10-08', NULL),
+(5, 'user911', 'user123', '', 'shfdshjf', 'dsfdsfas', '21312313', '2024-08-14', NULL);
 
 --
 -- Indexes for dumped tables
@@ -239,6 +265,12 @@ ALTER TABLE `albums`
 -- Indexes for table `artists`
 --
 ALTER TABLE `artists`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `categories`
+--
+ALTER TABLE `categories`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -312,6 +344,12 @@ ALTER TABLE `artists`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `categories`
+--
+ALTER TABLE `categories`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT for table `playlists`
 --
 ALTER TABLE `playlists`
@@ -345,7 +383,7 @@ ALTER TABLE `traffic_data`
 -- AUTO_INCREMENT for table `user_table`
 --
 ALTER TABLE `user_table`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables

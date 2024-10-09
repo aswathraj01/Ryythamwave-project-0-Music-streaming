@@ -83,6 +83,8 @@ while ($row = $traffic_result->fetch_assoc()) {
     $monthly_traffic_labels[] = $row['month'];
     $monthly_traffic_data[] = $row['count'];
 }
+
+$categories = $conn->query("SELECT * FROM categories");
 ?>
 
 <!DOCTYPE html>
@@ -204,6 +206,7 @@ while ($row = $traffic_result->fetch_assoc()) {
         <li><a href="javascript:void(0);" onclick="showSection('albums')"><img src="public/assets/icons/journal-album.svg"><span class="text">Albums</span></a></li>
         <li><a href="javascript:void(0);" onclick="showSection('artists')"><img src="public/assets/icons/disc.svg"><span class="text">Artists</span></a></li>
         <li><a href="javascript:void(0);" onclick="showSection('playlists')"><img src="public/assets/icons/music-note-list.svg"><span class="text">Playlists</span></a></li>
+        <li><a href="javascript:void(0);" onclick="showSection('category')"><img src="public/assets/icons/collection-play.svg"><span class="text">Category</span></a></li>
         <li><a href="javascript:void(0);" onclick="showSection('users')"><img src="public/assets/icons/people.svg"><span class="text">Users</span></a></li>
         <div class="settings">
             <li><a href="javascript:void(0);" onclick="showSection('edit-profile')"><img src="public/assets/icons/Sliders.svg"></a></li>
@@ -419,6 +422,33 @@ while ($row = $traffic_result->fetch_assoc()) {
         });
     });
 </script>
+
+    <!-- Category Section -->
+<section id="category" class="section" style="display: none;">
+    <h2>Manage Category</h2>
+    <a href="public/functions/add_artist.php">Add New Category</a>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Category Name</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php while ($category = $categories->fetch_assoc()): ?>
+            <tr>
+                <td><?php echo $category['id']; ?></td>
+                <td><?php echo htmlspecialchars($category['name']); ?></td>
+                <td>
+                    <a href="public/functions/edit_artist.php?id=<?php echo htmlspecialchars($category['id']); ?>">Edit</a>
+                    <a href="public/functions/delete_artist.php?id=<?php echo htmlspecialchars($category['id']); ?>" onclick="return confirm('Are you sure?')">Delete</a>
+                </td>
+            </tr>
+            <?php endwhile; ?>
+        </tbody>
+    </table>
+</section>
 
     <!-- Users Section -->
     <section id="users" class="section" style="display: none;">

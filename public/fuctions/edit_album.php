@@ -37,6 +37,7 @@ $album = $result->fetch_assoc();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Album</title>
+    <link rel="icon" type="image/x-icon" href="public/assets/images/logo.png">
     <style>
         body {
             font-family: Arial, sans-serif;

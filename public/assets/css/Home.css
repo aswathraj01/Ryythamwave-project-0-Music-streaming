@@ -82,6 +82,15 @@ header .active{
     border-radius: 25px;
     border: 2px solid #e2e2e2
 }
+.btn-footer {
+    background-color: #00ff80;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    margin-left: 10px;
+    cursor: pointer;
+}
 .btn{
     border-radius: 25px;
     border: 1px solid #e2e2e2;
@@ -177,3 +186,26 @@ a:visited{
 a{
     color: black;
 }
+
+/* Dropdown styles */
+.dropdown-list {
+    position: absolute;
+    border: solid thin rgb(182, 182, 182);
+    background-color: white;
+    margin-top: 10px;
+    display: none; /* Hide the dropdown by default */
+}
+
+.dropdown:hover .dropdown-list,
+.dropdown-list:hover {
+    display: block; /* Show the dropdown when hovering over the Category or the dropdown list */
+}
+
+.dropdown-list .nav-item {
+    padding: 10px;
+}
+
+.dropdown-list .nav-item:hover {
+    background-color: #00ff80;
+}
+
