@@ -1,0 +1,222 @@
+/* Global Styles */
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #121212;
+    color: #fff;
+    overflow-x: hidden; 
+    height: 100%; 
+}
+
+.container {
+    display: flex;
+    height: calc(100vh - 50px); 
+}
+
+.sidebar {
+    background-color: #1c1c1c;
+    width: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+}
+
+.logo {
+    width: 100px; 
+    height: auto;
+    margin-top: -23px; 
+}
+
+.sidebar-icons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px 0; /* Space between icons */
+    transition: transform 0.3s ease;
+}
+
+.sidebar-icons:hover {
+    transform: scale(1.2); /* Scale effect on hover */
+    background-color: #d04343;
+}
+
+.sidebar svg {
+    padding: 10px;
+    width: 24px;
+    height: 24px;
+    color: #fff; /* Change to your desired color */
+}
+
+
+/* Main Content Styles */
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 0px;
+}
+
+.top-nav {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    background-color: #121212;
+    align-items: center;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+}
+
+.search-container input {
+    width: 300px;
+    height: 20px;
+    padding: 10px;
+    border: none;
+    border-radius: 20px 0 0 20px;
+    background-color: #333;
+    color: #fff;
+    transition: box-shadow 0.3s ease;
+}
+
+.search-container input:focus {
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.7);
+    outline: none;
+}
+
+.search-button {
+    border: none;
+    background-color: #f05454;
+    color: #fff;
+    border-radius: 0 20px 20px 0;
+    padding: 10px 20px;
+    cursor: pointer;
+    height: 40px;
+    transition: box-shadow 0.3s ease;
+}
+
+.search-container input:focus + .search-button {
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.7);
+}
+
+.music-section {
+    padding: 20px;
+    border-top: 1px solid #444;
+}
+
+.tabs {
+    position: relative;
+    display: flex;
+    margin-bottom: 20px; 
+}
+
+.tabs button {
+    background-color: transparent;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: color 0.3s ease; 
+}
+
+.tabs .active-slide {
+    position: absolute;
+    bottom: 0; 
+    height: 2px; 
+    background-color: #f05454; 
+    transition: left 0.3s ease, width 0.3s ease; 
+    width: 100%; 
+    left: 0; 
+}
+
+.music-list {
+    margin-top: 20px;
+}
+
+.music-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background-color: #333;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    transition: background-color 0.3s;
+}
+
+.music-item:hover {
+    background-color: #444;
+}
+
+.music-item.active {
+    background-color: #f05454;
+}
+
+.cover {
+    width: 50px;
+    height: 50px;
+    background-color: #666;
+    border-radius: 10px;
+    margin-right: 20px;
+}
+
+.info h4 {
+    margin: 0;
+    font-size: 16px;
+}
+
+.actions i {
+    margin-left: 20px;
+    cursor: pointer;
+}
+
+.music-controls {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 20px;
+    background-color: #1c1c1c;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+.music-controls button {
+    background-color: transparent;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.progress input,
+.volume input {
+    margin-left: 20px;
+    width: 100px;
+}
+
+.auth-button {
+    border: none;
+    border-radius: 20px; /* Adjust for roundness */
+    background-color: #f05454; /* Button color */
+    color: #fff; /* Text color */
+    padding: 10px 15px; /* Padding for size */
+    cursor: pointer; /* Pointer cursor on hover */
+    margin-left: 10px; /* Space between buttons */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Transition effect */
+    font-size: 14px; /* Adjust font size as needed */
+}
+
+/* Glow effect on focus */
+.auth-button:focus {
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.7); /* Glow effect */
+    outline: none; /* Remove default outline */
+}
+
+/* Optional: Change button background on hover */
+.auth-button:hover {
+    background-color: #d04343; /* Darker shade on hover */
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.7); /* Add glow on hover */
+}
