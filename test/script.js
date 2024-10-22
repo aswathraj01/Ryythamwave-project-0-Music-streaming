@@ -19,3 +19,4 @@ tabs.forEach(tab => {
         setActiveSlide();
     });
 });
+

@@ -48,7 +48,6 @@ body {
     color: #fff; /* Change to your desired color */
 }
 
-
 /* Main Content Styles */
 .main-content {
     flex: 1;
@@ -136,6 +135,7 @@ body {
 }
 
 .music-item {
+    position: relative;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -143,6 +143,7 @@ body {
     background-color: #333;
     border-radius: 10px;
     margin-bottom: 10px;
+    width: 600px;
     transition: background-color 0.3s;
 }
 
@@ -155,11 +156,30 @@ body {
 }
 
 .cover {
+    position: relative;
+    margin-left: 2px;
     width: 50px;
     height: 50px;
     background-color: #666;
     border-radius: 10px;
     margin-right: 20px;
+}
+
+.cover button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    display: none; /* Hidden by default */
+    cursor: pointer;
+}
+
+.cover:hover button {
+    display: block; /* Show the play button on hover */
 }
 
 .info h4 {
@@ -172,31 +192,16 @@ body {
     cursor: pointer;
 }
 
-.music-controls {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    padding: 20px;
-    background-color: #1c1c1c;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-}
-
-.music-controls button {
-    background-color: transparent;
-    border: none;
-    color: #fff;
-    cursor: pointer;
-    font-size: 18px;
-}
-
-.progress input,
-.volume input {
-    margin-left: 20px;
+#progress input,
+#volume input {
     width: 100px;
 }
+#volume {
+    margin-left: 0px; /* Move 50px to the right */
+}
 
+
+/* Auth Button Styles */
 .auth-button {
     border: none;
     border-radius: 20px; /* Adjust for roundness */
@@ -220,3 +225,70 @@ body {
     background-color: #d04343; /* Darker shade on hover */
     box-shadow: 0 0 15px rgba(255, 255, 255, 0.7); /* Add glow on hover */
 }
+
+#player {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #1c1c1c;
+    padding: 10px;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000; /* Ensures it's always on top of other elements */
+  }
+  
+  #song-info {
+    display: flex;
+    align-items: center;
+  }
+  
+  #album-cover {
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
+  }
+  
+  #song-details {
+    margin-left: 10px;
+  }
+  
+  #song-title {
+    font-weight: bold;
+  }
+  
+  #controls {
+    display: flex;
+    gap: 10px;
+  }
+  
+  #progress {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  
+  #progress-bar {
+    width: 150px;
+  }
+  
+  button {
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: white;
+    cursor: pointer;
+  }
+  
+  button:focus {
+    outline: none;
+  }
+  
+  #shuffle:hover,
+  #prev:hover,
+  #play-pause:hover,
+  #next:hover {
+      color: tomato;
+  }
