@@ -2,6 +2,10 @@ let playpause_btn = document.getElementById("play-pause");
 let next_btn = document.getElementById("next");
 let prev_btn = document.getElementById("prev");
 let shuffle_btn = document.getElementById("shuffle");
+let volume_slider = document.querySelector(".volume_slider");
+let curr_time = document.getElementById("current-time");
+let total_duration = document.getElementById("total-time");
+let seek_slider = document.getElementById("seek-slider"); // Ensure this is defined early
 
 let track_index = 0;
 let isPlaying = false;
@@ -10,7 +14,7 @@ let updateTimer;
 
 let curr_track = document.createElement('audio');
 
-// Define the tracks that have to be played
+// Define the tracks
 let track_list = [
   {
     name: "Big Dawgs",
@@ -34,6 +38,7 @@ playpause_btn.addEventListener("click", playpauseTrack);
 next_btn.addEventListener("click", nextTrack);
 prev_btn.addEventListener("click", prevTrack);
 shuffle_btn.addEventListener("click", toggleShuffle);
+seek_slider.addEventListener("input", seekTo); // Event listener for seek slider
 
 function loadTrack(track_index) {
   clearInterval(updateTimer);
@@ -72,9 +77,9 @@ function pauseTrack() {
 
 function nextTrack() {
   if (isShuffling) {
-    track_index = Math.floor(Math.random() * track_list.length); // Shuffle to random track
+    track_index = Math.floor(Math.random() * track_list.length);
   } else {
-    track_index = (track_index + 1) % track_list.length; // Go to next track
+    track_index = (track_index + 1) % track_list.length;
   }
   loadTrack(track_index);
   playTrack();
@@ -92,31 +97,39 @@ function prevTrack() {
 
 function toggleShuffle() {
   isShuffling = !isShuffling;
-  shuffle_btn.classList.toggle("active", isShuffling); // Optionally style shuffle button when active
+  shuffle_btn.classList.toggle("active", isShuffling);
 }
 
 function resetValues() {
-  document.getElementById("current-time").textContent = "00:00";
-  document.getElementById("total-time").textContent = "00:00";
-  document.querySelector(".seek_slider").value = 0;
+  curr_time.textContent = "00:00";
+  total_duration.textContent = "00:00";
+  seek_slider.value = 0;
+}
+
+function setVolume() {
+  curr_track.volume = volume_slider.value / 100;
+}
+
+function seekTo() {
+  if (!isNaN(curr_track.duration)) { // Check if duration is valid
+    let seekto = curr_track.duration * (seek_slider.value / 100); // Only define seekto here
+    curr_track.currentTime = seekto; // Set the current time of the audio
+  } else {
+    console.error("Current track duration is not valid.");
+  }
 }
 
 function seekUpdate() {
   if (!isNaN(curr_track.duration)) {
     let seekPosition = curr_track.currentTime * (100 / curr_track.duration);
-    document.querySelector(".seek_slider").value = seekPosition;
+    seek_slider.value = seekPosition;
 
     let currentMinutes = Math.floor(curr_track.currentTime / 60);
     let currentSeconds = Math.floor(curr_track.currentTime - currentMinutes * 60);
     let durationMinutes = Math.floor(curr_track.duration / 60);
     let durationSeconds = Math.floor(curr_track.duration - durationMinutes * 60);
 
-    if (currentSeconds < 10) { currentSeconds = "0" + currentSeconds; }
-    if (durationSeconds < 10) { durationSeconds = "0" + durationSeconds; }
-    if (currentMinutes < 10) { currentMinutes = "0" + currentMinutes; }
-    if (durationMinutes < 10) { durationMinutes = "0" + durationMinutes; }
-
-    document.getElementById("current-time").textContent = currentMinutes + ":" + currentSeconds;
-    document.getElementById("total-time").textContent = durationMinutes + ":" + durationSeconds;
+    curr_time.textContent = `${String(currentMinutes).padStart(2, '0')}:${String(currentSeconds).padStart(2, '0')}`;
+    total_duration.textContent = `${String(durationMinutes).padStart(2, '0')}:${String(durationSeconds).padStart(2, '0')}`;
   }
 }

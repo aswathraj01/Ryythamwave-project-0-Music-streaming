@@ -62,6 +62,7 @@ body {
     padding: 20px;
     background-color: #121212;
     align-items: center;
+    border-bottom: 1px solid #444;
 }
 
 .search-container {
@@ -102,7 +103,6 @@ body {
 
 .music-section {
     padding: 20px;
-    border-top: 1px solid #444;
 }
 
 .tabs {
@@ -292,3 +292,5 @@ body {
   #next:hover {
       color: tomato;
   }
+
+  
