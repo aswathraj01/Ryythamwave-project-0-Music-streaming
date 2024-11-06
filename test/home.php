@@ -172,9 +172,9 @@ $conn->close();
           
             <div id="progress">
                 <div id="current-time">00:00</div>
-                <input type="range" min="1" max="100" value="0" class="seek_slider" id="seek-slider">
+                <input type="range" min="0" max="100" value="0" class="seek_slider" id="seek-slider">
                 <div id="total-time">00:00</div>
-                </div>
+            </div>
             
           
             <div id="volume">
