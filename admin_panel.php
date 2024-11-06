@@ -24,7 +24,6 @@ if ($conn->connect_error) {
 $adminId = $_SESSION['admin_id'] ?? null;
 $adminUsername = $_SESSION['admin_username'] ?? '';
 
-// Fetch admin profile picture
 $adminProfilePicture = "default_profile.png"; // default image if no profile picture is found
 if ($adminId) {
     $profileQuery = "SELECT setting_value FROM admin_settings WHERE admin_id = ? AND setting_key = 'profile_picture'";
@@ -37,6 +36,12 @@ if ($adminId) {
         $adminProfilePicture = $profileRow['setting_value'] ?: "default_profile.png"; // use default if empty
     }
     $stmt->close();
+}
+
+// Ensure the profile picture path is correct
+$adminProfilePicturePath = "uploads/" . $adminProfilePicture;
+if (!file_exists($adminProfilePicturePath) || empty($adminProfilePicture)) {
+    $adminProfilePicturePath = "uploads/default_profile.png"; // Default profile picture
 }
 
 // Fetch data counts
@@ -196,7 +201,7 @@ $categories = $conn->query("SELECT * FROM categories");
 <div class="sidebar collapsed">
 <div class="profile">
         <h2>Admin Panel</h2>
-        <img src="uploads/<?php echo htmlspecialchars($adminProfilePicture); ?>" alt="Admin Profile" style="width: 100px; height: 100px; border-radius: 50%;">
+        <img src="<?php echo htmlspecialchars($adminProfilePicturePath); ?>" alt="Admin Profile" draggable="false" style="width: 100px; height: 100px; border-radius: 50%;">
         <p>Welcome, <?php echo htmlspecialchars($adminUsername); ?></p>
     </div>
     <hr>
@@ -263,7 +268,7 @@ $categories = $conn->query("SELECT * FROM categories");
     <!-- Tracks Section -->
     <section id="tracks" class="section" style="display: none;">
         <h2>Manage Tracks</h2>
-        <a href="public/fuctions/add_track.php">Add New Track</a>
+        <a href="public/functions/add_track.php">Add New Track</a>
         <table>
             <thead>
                 <tr>
@@ -287,8 +292,8 @@ $categories = $conn->query("SELECT * FROM categories");
                 <td><?php echo isset($track['duration']) ? htmlspecialchars($track['duration']) : 'N/A'; ?></td>
                 <td><?php echo isset($track['file_path']) ? htmlspecialchars($track['file_path']) : 'N/A'; ?></td>
                 <td>
-                    <a href="public/fuctions/edit_track.php?id=<?php echo htmlspecialchars($track['id']); ?>">Edit</a>
-                    <a href="public/fuctions/delete_track.php?id=<?php echo htmlspecialchars($track['id']); ?>" onclick="return confirm('Are you sure?')">Delete</a>
+                    <a href="public/functions/edit_track.php?id=<?php echo htmlspecialchars($track['id']); ?>">Edit</a>
+                    <a href="public/functions/delete_track.php?id=<?php echo htmlspecialchars($track['id']); ?>" onclick="return confirm('Are you sure?')">Delete</a>
                 </td>
             </tr>
             <?php endwhile; ?>
@@ -299,7 +304,7 @@ $categories = $conn->query("SELECT * FROM categories");
     <!-- Albums Section -->
     <section id="albums" class="section" style="display: none;">
         <h2>Manage Albums</h2>
-        <a href="public/fuctions/add_album.php">Add New Album</a>
+        <a href="public/functions/add_album.php">Add New Album</a>
         <table>
             <thead>
                 <tr>
@@ -320,8 +325,8 @@ $categories = $conn->query("SELECT * FROM categories");
                 <td><?php echo $album['release_date']; ?></td>
                 <td><img src="<?php echo $album['album_cover']; ?>" alt="<?php echo $album['album_name']; ?>" style="width: 100px; height: auto;"></td>
                 <td>
-                    <a href="public/fuctions/edit_album.php?id=<?php echo htmlspecialchars($album['id']); ?>">Edit</a>
-                    <a href="public/fuctions/delete_album.php?id=<?php echo htmlspecialchars($album['id']); ?>" onclick="return confirm('Are you sure?')">Delete</a>
+                    <a href="public/functions/edit_album.php?id=<?php echo htmlspecialchars($album['id']); ?>">Edit</a>
+                    <a href="public/functions/delete_album.php?id=<?php echo htmlspecialchars($album['id']); ?>" onclick="return confirm('Are you sure?')">Delete</a>
                 </td>
             </tr>
             <?php endwhile; ?>
@@ -332,7 +337,7 @@ $categories = $conn->query("SELECT * FROM categories");
     <!-- Artists Section -->
     <section id="artists" class="section" style="display: none;">
         <h2>Manage Artists</h2>
-        <a href="public/fuctions/add_artist.php">Add New Artist</a>
+        <a href="public/functions/add_artist.php">Add New Artist</a>
         <table>
             <thead>
                 <tr>
@@ -347,8 +352,8 @@ $categories = $conn->query("SELECT * FROM categories");
                     <td><?php echo $artist['id']; ?></td>
                     <td><?php echo $artist['artist_name']; ?></td>
                     <td>
-                        <a href="public/fuctions/edit_artist.php?id=<?php echo htmlspecialchars($artist['id']); ?>">Edit</a>
-                        <a href="public/fuctions/delete_artist.php?id=<?php echo htmlspecialchars($artist['id']); ?>" onclick="return confirm('Are you sure?')">Delete</a>
+                        <a href="public/functions/edit_artist.php?id=<?php echo htmlspecialchars($artist['id']); ?>">Edit</a>
+                        <a href="public/functions/delete_artist.php?id=<?php echo htmlspecialchars($artist['id']); ?>" onclick="return confirm('Are you sure?')">Delete</a>
                     </td>
                 </tr>
                 <?php endwhile; ?>
@@ -359,7 +364,7 @@ $categories = $conn->query("SELECT * FROM categories");
     <!-- Playlists Section -->
     <section id="playlists" class="section">
     <h2>Manage Playlists</h2>
-    <a href="add_playlist.php">Add New Playlist</a>
+    <a href="public/functions/add_playlist.php">Add New Playlist</a>
     <table>
         <thead>
             <tr>
@@ -376,8 +381,8 @@ $categories = $conn->query("SELECT * FROM categories");
                     <td><?php echo htmlspecialchars($playlist['name']); ?></td>
                     <td><?php echo htmlspecialchars($playlist['user_id']); ?></td>
                     <td>
-                        <a href="edit_playlist.php?id=<?php echo $playlist['id']; ?>">Edit</a> |
-                        <a href="delete_playlist.php?id=<?php echo $playlist['id']; ?>">Delete</a>
+                        <a href="public/functions/edit_playlist.php?id=<?php echo $playlist['id']; ?>">Edit</a> |
+                        <a href="public/functions/delete_playlist.php?id=<?php echo $playlist['id']; ?>">Delete</a>
                     </td>
                 </tr>
                 <tr class="track-list" style="display: none;">
@@ -426,7 +431,7 @@ $categories = $conn->query("SELECT * FROM categories");
     <!-- Category Section -->
 <section id="category" class="section" style="display: none;">
     <h2>Manage Category</h2>
-    <a href="public/functions/add_artist.php">Add New Category</a>
+    <a href="public/functions/add_category.php">Add New Category</a>
     <table>
         <thead>
             <tr>
@@ -441,8 +446,8 @@ $categories = $conn->query("SELECT * FROM categories");
                 <td><?php echo $category['id']; ?></td>
                 <td><?php echo htmlspecialchars($category['name']); ?></td>
                 <td>
-                    <a href="public/functions/edit_artist.php?id=<?php echo htmlspecialchars($category['id']); ?>">Edit</a>
-                    <a href="public/functions/delete_artist.php?id=<?php echo htmlspecialchars($category['id']); ?>" onclick="return confirm('Are you sure?')">Delete</a>
+                    <a href="public/functions/edit_category.php?id=<?php echo htmlspecialchars($category['id']); ?>">Edit</a>
+                    <a href="public/functions/delete_category.php?id=<?php echo urlencode(htmlspecialchars($category['id'])); ?>" onclick="return confirm('Are you sure you want to delete this category?')">Delete</a>
                 </td>
             </tr>
             <?php endwhile; ?>
@@ -453,7 +458,7 @@ $categories = $conn->query("SELECT * FROM categories");
     <!-- Users Section -->
     <section id="users" class="section" style="display: none;">
         <h2>Manage Users</h2>
-        <a href="public/fuctions/add_user.php">Add New User</a>
+        <a href="public/functions/add_user.php">Add New User</a>
         <table>
             <thead>
                 <tr>
@@ -472,8 +477,8 @@ $categories = $conn->query("SELECT * FROM categories");
                     <td><?php echo htmlspecialchars($user['email']); ?></td>
                     <td><?php echo htmlspecialchars($user['registration_date']); ?></td>
                     <td>
-                        <a href="public/fuctions/edit_user.php?id=<?php echo htmlspecialchars($user['id']); ?>">Edit</a>
-                        <a href="public/fuctions/delete_user.php?id=<?php echo htmlspecialchars($user['id']); ?>" onclick="return confirm('Are you sure?')">Delete</a>
+                        <a href="public/functions/edit_user.php?id=<?php echo htmlspecialchars($user['id']); ?>">Edit</a>
+                        <a href="public/functions/delete_user.php?id=<?php echo htmlspecialchars($user['id']); ?>" onclick="return confirm('Are you sure?')">Delete</a>
                     </td>
                 </tr>
                 <?php endwhile; ?>
@@ -484,7 +489,7 @@ $categories = $conn->query("SELECT * FROM categories");
     <!-- Edit Profile Section -->
     <section id="edit-profile" class="section" style="display: none;">
         <h2>Edit Profile</h2>
-        <form action="public/fuctions/update_profile.php" method="post">
+        <form action="public/functions/update_profile.php" method="post">
             <div class="form-group">
                 <label for="username">Username:</label>
                 <input type="text" id="username" name="username" value="<?php echo htmlspecialchars($_SESSION['admin_username'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" required>

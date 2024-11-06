@@ -5,6 +5,8 @@ session_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
+$error_message = ""; // Initialize error message variable
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Sanitize input
     $username = isset($_POST['username']) ? trim($_POST['username']) : '';
@@ -35,15 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header("Location: admin_panel.php");
         exit();
     } else {
-        echo "<div style='
-		display: flex;
-		flex: 1;
-		align-items: center;
-		position: absolute;
-		bottom: 200px;
-		z-index:2;>
-		<h6>Invalid username or password.</h6>
-		</div>";
+        $error_message = "Invalid username or password."; // Set error message
     }
 
     $stmt->close();
@@ -62,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <header class="admin-header">
         <div class="admin-header-div">
-            <a href="Login.html"><button type="button">Home</button></a>
+            <a href="test/home.php"><button type="button">Home</button></a>
             <a href="Login.html"><button type="button">USER Login</button></a>
         </div>
     </header>
@@ -82,6 +76,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <img src="public/assets/icons/eye-slash.svg" alt="Show Password" class="eye-icon" id="eye-icon">
             </div>
             <button type="submit" class="btn">Login</button>
+            
+            <!-- Error message displayed below the submit button -->
+            <?php if ($error_message): ?>
+                <p style="color: red; margin-top: 10px;"><?= htmlspecialchars($error_message) ?></p>
+            <?php endif; ?>
         </form>
     </div>
     <div class="copy">

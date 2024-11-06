@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 08, 2024 at 10:44 AM
+-- Generation Time: Nov 06, 2024 at 07:59 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -31,7 +31,8 @@ CREATE TABLE `admin_settings` (
   `id` int(11) NOT NULL,
   `admin_id` int(11) NOT NULL,
   `setting_key` varchar(255) NOT NULL,
-  `setting_value` text DEFAULT NULL
+  `setting_value` text DEFAULT NULL,
+  `value` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -54,7 +55,7 @@ CREATE TABLE `admin_table` (
 --
 
 INSERT INTO `admin_table` (`id`, `username`, `password`, `email`, `profile_picture`, `bio`) VALUES
-(1, 'admin', 'password123', NULL, '../../uploads/pro.png', NULL);
+(1, 'admin', 'password123', NULL, '', NULL);
 
 -- --------------------------------------------------------
 
@@ -114,11 +115,11 @@ CREATE TABLE `categories` (
 --
 
 INSERT INTO `categories` (`id`, `name`, `created_date`) VALUES
-(1, 'Toxic', '2024-10-08 00:00:00'),
 (2, 'Gaming', '2024-10-08 00:00:00'),
 (3, 'Melody', '2024-10-08 00:00:00'),
 (4, 'New Category', '2024-10-08 00:00:00'),
-(5, 'Bass', '2024-10-08 14:12:49');
+(5, 'Bass', '2024-10-08 14:12:49'),
+(6, 'Happy', '2024-11-06 23:22:27');
 
 -- --------------------------------------------------------
 
@@ -160,6 +161,28 @@ CREATE TABLE `playlist_tracks` (
 
 INSERT INTO `playlist_tracks` (`id`, `playlist_id`, `track_id`, `added_at`) VALUES
 (1, 1, 1, '2024-10-06 20:36:03');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `songs`
+--
+
+CREATE TABLE `songs` (
+  `id` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `artist` varchar(255) NOT NULL,
+  `audio_file` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `songs`
+--
+
+INSERT INTO `songs` (`id`, `title`, `artist`, `audio_file`) VALUES
+(1, 'Song Title 1', 'Artist 1', 'audio/Sunflower.mp3'),
+(2, 'Song Title 2', 'Artist 2', 'path/to/song2.mp3'),
+(3, 'Song Title 3', 'Artist 3', 'path/to/song3.mp3');
 
 -- --------------------------------------------------------
 
@@ -289,6 +312,12 @@ ALTER TABLE `playlist_tracks`
   ADD KEY `track_id` (`track_id`);
 
 --
+-- Indexes for table `songs`
+--
+ALTER TABLE `songs`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `tracks`
 --
 ALTER TABLE `tracks`
@@ -347,19 +376,25 @@ ALTER TABLE `artists`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `playlists`
 --
 ALTER TABLE `playlists`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `playlist_tracks`
 --
 ALTER TABLE `playlist_tracks`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `songs`
+--
+ALTER TABLE `songs`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tracks`
