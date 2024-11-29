@@ -14,7 +14,7 @@ if ($conn->connect_error) {
 // Fetch track details if an ID is provided
 if (isset($_GET['id'])) {
     $id = intval($_GET['id']);
-    $result = $conn->query("SELECT * FROM tracks WHERE id = $id");
+    $result = $conn->query("SELECT * FROM songs WHERE id = $id");
     $track = $result->fetch_assoc();
 } else {
     die("No track ID specified.");
@@ -24,11 +24,12 @@ if (isset($_GET['id'])) {
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id = intval($_POST['id']);
     $title = $_POST['title'];
-    $album_id = $_POST['album_id'];
-    $artist_id = $_POST['artist_id'];
+    $album = $_POST['album'];
+    $artist = $_POST['artist'];
+    $genre = $_POST['genre'];
     $path = $_POST['path'];
 
-    $sql = "UPDATE tracks SET title = '$title', album_id = '$album_id', artist_id = '$artist_id', path = '$path' WHERE id = $id";
+    $sql = "UPDATE songs SET title = '$title', album = '$album', artist = '$artist', path = '$path' WHERE id = $id";
 
     if ($conn->query($sql) === TRUE) {
         echo "Track updated successfully";
@@ -160,12 +161,12 @@ $conn->close();
                     <input type="text" id="title" name="title" value="<?php echo htmlspecialchars($track['title']); ?>" required>
                 </div>
                 <div class="form-group">
-                    <label for="album_id">Album ID:</label>
-                    <input type="text" id="album_id" name="album_id" value="<?php echo htmlspecialchars($track['album_id']); ?>" required>
+                    <label for="album">Album ID:</label>
+                    <input type="text" id="album" name="album" value="<?php echo htmlspecialchars($track['album']); ?>" required>
                 </div>
                 <div class="form-group">
-                    <label for="artist_id">Artist ID:</label>
-                    <input type="text" id="artist_id" name="artist_id" value="<?php echo htmlspecialchars($track['artist_id']); ?>" required>
+                    <label for="artist">Artist ID:</label>
+                    <input type="text" id="artist" name="artist" value="<?php echo htmlspecialchars($track['artist']); ?>" required>
                 </div>
                 <div class="form-group">
                     <label for="path">Track Path:</label>

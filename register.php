@@ -21,8 +21,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome to RYYTHWAVE</title>
-    <link rel="icon" type="image/x-icon" href="../../../public/assets/images/logo.png">
-    <link rel="stylesheet" href="../../../public/assets/css/login.css">
+    <link rel="icon" type="image/x-icon" href="public/assets/images/logo.png">
+    <link rel="stylesheet" href="public/assets/css/login.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="assets/js/register.js"></script>
 
@@ -51,7 +51,7 @@ if (isset($_POST['registerButton'])) {
 
 
 <video autoplay muted loop id="video-bg">
-    <source src="../../../public/assets/images/bg_video3_V1.mp4" type="video/mp4">
+    <source src="public/assets/images/bg_video3_V1.mp4" type="video/mp4">
     Your browser does not support the video tag.
 </video>
 
@@ -69,11 +69,11 @@ if (isset($_POST['registerButton'])) {
             <div class="input-group">
                 <div class="error-message"><?php echo $account->getError(Constants::$loginFailed); ?> </div>
                 <input id="loginUsername" name="loginUsername" type="text" placeholder="Eg. username" value="<?php getInputValue('loginUsername') ?>" required>
-                <img draggable="false" src="../../../public/assets/icons/people-fill.svg">
+                <img draggable="false" src="public/assets/icons/people-fill.svg">
             </div>
             <div class="input-group">
                 <input id="loginPassword" name="loginPassword" type="password" placeholder="Your Password" required>
-                <img draggable="false" src="../../../public/assets/icons/lock-fill.svg">
+                <img draggable="false" src="public/assets/icons/lock-fill.svg">
             </div>
             <div class="options">
 			<div class="checkbox-wrapper-30">
@@ -149,13 +149,13 @@ if (isset($_POST['registerButton'])) {
         </form>
     </div>
     <div class="admin-button">
-        <a href="../../../adminlogin.php">
+        <a href="adminlogin.php">
             <button type="button">Admin</button>
         </a>
     </div>
 </div>
 <div class="copy">
-    <img src="../../../public/assets/icons/toppng.com-copyright-symbol-png-white-copyright-logo-in-white-2000x2000.png">
+    <img src="public/assets/icons/toppng.com-copyright-symbol-png-white-copyright-logo-in-white-2000x2000.png">
     <h6>copyright owned by Helix</h6>
 </div>
 

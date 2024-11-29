@@ -13,7 +13,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "DELETE FROM tracks WHERE id='$id'";
+$sql = "DELETE FROM songs WHERE id='$id'";
 
 if ($conn->query($sql) === TRUE) {
     echo "Track deleted successfully";

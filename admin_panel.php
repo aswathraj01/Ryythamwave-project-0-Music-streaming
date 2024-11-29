@@ -11,7 +11,7 @@ if (!isset($_SESSION['admin_logged_in'])) {
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "geet";
+$dbname = "ryythmwave";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -39,9 +39,9 @@ if ($adminId) {
 }
 
 // Ensure the profile picture path is correct
-$adminProfilePicturePath = "uploads/" . $adminProfilePicture;
+$adminProfilePicturePath = "public/assets/images/profile-pics" . $adminProfilePicture;
 if (!file_exists($adminProfilePicturePath) || empty($adminProfilePicture)) {
-    $adminProfilePicturePath = "uploads/default_profile.png"; // Default profile picture
+    $adminProfilePicturePath = "public/assets/images/profile-pics/default_profile.png"; // Default profile picture
 }
 
 // Fetch data counts
@@ -276,6 +276,7 @@ $genres = $conn->query("SELECT * FROM genres");
                     <th>Title</th>
                     <th>Artist</th>
                     <th>Album</th>
+                    <th>Genre</th>
                     <th>Duration</th>
                     <th>File Path</th>
                     <th>Action</th>
@@ -287,8 +288,9 @@ $genres = $conn->query("SELECT * FROM genres");
                 <tr>
                 <td><?php echo isset($track['id']) ? htmlspecialchars($track['id']) : 'N/A'; ?></td>
                 <td><?php echo isset($track['title']) ? htmlspecialchars($track['title']) : 'N/A'; ?></td>
-                <td><?php echo isset($track['artist_id']) ? htmlspecialchars($track['artist_id']) : 'N/A'; ?></td>
-                <td><?php echo isset($track['album_id']) ? htmlspecialchars($track['album_id']) : 'N/A'; ?></td>
+                <td><?php echo isset($track['artist']) ? htmlspecialchars($track['artist']) : 'N/A'; ?></td>
+                <td><?php echo isset($track['album']) ? htmlspecialchars($track['album']) : 'N/A'; ?></td>
+                <td><?php echo isset($track['genre']) ? htmlspecialchars($track['genre']) : 'N/A'; ?></td>
                 <td><?php echo isset($track['duration']) ? htmlspecialchars($track['duration']) : 'N/A'; ?></td>
                 <td><?php echo isset($track['file_path']) ? htmlspecialchars($track['file_path']) : 'N/A'; ?></td>
                 <td>
@@ -379,7 +381,7 @@ $genres = $conn->query("SELECT * FROM genres");
                 <tr>
                     <td><?php echo htmlspecialchars($playlist['id']); ?></td>
                     <td><?php echo htmlspecialchars($playlist['name']); ?></td>
-                    <td><?php echo htmlspecialchars($playlist['user_id']); ?></td>
+                    <td><?php echo htmlspecialchars($playlist['owner']); ?></td>
                     <td>
                         <a href="public/functions/edit_playlist.php?id=<?php echo $playlist['id']; ?>">Edit</a> |
                         <a href="public/functions/delete_playlist.php?id=<?php echo $playlist['id']; ?>">Delete</a>
@@ -393,8 +395,8 @@ $genres = $conn->query("SELECT * FROM genres");
                             // Fetch songs for the current playlist
                             $playlist_id = $playlist['id'];
                             $track_query = "SELECT t.* FROM songs t 
-                                            JOIN playlist_songs pt ON t.id = pt.track_id 
-                                            WHERE pt.playlist_id = ?";
+                                            JOIN playlistsongs pt ON t.id = pt.songId 
+                                            WHERE pt.playlistId = ?";
                             $stmt = $conn->prepare($track_query);
                             $stmt->bind_param("i", $playlist_id);
                             $stmt->execute();

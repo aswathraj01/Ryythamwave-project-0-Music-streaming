@@ -75,9 +75,10 @@ else{
   .container
   {
 	  margin-top:200px;
-	  text align:center;
+	  text-align:center;
 	  width:450px;
   }
+
   input {
               
               margin: 20px 0;

@@ -7,8 +7,8 @@ if (!isset($_SESSION['admin_logged_in'])) {
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $title = $_POST['title'];
-    $album_id = $_POST['album_id'];
-    $artist_id = $_POST['artist_id'];
+    $album = $_POST['album'];
+    $artist = $_POST['artist'];
     $path = $_POST['path'];
 
     $conn = new mysqli("localhost", "root", "", "ryythmwave");
@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         die("Connection failed: " . $conn->connect_error);
     }
 
-    $sql = "INSERT INTO tracks (title, album_id, artist_id, path) VALUES ('$title', '$album_id', '$artist_id', '$path')";
+    $sql = "INSERT INTO songs (title, album, artist, genre, path) VALUES ('$title', '$album', '$artist', '$genre', '$path')";
 
     if ($conn->query($sql) === TRUE) {
         echo "New track added successfully";
@@ -28,13 +28,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $conn->close();
 }
 
-// Fetch tracks from the database
+// Fetch songs from the database
 $conn = new mysqli("localhost", "root", "", "ryythmwave");
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$tracks = $conn->query("SELECT * FROM tracks");
+$songs = $conn->query("SELECT * FROM songs");
 ?>
 
 <!DOCTYPE html>
@@ -157,6 +157,11 @@ $tracks = $conn->query("SELECT * FROM tracks");
         th {
             background-color: #f2f2f2;
         }
+
+        .overtable{
+            height: 200px;
+            overflow-y: auto; 
+        }
     </style>
 </head>
 <body>
@@ -173,13 +178,16 @@ $tracks = $conn->query("SELECT * FROM tracks");
                     <input type="text" id="title" name="title" required>
                 </div>
                 <div class="form-group">
-                    <label for="album_id">Album ID:</label>
-                    <input type="text" id="album_id" name="album_id" required>
+                    <label for="album">Album ID:</label>
+                    <input type="text" id="album" name="album" required>
                 </div>
                 <div class="form-group">
-                    <label for="artist_id">Artist ID:</label>
-                    <input type="text" id="artist_id" name="artist_id" required>
+                    <label for="artist">Artist ID:</label>
+                    <input type="text" id="artist" name="artist" required>
                 </div>
+                <div class="form-group">
+                    <label for="artist">Genre :</label>
+                    <input type="text" id="genre" name="genre" required>
                 <div class="form-group">
                     <label for="path">Track Path:</label>
                     <input type="text" id="path" name="path" required>
@@ -188,8 +196,9 @@ $tracks = $conn->query("SELECT * FROM tracks");
             </form>
         </div>
 
-        <div>
-            <h2>Existing Tracks</h2>
+        <h2>Existing songs</h2>
+        <div class="overtable">
+            
             <table>
                 <thead>
                     <tr>
@@ -197,16 +206,18 @@ $tracks = $conn->query("SELECT * FROM tracks");
                         <th>Title</th>
                         <th>Album ID</th>
                         <th>Artist ID</th>
+                        <th>Genre</th>
                         <th>Path</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php while ($track = $tracks->fetch_assoc()) { ?>
+                    <?php while ($track = $songs->fetch_assoc()) { ?>
                     <tr>
                         <td><?php echo $track['id']; ?></td>
                         <td><?php echo $track['title']; ?></td>
-                        <td><?php echo $track['album_id']; ?></td>
-                        <td><?php echo $track['artist_id']; ?></td>
+                        <td><?php echo $track['album']; ?></td>
+                        <td><?php echo $track['artist']; ?></td>
+                        <td><?php echo $track['genre']; ?></td>
                         <td><?php echo $track['path']; ?></td>
                     </tr>
                     <?php } ?>

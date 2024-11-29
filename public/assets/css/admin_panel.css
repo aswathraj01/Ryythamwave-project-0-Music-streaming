@@ -102,7 +102,9 @@ header {
 }
 
 .section {
-    display: none;
+    height: 750px;
+
+    overflow-y: auto;
 }
 
 .section.active {

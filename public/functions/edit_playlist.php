@@ -16,10 +16,10 @@ $playlists_result = $conn->query("SELECT * FROM playlists");
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id = $_POST['id'];
-    $user_id = $_POST['user_id'];
+    $user_id = $_POST['owner'];
     $name = $_POST['name'];
 
-    $sql = "UPDATE playlists SET user_id='$user_id', name='$name' WHERE id='$id'";
+    $sql = "UPDATE playlists SET owner='$user_id', name='$name' WHERE id='$id'";
 
     if ($conn->query($sql) === TRUE) {
         echo "<p>Playlist updated successfully</p>";
@@ -194,8 +194,8 @@ if (isset($_GET['id'])) {
                 <form action="edit_playlist.php" method="post">
                     <input type="hidden" name="id" value="<?php echo htmlspecialchars($playlist['id']); ?>">
                     <div class="form-group">
-                        <label for="user_id">User ID:</label>
-                        <input type="text" id="user_id" name="user_id" value="<?php echo htmlspecialchars($playlist['user_id']); ?>" required>
+                        <label for="user_id">User Name:</label>
+                        <input type="text" id="user_id" name="user_id" value="<?php echo htmlspecialchars($playlist['owner']); ?>" required>
                     </div>
                     <div class="form-group">
                         <label for="name">Playlist Name:</label>
@@ -213,14 +213,14 @@ if (isset($_GET['id'])) {
             <table>
                 <tr>
                     <th>ID</th>
-                    <th>User ID</th>
+                    <th>User Name</th>
                     <th>Playlist Name</th>
                     <th>Actions</th>
                 </tr>
                 <?php while ($row = $playlists_result->fetch_assoc()): ?>
                     <tr>
                         <td><?php echo htmlspecialchars($row['id']); ?></td>
-                        <td><?php echo htmlspecialchars($row['user_id']); ?></td>
+                        <td><?php echo htmlspecialchars($row['owner']); ?></td>
                         <td><?php echo htmlspecialchars($row['name']); ?></td>
                         <td><a href="edit_playlist.php?id=<?php echo htmlspecialchars($row['id']); ?>" class="edit-button">Edit</a></td>
                     </tr>
