@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 06, 2024 at 07:59 PM
+-- Generation Time: Nov 29, 2024 at 11:27 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -20,20 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `ryythmwave`
 --
-
--- --------------------------------------------------------
-
---
--- Table structure for table `admin_settings`
---
-
-CREATE TABLE `admin_settings` (
-  `id` int(11) NOT NULL,
-  `admin_id` int(11) NOT NULL,
-  `setting_key` varchar(255) NOT NULL,
-  `setting_value` text DEFAULT NULL,
-  `value` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -55,7 +41,7 @@ CREATE TABLE `admin_table` (
 --
 
 INSERT INTO `admin_table` (`id`, `username`, `password`, `email`, `profile_picture`, `bio`) VALUES
-(1, 'admin', 'password123', NULL, '', NULL);
+(1, 'admin', 'password123', 'admin12@gmail.com', '', NULL);
 
 -- --------------------------------------------------------
 
@@ -65,19 +51,24 @@ INSERT INTO `admin_table` (`id`, `username`, `password`, `email`, `profile_pictu
 
 CREATE TABLE `albums` (
   `id` int(11) NOT NULL,
-  `album_name` varchar(255) NOT NULL,
-  `album_cover` varchar(255) NOT NULL,
-  `artist_name` varchar(30) NOT NULL,
-  `release_date` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `title` varchar(250) NOT NULL,
+  `artist` int(11) NOT NULL,
+  `genre` int(11) NOT NULL,
+  `artworkPath` varchar(500) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `albums`
 --
 
-INSERT INTO `albums` (`id`, `album_name`, `album_cover`, `artist_name`, `release_date`) VALUES
-(1, 'Album 1', '../../uploads/hanumankind1.jpg', '', NULL),
-(7, 'Album 2', '../../uploads/hanumankind.jpg', '1', '2023-02-23');
+INSERT INTO `albums` (`id`, `title`, `artist`, `genre`, `artworkPath`) VALUES
+(1, 'Bacon and Eggs', 2, 4, 'assets/images/artwork/clearday.jpg'),
+(2, 'Pizza head', 5, 10, 'assets/images/artwork/energy.jpg'),
+(3, 'Summer Hits', 3, 1, 'assets/images/artwork/goinghigher.jpg'),
+(4, 'The movie soundtrack', 2, 9, 'assets/images/artwork/funkyelement.jpg'),
+(5, 'Best of the Worst', 1, 3, 'assets/images/artwork/popdance.jpg'),
+(6, 'Hello World', 3, 6, 'assets/images/artwork/ukulele.jpg'),
+(7, 'Best beats', 4, 7, 'assets/images/artwork/sweet.jpg');
 
 -- --------------------------------------------------------
 
@@ -87,39 +78,46 @@ INSERT INTO `albums` (`id`, `album_name`, `album_cover`, `artist_name`, `release
 
 CREATE TABLE `artists` (
   `id` int(11) NOT NULL,
-  `artist_name` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `name` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `artists`
 --
 
-INSERT INTO `artists` (`id`, `artist_name`) VALUES
-(1, 'Artist 1'),
-(2, 'Artist 2');
+INSERT INTO `artists` (`id`, `name`) VALUES
+(1, 'Mickey Mouse'),
+(2, 'Goofy'),
+(3, 'Bart Simpson'),
+(4, 'Homer'),
+(5, 'Bruce Lee');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `categories`
+-- Table structure for table `genres`
 --
 
-CREATE TABLE `categories` (
+CREATE TABLE `genres` (
   `id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `created_date` datetime DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `name` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Dumping data for table `categories`
+-- Dumping data for table `genres`
 --
 
-INSERT INTO `categories` (`id`, `name`, `created_date`) VALUES
-(2, 'Gaming', '2024-10-08 00:00:00'),
-(3, 'Melody', '2024-10-08 00:00:00'),
-(4, 'New Category', '2024-10-08 00:00:00'),
-(5, 'Bass', '2024-10-08 14:12:49'),
-(6, 'Happy', '2024-11-06 23:22:27');
+INSERT INTO `genres` (`id`, `name`) VALUES
+(1, 'Rock'),
+(2, 'Pop'),
+(3, 'Hip-hop'),
+(4, 'Rap'),
+(5, 'R & B'),
+(6, 'Classical'),
+(7, 'Techno'),
+(8, 'Jazz'),
+(9, 'Folk'),
+(10, 'Country');
 
 -- --------------------------------------------------------
 
@@ -129,38 +127,37 @@ INSERT INTO `categories` (`id`, `name`, `created_date`) VALUES
 
 CREATE TABLE `playlists` (
   `id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `name` varchar(50) NOT NULL,
+  `owner` varchar(50) NOT NULL,
+  `dateCreated` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `playlists`
 --
 
-INSERT INTO `playlists` (`id`, `user_id`, `name`, `created_at`) VALUES
-(1, 1, 'test playlist', '2024-10-06 20:35:49'),
-(2, 3, 'test231', '2024-10-06 20:51:14');
+INSERT INTO `playlists` (`id`, `name`, `owner`, `dateCreated`) VALUES
+(1, 'Main songs', 'mainuser', '2024-11-29 00:00:00');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `playlist_tracks`
+-- Table structure for table `playlistsongs`
 --
 
-CREATE TABLE `playlist_tracks` (
+CREATE TABLE `playlistsongs` (
   `id` int(11) NOT NULL,
-  `playlist_id` int(11) NOT NULL,
-  `track_id` int(11) NOT NULL,
-  `added_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `songId` int(11) NOT NULL,
+  `playlistId` int(11) NOT NULL,
+  `playlistOrder` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Dumping data for table `playlist_tracks`
+-- Dumping data for table `playlistsongs`
 --
 
-INSERT INTO `playlist_tracks` (`id`, `playlist_id`, `track_id`, `added_at`) VALUES
-(1, 1, 1, '2024-10-06 20:36:03');
+INSERT INTO `playlistsongs` (`id`, `songId`, `playlistId`, `playlistOrder`) VALUES
+(1, 7, 2, 0);
 
 -- --------------------------------------------------------
 
@@ -170,42 +167,52 @@ INSERT INTO `playlist_tracks` (`id`, `playlist_id`, `track_id`, `added_at`) VALU
 
 CREATE TABLE `songs` (
   `id` int(11) NOT NULL,
-  `title` varchar(255) NOT NULL,
-  `artist` varchar(255) NOT NULL,
-  `audio_file` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `title` varchar(250) NOT NULL,
+  `artist` int(11) NOT NULL,
+  `album` int(11) NOT NULL,
+  `genre` int(11) NOT NULL,
+  `duration` varchar(8) NOT NULL,
+  `path` varchar(500) NOT NULL,
+  `albumOrder` int(11) NOT NULL,
+  `plays` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `songs`
 --
 
-INSERT INTO `songs` (`id`, `title`, `artist`, `audio_file`) VALUES
-(1, 'Song Title 1', 'Artist 1', 'audio/Sunflower.mp3'),
-(2, 'Song Title 2', 'Artist 2', 'path/to/song2.mp3'),
-(3, 'Song Title 3', 'Artist 3', 'path/to/song3.mp3');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `tracks`
---
-
-CREATE TABLE `tracks` (
-  `id` int(11) NOT NULL,
-  `title` varchar(255) NOT NULL,
-  `album_id` int(11) DEFAULT NULL,
-  `artist_id` int(11) DEFAULT NULL,
-  `duration` time DEFAULT NULL,
-  `file_path` varchar(255) NOT NULL,
-  `path` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `tracks`
---
-
-INSERT INTO `tracks` (`id`, `title`, `album_id`, `artist_id`, `duration`, `file_path`, `path`) VALUES
-(1, 'Big Dawgs', 1, 2, '00:02:01', 'public/assets/resource/Big Dawgs.mp3', '');
+INSERT INTO `songs` (`id`, `title`, `artist`, `album`, `genre`, `duration`, `path`, `albumOrder`, `plays`) VALUES
+(1, 'Acoustic Breeze', 1, 5, 8, '2:37', 'assets/music/bensound-acousticbreeze.mp3', 1, 10),
+(2, 'A new beginning', 1, 5, 1, '2:35', 'assets/music/bensound-anewbeginning.mp3', 2, 4),
+(3, 'Better Days', 1, 5, 2, '2:33', 'assets/music/bensound-betterdays.mp3', 3, 10),
+(4, 'Buddy', 1, 5, 3, '2:02', 'assets/music/bensound-buddy.mp3', 4, 13),
+(5, 'Clear Day', 1, 5, 4, '1:29', 'assets/music/bensound-clearday.mp3', 5, 8),
+(6, 'Going Higher', 2, 1, 1, '4:04', 'assets/music/bensound-goinghigher.mp3', 1, 29),
+(7, 'Funny Song', 2, 4, 2, '3:07', 'assets/music/bensound-funnysong.mp3', 2, 11),
+(8, 'Funky Element', 2, 1, 3, '3:08', 'assets/music/bensound-funkyelement.mp3', 2, 24),
+(9, 'Extreme Action', 2, 1, 4, '8:03', 'assets/music/bensound-extremeaction.mp3', 3, 26),
+(10, 'Epic', 2, 4, 5, '2:58', 'assets/music/bensound-epic.mp3', 3, 16),
+(11, 'Energy', 2, 1, 6, '2:59', 'assets/music/bensound-energy.mp3', 4, 21),
+(12, 'Dubstep', 2, 1, 7, '2:03', 'assets/music/bensound-dubstep.mp3', 5, 21),
+(13, 'Happiness', 3, 6, 8, '4:21', 'assets/music/bensound-happiness.mp3', 5, 3),
+(14, 'Happy Rock', 3, 6, 9, '1:45', 'assets/music/bensound-happyrock.mp3', 4, 8),
+(15, 'Jazzy Frenchy', 3, 6, 10, '1:44', 'assets/music/bensound-jazzyfrenchy.mp3', 3, 8),
+(16, 'Little Idea', 3, 6, 1, '2:49', 'assets/music/bensound-littleidea.mp3', 2, 11),
+(17, 'Memories', 3, 6, 2, '3:50', 'assets/music/bensound-memories.mp3', 1, 6),
+(18, 'Moose', 4, 7, 1, '2:43', 'assets/music/bensound-moose.mp3', 5, 3),
+(19, 'November', 4, 7, 2, '3:32', 'assets/music/bensound-november.mp3', 4, 5),
+(20, 'Of Elias Dream', 4, 7, 3, '4:58', 'assets/music/bensound-ofeliasdream.mp3', 3, 3),
+(21, 'Pop Dance', 4, 7, 2, '2:42', 'assets/music/bensound-popdance.mp3', 2, 10),
+(22, 'Retro Soul', 4, 7, 5, '3:36', 'assets/music/bensound-retrosoul.mp3', 1, 11),
+(23, 'Sad Day', 5, 2, 1, '2:28', 'assets/music/bensound-sadday.mp3', 1, 9),
+(24, 'Sci-fi', 5, 2, 2, '4:44', 'assets/music/bensound-scifi.mp3', 2, 2),
+(25, 'Slow Motion', 5, 2, 3, '3:26', 'assets/music/bensound-slowmotion.mp3', 3, 3),
+(26, 'Sunny', 5, 2, 4, '2:20', 'assets/music/bensound-sunny.mp3', 4, 18),
+(27, 'Sweet', 5, 2, 5, '5:07', 'assets/music/bensound-sweet.mp3', 5, 14),
+(28, 'Tenderness ', 3, 3, 7, '2:03', 'assets/music/bensound-tenderness.mp3', 4, 12),
+(29, 'The Lounge', 3, 3, 8, '4:16', 'assets/music/bensound-thelounge.mp3 ', 3, 6),
+(30, 'Ukulele', 3, 3, 9, '2:26', 'assets/music/bensound-ukulele.mp3 ', 2, 18),
+(31, 'Tomorrow', 3, 3, 1, '4:54', 'assets/music/bensound-tomorrow.mp3 ', 1, 10);
 
 -- --------------------------------------------------------
 
@@ -223,60 +230,39 @@ CREATE TABLE `traffic` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `traffic_data`
+-- Table structure for table `users`
 --
 
-CREATE TABLE `traffic_data` (
+CREATE TABLE `users` (
   `id` int(11) NOT NULL,
-  `date` date NOT NULL,
-  `views` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `user_table`
---
-
-CREATE TABLE `user_table` (
-  `id` int(11) NOT NULL,
-  `username` varchar(30) NOT NULL,
-  `password` varchar(30) NOT NULL,
-  `email` varchar(65) NOT NULL,
-  `first_name` varchar(30) NOT NULL,
-  `last_name` varchar(20) NOT NULL,
-  `mobile_no` varchar(15) NOT NULL,
-  `registration_date` date NOT NULL DEFAULT curdate(),
-  `user_profile` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `username` varchar(25) NOT NULL,
+  `firstName` varchar(50) NOT NULL,
+  `lastName` varchar(50) NOT NULL,
+  `email` varchar(200) NOT NULL,
+  `password` varchar(32) NOT NULL,
+  `signUpDate` datetime NOT NULL,
+  `profilePic` varchar(500) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Dumping data for table `user_table`
+-- Dumping data for table `users`
 --
 
-INSERT INTO `user_table` (`id`, `username`, `password`, `email`, `first_name`, `last_name`, `mobile_no`, `registration_date`, `user_profile`) VALUES
-(1, 'user', 'user123', 'user123@gmail.com', 'Test', 'User', '9745448465', '2024-09-10', NULL),
-(3, 'testuser', '1234', '', 'Aswath', 'Raj', '09400459035', '2024-09-28', NULL),
-(4, 'Jishnu', '$2y$10$jbJP2suX1oYSVc38kn3W1eP', 'dhjfiodfji@gamil.com', 'Jishnu', 'MR', '3213213213212', '2024-10-08', NULL),
-(5, 'user911', 'user123', '', 'shfdshjf', 'dsfdsfas', '21312313', '2024-08-14', NULL);
+INSERT INTO `users` (`id`, `username`, `firstName`, `lastName`, `email`, `password`, `signUpDate`, `profilePic`) VALUES
+(1, 'admin', 'aswath', '', 'testmail@gmail.com', 'admin', '2024-05-11 03:05:00', ''),
+(2, 'mainuser', 'Aswath', 'Raj', 'aswathraj@gmail.com', 'bdc87b9c894da5168059e00ebffb9077', '2024-05-11 06:23:13', 'assets/images/profile-pics/head_emerald.png'),
+(3, 'ak12', 'Akshay', '', 'akshay@gmail.com', '50977d6b4d7d7b056427ae04b90b251d', '2024-09-18 03:31:51', ''),
+(4, 'abhimanyu', 'Abhimanyu', 'Vijayakumar', 'Abhimanyu@gmail.com', '482c811da5d5b4bc6d497ffa98491e38', '2024-11-29 00:00:00', 'assets/images/profile-pics/head_emerald.png');
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `admin_settings`
---
-ALTER TABLE `admin_settings`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `admin_id` (`admin_id`);
-
---
 -- Indexes for table `admin_table`
 --
 ALTER TABLE `admin_table`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `username` (`username`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `albums`
@@ -291,25 +277,22 @@ ALTER TABLE `artists`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `categories`
+-- Indexes for table `genres`
 --
-ALTER TABLE `categories`
+ALTER TABLE `genres`
   ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `playlists`
 --
 ALTER TABLE `playlists`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`);
+  ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `playlist_tracks`
+-- Indexes for table `playlistsongs`
 --
-ALTER TABLE `playlist_tracks`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `playlist_id` (`playlist_id`),
-  ADD KEY `track_id` (`track_id`);
+ALTER TABLE `playlistsongs`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `songs`
@@ -318,41 +301,21 @@ ALTER TABLE `songs`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `tracks`
---
-ALTER TABLE `tracks`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `album_id` (`album_id`),
-  ADD KEY `artist_id` (`artist_id`);
-
---
 -- Indexes for table `traffic`
 --
 ALTER TABLE `traffic`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `idx_date` (`date`);
+  ADD KEY `date` (`date`);
 
 --
--- Indexes for table `traffic_data`
+-- Indexes for table `users`
 --
-ALTER TABLE `traffic_data`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `user_table`
---
-ALTER TABLE `user_table`
+ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
 --
-
---
--- AUTO_INCREMENT for table `admin_settings`
---
-ALTER TABLE `admin_settings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `admin_table`
@@ -370,37 +333,31 @@ ALTER TABLE `albums`
 -- AUTO_INCREMENT for table `artists`
 --
 ALTER TABLE `artists`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT for table `categories`
+-- AUTO_INCREMENT for table `genres`
 --
-ALTER TABLE `categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+ALTER TABLE `genres`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `playlists`
 --
 ALTER TABLE `playlists`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `playlist_tracks`
+-- AUTO_INCREMENT for table `playlistsongs`
 --
-ALTER TABLE `playlist_tracks`
+ALTER TABLE `playlistsongs`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `songs`
 --
 ALTER TABLE `songs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT for table `tracks`
---
-ALTER TABLE `tracks`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `traffic`
@@ -409,46 +366,10 @@ ALTER TABLE `traffic`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `traffic_data`
+-- AUTO_INCREMENT for table `users`
 --
-ALTER TABLE `traffic_data`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `user_table`
---
-ALTER TABLE `user_table`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `admin_settings`
---
-ALTER TABLE `admin_settings`
-  ADD CONSTRAINT `admin_settings_ibfk_1` FOREIGN KEY (`admin_id`) REFERENCES `admin_table` (`id`);
-
---
--- Constraints for table `playlists`
---
-ALTER TABLE `playlists`
-  ADD CONSTRAINT `playlists_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user_table` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `playlist_tracks`
---
-ALTER TABLE `playlist_tracks`
-  ADD CONSTRAINT `playlist_tracks_ibfk_1` FOREIGN KEY (`playlist_id`) REFERENCES `playlists` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `playlist_tracks_ibfk_2` FOREIGN KEY (`track_id`) REFERENCES `tracks` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `tracks`
---
-ALTER TABLE `tracks`
-  ADD CONSTRAINT `tracks_ibfk_1` FOREIGN KEY (`album_id`) REFERENCES `albums` (`id`),
-  ADD CONSTRAINT `tracks_ibfk_2` FOREIGN KEY (`artist_id`) REFERENCES `artists` (`id`);
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
