@@ -150,13 +150,19 @@ button:hover {
 
 
 /* Create account */
-#a{
+.hasAccountText span {
     flex: 1;
     padding: 10px;
+    color: #6812c4;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
+}
+
+.hasAccountText span:hover {
+    color: #1900ff;
 }
 
 
@@ -290,4 +296,11 @@ button:hover {
     cursor: pointer; /* Added to change cursor when hovering over the label */
 }
 
-/*Password animation*/
+
+
+.error-message {
+    color: #ff0000; /* Red color for error messages */
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}

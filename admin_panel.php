@@ -11,7 +11,7 @@ if (!isset($_SESSION['admin_logged_in'])) {
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "ryythmwave";
+$dbname = "geet";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -45,25 +45,25 @@ if (!file_exists($adminProfilePicturePath) || empty($adminProfilePicture)) {
 }
 
 // Fetch data counts
-$tracksCount = $conn->query("SELECT COUNT(*) as count FROM tracks")->fetch_assoc()['count'];
+$songsCount = $conn->query("SELECT COUNT(*) as count FROM songs")->fetch_assoc()['count'];
 $albumsCount = $conn->query("SELECT COUNT(*) as count FROM albums")->fetch_assoc()['count'];
 $artistsCount = $conn->query("SELECT COUNT(*) as count FROM artists")->fetch_assoc()['count'];
-$usersCount = $conn->query("SELECT COUNT(*) as count FROM user_table")->fetch_assoc()['count'];
+$usersCount = $conn->query("SELECT COUNT(*) as count FROM users")->fetch_assoc()['count'];
 
 // Fetch playlists
 $playlists = $conn->query("SELECT * FROM playlists");
 
 // Fetch data for other sections
-$tracks = $conn->query("SELECT * FROM tracks");
+$songs = $conn->query("SELECT * FROM songs");
 $albums = $conn->query("SELECT * FROM albums");
 $artists = $conn->query("SELECT * FROM artists");
-$users = $conn->query("SELECT * FROM user_table");
+$users = $conn->query("SELECT * FROM users");
 
 // Fetch number of users registered per month
-$user_registrations_query = "SELECT MONTHNAME(registration_date) as month, COUNT(id) as count
-                            FROM user_table
-                            GROUP BY MONTH(registration_date)
-                            ORDER BY MONTH(registration_date)";
+$user_registrations_query = "SELECT MONTHNAME(signUpDate) as month, COUNT(id) as count
+                            FROM users
+                            GROUP BY MONTH(signUpDate)
+                            ORDER BY MONTH(signUpDate)";
 $user_registrations_result = $conn->query($user_registrations_query);
 
 $monthly_user_data = [];
@@ -89,7 +89,7 @@ while ($row = $traffic_result->fetch_assoc()) {
     $monthly_traffic_data[] = $row['count'];
 }
 
-$categories = $conn->query("SELECT * FROM categories");
+$genres = $conn->query("SELECT * FROM genres");
 ?>
 
 <!DOCTYPE html>
@@ -113,15 +113,15 @@ $categories = $conn->query("SELECT * FROM categories");
         window.onload = function() {
             showSection('dashboard');
 
-            // Chart for Tracks, Albums, Artists, and Users
+            // Chart for songs, Albums, Artists, and Users
             const ctx = document.getElementById('myChart').getContext('2d');
             const myChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: ['Tracks', 'Albums', 'Artists', 'Users'],
+                    labels: ['songs', 'Albums', 'Artists', 'Users'],
                     datasets: [{
                         label: '# of Entries',
-                        data: [<?php echo $tracksCount; ?>, <?php echo $albumsCount; ?>, <?php echo $artistsCount; ?>, <?php echo $usersCount; ?>],
+                        data: [<?php echo $songsCount; ?>, <?php echo $albumsCount; ?>, <?php echo $artistsCount; ?>, <?php echo $usersCount; ?>],
                         backgroundColor: [
                             'rgba(255, 0, 0, 0.2)',
                             'rgba(54, 162, 235, 0.2)',
@@ -207,7 +207,7 @@ $categories = $conn->query("SELECT * FROM categories");
     <hr>
     <ul>
         <li><a href="javascript:void(0);" onclick="showSection('dashboard')"><img id="dash" src="public/assets/icons/dashboard.svg"><span class="text">Dashboard</span></a></li>
-        <li><a href="javascript:void(0);" onclick="showSection('tracks')"><img src="public/assets/icons/file-music.svg"><span class="text">Tracks</span></a></li>
+        <li><a href="javascript:void(0);" onclick="showSection('songs')"><img src="public/assets/icons/file-music.svg"><span class="text">songs</span></a></li>
         <li><a href="javascript:void(0);" onclick="showSection('albums')"><img src="public/assets/icons/journal-album.svg"><span class="text">Albums</span></a></li>
         <li><a href="javascript:void(0);" onclick="showSection('artists')"><img src="public/assets/icons/disc.svg"><span class="text">Artists</span></a></li>
         <li><a href="javascript:void(0);" onclick="showSection('playlists')"><img src="public/assets/icons/music-note-list.svg"><span class="text">Playlists</span></a></li>
@@ -233,8 +233,8 @@ $categories = $conn->query("SELECT * FROM categories");
         <h2>Dashboard</h2>
         <div class="dashboard-stats">
             <div class="stat">
-                <h3>Total Tracks</h3>
-                <p><?php echo $tracksCount; ?></p>
+                <h3>Total songs</h3>
+                <p><?php echo $songsCount; ?></p>
             </div>
             <div class="stat">
                 <h3>Total Albums</h3>
@@ -265,9 +265,9 @@ $categories = $conn->query("SELECT * FROM categories");
 
     </section>
 
-    <!-- Tracks Section -->
-    <section id="tracks" class="section" style="display: none;">
-        <h2>Manage Tracks</h2>
+    <!-- songs Section -->
+    <section id="songs" class="section" style="display: none;">
+        <h2>Manage songs</h2>
         <a href="public/functions/add_track.php">Add New Track</a>
         <table>
             <thead>
@@ -283,7 +283,7 @@ $categories = $conn->query("SELECT * FROM categories");
             </thead>
             <tbody>
             <tbody>
-                <?php while ($track = $tracks->fetch_assoc()): ?>
+                <?php while ($track = $songs->fetch_assoc()): ?>
                 <tr>
                 <td><?php echo isset($track['id']) ? htmlspecialchars($track['id']) : 'N/A'; ?></td>
                 <td><?php echo isset($track['title']) ? htmlspecialchars($track['title']) : 'N/A'; ?></td>
@@ -387,13 +387,13 @@ $categories = $conn->query("SELECT * FROM categories");
                 </tr>
                 <tr class="track-list" style="display: none;">
                     <td colspan="4">
-                        <strong>Tracks in Playlist:</strong>
+                        <strong>songs in Playlist:</strong>
                         <ul>
                             <?php
-                            // Fetch tracks for the current playlist
+                            // Fetch songs for the current playlist
                             $playlist_id = $playlist['id'];
-                            $track_query = "SELECT t.* FROM tracks t 
-                                            JOIN playlist_tracks pt ON t.id = pt.track_id 
+                            $track_query = "SELECT t.* FROM songs t 
+                                            JOIN playlist_songs pt ON t.id = pt.track_id 
                                             WHERE pt.playlist_id = ?";
                             $stmt = $conn->prepare($track_query);
                             $stmt->bind_param("i", $playlist_id);
@@ -405,7 +405,7 @@ $categories = $conn->query("SELECT * FROM categories");
                                     echo '<li>' . htmlspecialchars($track['title']) . '</li>';
                                 }
                             } else {
-                                echo '<li>No tracks found for this playlist.</li>';
+                                echo '<li>No songs found for this playlist.</li>';
                             }
                             ?>
                         </ul>
@@ -441,7 +441,7 @@ $categories = $conn->query("SELECT * FROM categories");
             </tr>
         </thead>
         <tbody>
-            <?php while ($category = $categories->fetch_assoc()): ?>
+            <?php while ($category = $genres->fetch_assoc()): ?>
             <tr>
                 <td><?php echo $category['id']; ?></td>
                 <td><?php echo htmlspecialchars($category['name']); ?></td>
@@ -475,7 +475,7 @@ $categories = $conn->query("SELECT * FROM categories");
                     <td><?php echo htmlspecialchars($user['id']); ?></td>
                     <td><?php echo htmlspecialchars($user['username']); ?></td>
                     <td><?php echo htmlspecialchars($user['email']); ?></td>
-                    <td><?php echo htmlspecialchars($user['registration_date']); ?></td>
+                    <td><?php echo htmlspecialchars($user['signUpDate']); ?></td>
                     <td>
                         <a href="public/functions/edit_user.php?id=<?php echo htmlspecialchars($user['id']); ?>">Edit</a>
                         <a href="public/functions/delete_user.php?id=<?php echo htmlspecialchars($user['id']); ?>" onclick="return confirm('Are you sure?')">Delete</a>
