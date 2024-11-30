@@ -372,7 +372,7 @@ $genres = $conn->query("SELECT * FROM genres");
             <tr>
                 <th>Playlist ID</th>
                 <th>Playlist Name</th>
-                <th>User ID</th>
+                <th>User Name</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -389,7 +389,7 @@ $genres = $conn->query("SELECT * FROM genres");
                 </tr>
                 <tr class="track-list" style="display: none;">
                     <td colspan="4">
-                        <strong>songs in Playlist:</strong>
+                        <strong>Songs In Playlist:</strong>
                         <ul>
                             <?php
                             // Fetch songs for the current playlist
