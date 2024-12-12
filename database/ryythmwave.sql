@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 29, 2024 at 11:27 PM
+-- Generation Time: Dec 12, 2024 at 04:42 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -157,7 +157,8 @@ CREATE TABLE `playlistsongs` (
 --
 
 INSERT INTO `playlistsongs` (`id`, `songId`, `playlistId`, `playlistOrder`) VALUES
-(1, 7, 2, 0);
+(1, 7, 2, 0),
+(2, 23, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -187,7 +188,7 @@ INSERT INTO `songs` (`id`, `title`, `artist`, `album`, `genre`, `duration`, `pat
 (3, 'Better Days', 1, 5, 2, '2:33', 'assets/music/bensound-betterdays.mp3', 3, 10),
 (4, 'Buddy', 1, 5, 3, '2:02', 'assets/music/bensound-buddy.mp3', 4, 13),
 (5, 'Clear Day', 1, 5, 4, '1:29', 'assets/music/bensound-clearday.mp3', 5, 8),
-(6, 'Going Higher', 2, 1, 1, '4:04', 'assets/music/bensound-goinghigher.mp3', 1, 29),
+(6, 'Going Higher', 2, 1, 1, '4:04', 'assets/music/bensound-goinghigher.mp3', 1, 30),
 (7, 'Funny Song', 2, 4, 2, '3:07', 'assets/music/bensound-funnysong.mp3', 2, 11),
 (8, 'Funky Element', 2, 1, 3, '3:08', 'assets/music/bensound-funkyelement.mp3', 2, 24),
 (9, 'Extreme Action', 2, 1, 4, '8:03', 'assets/music/bensound-extremeaction.mp3', 3, 26),
@@ -209,10 +210,10 @@ INSERT INTO `songs` (`id`, `title`, `artist`, `album`, `genre`, `duration`, `pat
 (25, 'Slow Motion', 5, 2, 3, '3:26', 'assets/music/bensound-slowmotion.mp3', 3, 3),
 (26, 'Sunny', 5, 2, 4, '2:20', 'assets/music/bensound-sunny.mp3', 4, 18),
 (27, 'Sweet', 5, 2, 5, '5:07', 'assets/music/bensound-sweet.mp3', 5, 14),
-(28, 'Tenderness ', 3, 3, 7, '2:03', 'assets/music/bensound-tenderness.mp3', 4, 12),
-(29, 'The Lounge', 3, 3, 8, '4:16', 'assets/music/bensound-thelounge.mp3 ', 3, 6),
-(30, 'Ukulele', 3, 3, 9, '2:26', 'assets/music/bensound-ukulele.mp3 ', 2, 18),
-(31, 'Tomorrow', 3, 3, 1, '4:54', 'assets/music/bensound-tomorrow.mp3 ', 1, 10);
+(28, 'Tenderness ', 3, 3, 7, '2:03', 'assets/music/bensound-tenderness.mp3', 4, 13),
+(29, 'The Lounge', 3, 3, 8, '4:16', 'assets/music/bensound-thelounge.mp3 ', 3, 7),
+(30, 'Ukulele', 3, 3, 9, '2:26', 'assets/music/bensound-ukulele.mp3 ', 2, 19),
+(31, 'Tomorrow', 3, 3, 1, '4:54', 'assets/music/bensound-tomorrow.mp3 ', 1, 11);
 
 -- --------------------------------------------------------
 
@@ -226,6 +227,20 @@ CREATE TABLE `traffic` (
   `date` datetime NOT NULL,
   `ip_address` varchar(45) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `traffic`
+--
+
+INSERT INTO `traffic` (`id`, `page`, `date`, `ip_address`) VALUES
+(1, 'login', '2024-12-12 21:02:28', '::1'),
+(2, 'login', '2024-12-12 21:03:49', '::1'),
+(3, 'login', '2024-12-12 21:05:49', '::1'),
+(4, 'login', '2024-10-21 21:07:09', '::1'),
+(5, 'login', '2024-10-29 21:07:09', '::1'),
+(6, 'login', '2024-11-13 21:07:45', '::1'),
+(7, 'login', '2024-11-12 21:07:45', '::1'),
+(8, 'login', '2024-11-27 21:07:45', '::1');
 
 -- --------------------------------------------------------
 
@@ -304,8 +319,7 @@ ALTER TABLE `songs`
 -- Indexes for table `traffic`
 --
 ALTER TABLE `traffic`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `date` (`date`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `users`
@@ -351,7 +365,7 @@ ALTER TABLE `playlists`
 -- AUTO_INCREMENT for table `playlistsongs`
 --
 ALTER TABLE `playlistsongs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `songs`
@@ -363,7 +377,7 @@ ALTER TABLE `songs`
 -- AUTO_INCREMENT for table `traffic`
 --
 ALTER TABLE `traffic`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `users`

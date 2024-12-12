@@ -8,11 +8,33 @@
     include("includes/handlers/register-handler.php");
     include("includes/handlers/login-handler.php");
 
+    if (isset($_POST['loginButton'])) {
+        $username = $_POST['loginUsername'];
+        $password = $_POST['loginPassword'];
+
+        // Verify login credentials
+        $wasSuccessful = $account->login($username, $password);
+
+        if ($wasSuccessful) {
+            // Login tracking logic
+            $ipAddress = $_SERVER['REMOTE_ADDR']; // Capture the user's IP address
+            $page = "login"; // The event/page type for tracking
+
+            // Insert login event into the tracking table
+            $query = $con->prepare("INSERT INTO traffic (page, date, ip_address) VALUES (?, NOW(), ?)");
+            $query->bind_param("ss", $page, $ipAddress);
+            $query->execute();
+            exit();
+        }
+    }
+
+
     function getInputValue($name) {
         if (isset($_POST[$name])) {
             echo $_POST[$name];
         }
     }
+    
 ?>
 
 <!DOCTYPE html>
