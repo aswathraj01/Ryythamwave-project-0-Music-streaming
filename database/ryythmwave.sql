@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 12, 2024 at 04:42 PM
+-- Generation Time: Dec 12, 2024 at 10:55 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -32,16 +32,15 @@ CREATE TABLE `admin_table` (
   `username` varchar(50) NOT NULL,
   `password` varchar(255) NOT NULL,
   `email` varchar(255) DEFAULT NULL,
-  `profile_picture` varchar(255) DEFAULT NULL,
-  `bio` text DEFAULT NULL
+  `profile_picture` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `admin_table`
 --
 
-INSERT INTO `admin_table` (`id`, `username`, `password`, `email`, `profile_picture`, `bio`) VALUES
-(1, 'admin', 'password123', 'admin12@gmail.com', '', NULL);
+INSERT INTO `admin_table` (`id`, `username`, `password`, `email`, `profile_picture`) VALUES
+(1, 'admin', 'password123', 'admin12@gmail.com', '');
 
 -- --------------------------------------------------------
 
@@ -240,7 +239,9 @@ INSERT INTO `traffic` (`id`, `page`, `date`, `ip_address`) VALUES
 (5, 'login', '2024-10-29 21:07:09', '::1'),
 (6, 'login', '2024-11-13 21:07:45', '::1'),
 (7, 'login', '2024-11-12 21:07:45', '::1'),
-(8, 'login', '2024-11-27 21:07:45', '::1');
+(8, 'login', '2024-11-27 21:07:45', '::1'),
+(9, 'login', '2024-12-12 21:35:30', '::1'),
+(10, 'login', '2024-12-12 22:29:00', '::1');
 
 -- --------------------------------------------------------
 
@@ -377,7 +378,7 @@ ALTER TABLE `songs`
 -- AUTO_INCREMENT for table `traffic`
 --
 ALTER TABLE `traffic`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `users`
