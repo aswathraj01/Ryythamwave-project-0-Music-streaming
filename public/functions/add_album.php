@@ -23,29 +23,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     // Prepare and bind
-    $stmt = $conn->prepare("INSERT INTO albums (album_name, album_cover, artist_name, release_date) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("ssss", $album_name, $album_cover, $artist_name, $release_date);
+    $stmt = $conn->prepare("INSERT INTO albums (album_name, artworkPath, artist_name, release_date) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("ssss", $album_name, $artworkPath, $artist_name, $release_date);
 
     // Get form data
-    $album_name = $_POST['album_name'];
-    $artist_name = $_POST['artist_name'];
-    $release_date = $_POST['release_date'];
+    $album_name = $_POST['title'];
+    $artist_name = $_POST['name'];
+    $release_date = $_POST['genre'];
 
     // Handle file upload
-    $album_cover = '';
-    if (isset($_FILES['album_cover']) && $_FILES['album_cover']['error'] == 0) {
-        $upload_dir = '../../uploads/'; // Adjust this path based on your directory structure
+    $artworkPath = '';
+    if (isset($_FILES['artworkPath']) && $_FILES['artworkPath']['error'] == 0) {
+        $upload_dir = '../../assets/images/artwork/';
 
         // Create uploads directory if it does not exist
         if (!is_dir($upload_dir)) {
             mkdir($upload_dir, 0755, true);
         }
 
-        $upload_file = $upload_dir . basename($_FILES['album_cover']['name']);
+        $upload_file = $upload_dir . basename($_FILES['artworkPath']['name']);
         
         // Move uploaded file to the desired directory
-        if (move_uploaded_file($_FILES['album_cover']['tmp_name'], $upload_file)) {
-            $album_cover = $upload_file;
+        if (move_uploaded_file($_FILES['artworkPath']['tmp_name'], $upload_file)) {
+            $artworkPath = $upload_file;
         } else {
             echo "<p>Error uploading file.</p>";
             exit();
@@ -82,7 +82,7 @@ $albums = $conn->query("SELECT * FROM albums");
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Album</title>
-    <link rel="icon" type="image/x-icon" href="public/assets/images/logo.png">
+    <link rel="icon" type="image/x-icon" href="../assets/images/logo1.png">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -196,12 +196,12 @@ $albums = $conn->query("SELECT * FROM albums");
                     <input type="text" id="artist_name" name="artist_name" required>
                 </div>
                 <div class="form-group">
-                    <label for="release_date">Release Date</label>
-                    <input type="date" id="release_date" name="release_date" required>
+                    <label for="release_date">Genre</label>
+                    <input type="text" id="release_date" name="release_date" required>
                 </div>
                 <div class="form-group">
-                    <label for="album_cover">Album Cover</label>
-                    <input type="file" id="album_cover" name="album_cover" accept="image/*" required>
+                    <label for="artworkPath">Album Cover</label>
+                    <input type="file" id="artworkPath" name="artworkPath" accept="image/*" required>
                 </div>
                 <button type="submit" class="submit-btn">Add Album</button>
             </form>
@@ -215,7 +215,7 @@ $albums = $conn->query("SELECT * FROM albums");
                         <th>ID</th>
                         <th>Album Name</th>
                         <th>Artist Name</th>
-                        <th>Release Date</th>
+                        <th>Genre</th>
                         <th>Album Cover</th>
                     </tr>
                 </thead>
@@ -223,10 +223,10 @@ $albums = $conn->query("SELECT * FROM albums");
                     <?php while ($album = $albums->fetch_assoc()): ?>
                     <tr>
                         <td><?php echo $album['id']; ?></td>
-                        <td><?php echo $album['album_name']; ?></td>
-                        <td><?php echo $album['artist_name']; ?></td>
-                        <td><?php echo $album['release_date']; ?></td>
-                        <td><img src="<?php echo $album['album_cover']; ?>" alt="<?php echo $album['album_name']; ?>" style="width: 100px; height: auto;"></td>
+                        <td><?php echo $album['title']; ?></td>
+                        <td><?php echo $album['artist']; ?></td>
+                        <td><?php echo $album['genre']; ?></td>
+                        <td><img src="<?php echo $album['artworkPath']; ?>" alt="<?php echo $album['title']; ?>" style="width: 100px; height: auto;"></td>
                     </tr>
                     <?php endwhile; ?>
                 </tbody>

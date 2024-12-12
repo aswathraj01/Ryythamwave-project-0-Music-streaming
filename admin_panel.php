@@ -211,7 +211,7 @@ $genres = $conn->query("SELECT * FROM genres");
         <li><a href="javascript:void(0);" onclick="showSection('albums')"><img src="public/assets/icons/journal-album.svg"><span class="text">Albums</span></a></li>
         <li><a href="javascript:void(0);" onclick="showSection('artists')"><img src="public/assets/icons/disc.svg"><span class="text">Artists</span></a></li>
         <li><a href="javascript:void(0);" onclick="showSection('playlists')"><img src="public/assets/icons/music-note-list.svg"><span class="text">Playlists</span></a></li>
-        <li><a href="javascript:void(0);" onclick="showSection('category')"><img src="public/assets/icons/collection-play.svg"><span class="text">Category</span></a></li>
+        <li><a href="javascript:void(0);" onclick="showSection('category')"><img src="public/assets/icons/collection-play.svg"><span class="text">Genre</span></a></li>
         <li><a href="javascript:void(0);" onclick="showSection('users')"><img src="public/assets/icons/people.svg"><span class="text">Users</span></a></li>
         <div class="settings">
             <li><a href="javascript:void(0);" onclick="showSection('edit-profile')"><img src="public/assets/icons/Sliders.svg"></a></li>
@@ -313,7 +313,7 @@ $genres = $conn->query("SELECT * FROM genres");
                     <th>ID</th>
                     <th>Title</th>
                     <th>Artist</th>
-                    <th>Release Date</th>
+                    <th>Genre</th>
                     <th>Album Cover</th>
                     <th>Action</th>
                 </tr>
@@ -322,10 +322,10 @@ $genres = $conn->query("SELECT * FROM genres");
                 <?php while ($album = $albums->fetch_assoc()): ?>
                 <tr>
                 <td><?php echo $album['id']; ?></td>
-                <td><?php echo $album['album_name']; ?></td>
-                <td><?php echo $album['artist_name']; ?></td>
-                <td><?php echo $album['release_date']; ?></td>
-                <td><img src="<?php echo $album['album_cover']; ?>" alt="<?php echo $album['album_name']; ?>" style="width: 100px; height: auto;"></td>
+                <td><?php echo $album['title']; ?></td>
+                <td><?php echo $album['artist']; ?></td>
+                <td><?php echo $album['genre']; ?></td>
+                <td><img src="<?php echo $album['artworkPath']; ?>" alt="<?php echo $album['title']; ?>" style="width: 100px; height: auto;"></td>
                 <td>
                     <a href="public/functions/edit_album.php?id=<?php echo htmlspecialchars($album['id']); ?>">Edit</a>
                     <a href="public/functions/delete_album.php?id=<?php echo htmlspecialchars($album['id']); ?>" onclick="return confirm('Are you sure?')">Delete</a>
@@ -352,7 +352,7 @@ $genres = $conn->query("SELECT * FROM genres");
                 <?php while ($artist = $artists->fetch_assoc()): ?>
                 <tr>
                     <td><?php echo $artist['id']; ?></td>
-                    <td><?php echo $artist['artist_name']; ?></td>
+                    <td><?php echo $artist['name']; ?></td>
                     <td>
                         <a href="public/functions/edit_artist.php?id=<?php echo htmlspecialchars($artist['id']); ?>">Edit</a>
                         <a href="public/functions/delete_artist.php?id=<?php echo htmlspecialchars($artist['id']); ?>" onclick="return confirm('Are you sure?')">Delete</a>
@@ -432,13 +432,13 @@ $genres = $conn->query("SELECT * FROM genres");
 
     <!-- Category Section -->
 <section id="category" class="section" style="display: none;">
-    <h2>Manage Category</h2>
+    <h2>Manage Genre</h2>
     <a href="public/functions/add_category.php">Add New Category</a>
     <table>
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Category Name</th>
+                <th>Genre Name</th>
                 <th>Action</th>
             </tr>
         </thead>

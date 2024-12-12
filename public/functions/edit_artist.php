@@ -5,30 +5,40 @@ if (!isset($_SESSION['admin_logged_in'])) {
     exit();
 }
 
+// Database connection
 $conn = new mysqli("localhost", "root", "", "ryythmwave");
-
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+// Handle POST request to update the artist
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $id = $_POST['id'];
-    $artist_name = $_POST['artist_name'];
+    $id = intval($_POST['id']);
+    $artist_name = $conn->real_escape_string($_POST['artist_name']);
 
-    $sql = "UPDATE artists SET artist_name='$artist_name' WHERE id='$id'";
+    $sql = "UPDATE artists SET name=? WHERE id=?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("si", $artist_name, $id);
 
-    if ($conn->query($sql) === TRUE) {
+    if ($stmt->execute()) {
         echo "<p>Artist updated successfully</p>";
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Error: " . $stmt->error;
     }
-
-    $conn->close();
+    $stmt->close();
 }
 
-$id = $_GET['id'];
-$result = $conn->query("SELECT * FROM artists WHERE id='$id'");
+// Get artist details for editing
+$id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+$sql = "SELECT * FROM artists WHERE id=?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $id);
+$stmt->execute();
+$result = $stmt->get_result();
 $artist = $result->fetch_assoc();
+$stmt->close();
+
+$conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -46,11 +56,9 @@ $artist = $result->fetch_assoc();
             color: #333;
             background-color: #0c697d;
         }
-
         .container {
             padding: 20px;
         }
-
         .header {
             background-color: #2196F3;
             color: #fff;
@@ -61,7 +69,6 @@ $artist = $result->fetch_assoc();
             margin-bottom: 20px;
             position: relative;
         }
-
         .back-button {
             position: absolute;
             left: 20px;
@@ -72,11 +79,9 @@ $artist = $result->fetch_assoc();
             text-decoration: none;
             border-radius: 5px;
         }
-
         .back-button:hover {
             background-color: #45a049;
         }
-
         .form-container {
             max-width: 600px;
             margin: 0 auto;
@@ -85,23 +90,19 @@ $artist = $result->fetch_assoc();
             border-radius: 5px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
-
         .form-container h2 {
             color: #4CAF50;
             margin-bottom: 20px;
         }
-
         .form-group {
             margin-bottom: 15px;
         }
-
         .form-group label {
             display: block;
             margin-bottom: 5px;
             font-weight: bold;
             color: #333;
         }
-
         .form-group input[type="text"] {
             width: 100%;
             padding: 10px;
@@ -109,12 +110,10 @@ $artist = $result->fetch_assoc();
             border-radius: 5px;
             box-sizing: border-box;
         }
-
         .form-group input[type="text"]:focus {
             border-color: #4CAF50;
             outline: none;
         }
-
         .submit-btn {
             display: inline-block;
             padding: 10px 20px;
@@ -127,7 +126,6 @@ $artist = $result->fetch_assoc();
             text-align: center;
             text-decoration: none;
         }
-
         .submit-btn:hover {
             background-color: #45a049;
         }
@@ -136,16 +134,16 @@ $artist = $result->fetch_assoc();
 <body>
     <div class="container">
         <div class="header">
-            <a href="../../admin_panel.php" class="back-button">Back to Admin Panel</a>
+            <a href="../../admin_panel.php" class="back-button">Back</a>
             Edit Artist
         </div>
         <div class="form-container">
             <h2>Edit Artist</h2>
             <form action="edit_artist.php" method="post">
-                <input type="hidden" name="id" value="<?php echo htmlspecialchars($artist['id']); ?>">
+                <input type="hidden" name="id" value="<?php echo htmlspecialchars($artist['id'] ?? ''); ?>">
                 <div class="form-group">
                     <label for="artist_name">Artist Name:</label>
-                    <input type="text" id="artist_name" name="artist_name" value="<?php echo htmlspecialchars($artist['artist_name']); ?>" required>
+                    <input type="text" id="artist_name" name="artist_name" value="<?php echo htmlspecialchars($artist['name'] ?? ''); ?>" required>
                 </div>
                 <button type="submit" class="submit-btn">Update Artist</button>
             </form>

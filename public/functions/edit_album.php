@@ -13,9 +13,9 @@ if ($conn->connect_error) {
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id = $_POST['id'];
-    $album_name = $_POST['album_name'];
+    $title = $_POST['title'];
 
-    $sql = "UPDATE albums SET album_name='$album_name' WHERE id='$id'";
+    $sql = "UPDATE albums SET title='$title' WHERE id='$id'";
 
     if ($conn->query($sql) === TRUE) {
         echo "<p>Album updated successfully</p>";
@@ -144,8 +144,8 @@ $album = $result->fetch_assoc();
             <form action="edit_album.php" method="post">
                 <input type="hidden" name="id" value="<?php echo htmlspecialchars($album['id']); ?>">
                 <div class="form-group">
-                    <label for="album_name">Album Name:</label>
-                    <input type="text" id="album_name" name="album_name" value="<?php echo htmlspecialchars($album['album_name']); ?>" required>
+                    <label for="title">Album Name:</label>
+                    <input type="text" id="title" name="title" value="<?php echo htmlspecialchars($album['title']); ?>" required>
                 </div>
                 <button type="submit" class="submit-btn">Update Album</button>
             </form>

@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $category_name = $_POST['category_name'];
 
     // Prepare and bind
-    $stmt = $conn->prepare("INSERT INTO categories (name) VALUES (?)");
+    $stmt = $conn->prepare("INSERT INTO genres (name) VALUES (?)");
     $stmt->bind_param("s", $category_name);
 
     // Execute statement
@@ -47,7 +47,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$categories = $conn->query("SELECT * FROM categories");
+$categories = $conn->query("SELECT * FROM genres");
 ?>
 
 <!DOCTYPE html>
@@ -194,8 +194,7 @@ $categories = $conn->query("SELECT * FROM categories");
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Category Name</th>
-                        <th>Created Date</th>
+                        <th>Genre Name</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -203,7 +202,6 @@ $categories = $conn->query("SELECT * FROM categories");
                     <tr>
                         <td><?php echo $category['id']; ?></td>
                         <td><?php echo $category['name']; ?></td>
-                        <td><?php echo $category['created_date']; ?></td>
                     </tr>
                     <?php endwhile; ?>
                 </tbody>

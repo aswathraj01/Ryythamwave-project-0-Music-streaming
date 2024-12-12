@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         die("Connection failed: " . $conn->connect_error);
     }
 
-    $sql = "INSERT INTO user_table (first_name, last_name, username, mobile_no, email, password) VALUES ('$first_name', '$last_name', '$username', '$mobile_no', '$email', '$password')";
+    $sql = "INSERT INTO users (first_name, last_name, username, mobile_no, email, password) VALUES ('$first_name', '$last_name', '$username', '$mobile_no', '$email', '$password')";
 
     if ($conn->query($sql) === TRUE) {
         echo "New user added successfully";
@@ -36,7 +36,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$users = $conn->query("SELECT * FROM user_table");
+$users = $conn->query("SELECT * FROM users");
 ?>
 
 <!DOCTYPE html>
@@ -217,20 +217,20 @@ td {
                         <th>Last Name</th>
                         <th>Username</th>
                         <th>Password</th>
-                        <th>Mobile No.</th>
                         <th>Email</th>
+                        <th>SignUpDate</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php while ($user = $users->fetch_assoc()) { ?>
                     <tr>
                         <td><?php echo $user['id']; ?></td>
-                        <td><?php echo $user['first_name']; ?></td>
-                        <td><?php echo $user['last_name']; ?></td>
+                        <td><?php echo $user['firstName']; ?></td>
+                        <td><?php echo $user['lastName']; ?></td>
                         <td><?php echo $user['username']; ?></td>
                         <td><?php echo $user['password']; ?></td>
-                        <td><?php echo $user['mobile_no']; ?></td>
                         <td><?php echo $user['email']; ?></td>
+                        <td><?php echo $user['signUpDate']; ?></td>
                     </tr>
                     <?php } ?>
                 </tbody>

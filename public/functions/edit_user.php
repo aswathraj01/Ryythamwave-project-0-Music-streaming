@@ -19,9 +19,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($password) {
         $password = password_hash($password, PASSWORD_DEFAULT);
-        $update_sql = "UPDATE user_table SET username='$username', email='$email', password='$password' WHERE id='$id'";
+        $update_sql = "UPDATE users SET username='$username', email='$email', password='$password' WHERE id='$id'";
     } else {
-        $update_sql = "UPDATE user_table SET username='$username', email='$email' WHERE id='$id'";
+        $update_sql = "UPDATE users SET username='$username', email='$email' WHERE id='$id'";
     }
 
     if ($conn->query($update_sql) === TRUE) {
@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
 $id = $_GET['id'];
-$result = $conn->query("SELECT * FROM user_table WHERE id='$id'");
+$result = $conn->query("SELECT * FROM users WHERE id='$id'");
 $user = $result->fetch_assoc();
 ?>
 

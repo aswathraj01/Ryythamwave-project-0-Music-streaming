@@ -56,8 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <header class="admin-header">
         <div class="admin-header-div">
-            <a href="test/home.php"><button type="button">Home</button></a>
-            <a href="Login.html"><button type="button">USER Login</button></a>
+            <a href="index.php"><button type="button">USER Login</button></a>
         </div>
     </header>
     <div class="login-box">

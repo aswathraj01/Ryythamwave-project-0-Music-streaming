@@ -25,7 +25,7 @@ if ($conn->connect_error) {
 }
 
 // Prepare the SQL query using a prepared statement
-$sql = $conn->prepare("DELETE FROM categories WHERE id = ?");
+$sql = $conn->prepare("DELETE FROM genres WHERE id = ?");
 $sql->bind_param("i", $id);  // 'i' for integer
 
 // Execute the query

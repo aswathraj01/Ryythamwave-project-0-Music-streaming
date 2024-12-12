@@ -14,8 +14,8 @@ if ($conn->connect_error) {
 $artists = $conn->query("SELECT * FROM artists");
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $artist_name = $_POST['artist_name'];
-    $sql = "INSERT INTO artists (artist_name) VALUES ('$artist_name')";
+    $name = $_POST['name'];
+    $sql = "INSERT INTO artists (name) VALUES ('$name')";
 
     if ($conn->query($sql) === TRUE) {
         echo "New artist added successfully";
@@ -168,8 +168,8 @@ $conn->close();
             <h2>Add Artist</h2>
             <form action="add_artist.php" method="post">
                 <div class="form-group">
-                    <label for="artist_name">Artist Name:</label>
-                    <input type="text" id="artist_name" name="artist_name" required>
+                    <label for="name">Artist Name:</label>
+                    <input type="text" id="name" name="name" required>
                 </div>
                 <button type="submit" class="submit-btn">Add Artist</button>
             </form>
@@ -189,7 +189,7 @@ $conn->close();
                 <?php while ($artist = $artists->fetch_assoc()) { ?>
                 <tr>
                     <td><?php echo $artist['id']; ?></td>
-                    <td><?php echo $artist['artist_name']; ?></td>
+                    <td><?php echo $artist['name']; ?></td>
                 </tr>
                 <?php } ?>
             </tbody>
