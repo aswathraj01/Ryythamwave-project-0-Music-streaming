@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $name = $_POST['name'];
 
     // Prepare and execute the update query
-    $sql = $conn->prepare("UPDATE categories SET name=? WHERE id=?");
+    $sql = $conn->prepare("UPDATE genres SET name=? WHERE id=?");
     $sql->bind_param("si", $name, $id);
 
     if ($sql->execute()) {
@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 // Fetch the category details from the database
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 if ($id > 0) {
-    $result = $conn->query("SELECT * FROM categories WHERE id='$id'");
+    $result = $conn->query("SELECT * FROM genres WHERE id='$id'");
     if ($result->num_rows > 0) {
         $category = $result->fetch_assoc();
     } else {

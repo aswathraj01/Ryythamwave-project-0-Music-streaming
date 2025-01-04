@@ -17,7 +17,7 @@
 }
 
 body{
-    main-width: 350px;
+    width: 350px;
     font-family: lato, sans-serif, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0%;
     padding: 0%;

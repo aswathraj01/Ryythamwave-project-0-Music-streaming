@@ -9,6 +9,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $title = $_POST['title'];
     $album = $_POST['album'];
     $artist = $_POST['artist'];
+    $genre = $_POST['genre'];
+    $duration = $_POST['duration'];
     $path = $_POST['path'];
 
     $conn = new mysqli("localhost", "root", "", "ryythmwave");
@@ -17,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         die("Connection failed: " . $conn->connect_error);
     }
 
-    $sql = "INSERT INTO songs (title, album, artist, genre, path) VALUES ('$title', '$album', '$artist', '$genre', '$path')";
+    $sql = "INSERT INTO songs (title, album, artist, genre, path) VALUES ('$title', '$album', '$artist', '$genre', '$path', '$duration')";
 
     if ($conn->query($sql) === TRUE) {
         echo "New track added successfully";
@@ -186,8 +188,13 @@ $songs = $conn->query("SELECT * FROM songs");
                     <input type="text" id="artist" name="artist" required>
                 </div>
                 <div class="form-group">
+                    <label for="artist">Duration :</label>
+                    <input type="text" id="duration" name="duration" placeholder="Example: 3:41" required>
+                </div>
+                <div class="form-group">
                     <label for="artist">Genre :</label>
                     <input type="text" id="genre" name="genre" required>
+                </div>
                 <div class="form-group">
                     <label for="path">Track Path:</label>
                     <input type="text" id="path" name="path" required>

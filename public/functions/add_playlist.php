@@ -23,11 +23,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     // Prepare and bind
-    $stmt = $conn->prepare("INSERT INTO playlists (user_id, name, created_at) VALUES (?, ?, ?)");
-    $stmt->bind_param("iss", $user_id, $name, $created_at);
+    $stmt = $conn->prepare("INSERT INTO playlists (owner, name, dateCreated) VALUES (?, ?, ?)");
+    $stmt->bind_param("iss", $owner, $name, $created_at);
 
     // Get form data
-    $user_id = $_POST['user_id'];
+    $owner = $_POST['user_id'];
     $name = $_POST['name'];
     $created_at = date('Y-m-d H:i:s'); // Set the current timestamp
 
@@ -163,8 +163,8 @@ $playlists = $conn->query("SELECT * FROM playlists");
             <h2>Add Playlist</h2>
             <form action="add_playlist.php" method="post">
                 <div class="form-group">
-                    <label for="user_id">User ID</label>
-                    <input type="number" id="user_id" name="user_id" required>
+                    <label for="user_id">Owner Name</label>
+                    <input type="text" id="user_id" name="user_id" required>
                 </div>
                 <div class="form-group">
                     <label for="name">Playlist Name</label>
@@ -180,7 +180,7 @@ $playlists = $conn->query("SELECT * FROM playlists");
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>User ID</th>
+                        <th>Owner Name</th>
                         <th>Playlist Name</th>
                         <th>Created At</th>
                     </tr>
@@ -189,9 +189,9 @@ $playlists = $conn->query("SELECT * FROM playlists");
                     <?php while ($playlist = $playlists->fetch_assoc()): ?>
                     <tr>
                         <td><?php echo $playlist['id']; ?></td>
-                        <td><?php echo $playlist['user_id']; ?></td>
+                        <td><?php echo $playlist['owner']; ?></td>
                         <td><?php echo $playlist['name']; ?></td>
-                        <td><?php echo $playlist['created_at']; ?></td>
+                        <td><?php echo $playlist['dateCreated']; ?></td>
                     </tr>
                     <?php endwhile; ?>
                 </tbody>

@@ -23,13 +23,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     // Prepare and bind
-    $stmt = $conn->prepare("INSERT INTO albums (album_name, artworkPath, artist_name, release_date) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("ssss", $album_name, $artworkPath, $artist_name, $release_date);
+    $stmt = $conn->prepare("INSERT INTO albums (title, artworkPath, artist, genre) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("ssss", $album_name, $artworkPath, $artist_name, $genre);
 
     // Get form data
     $album_name = $_POST['title'];
     $artist_name = $_POST['name'];
-    $release_date = $_POST['genre'];
+    $genre = $_POST['genre'];
 
     // Handle file upload
     $artworkPath = '';
@@ -189,15 +189,15 @@ $albums = $conn->query("SELECT * FROM albums");
             <form action="add_album.php" method="post" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="album_name">Album Name</label>
-                    <input type="text" id="album_name" name="album_name" required>
+                    <input type="text" id="album_name" name="title" required>
                 </div>
                 <div class="form-group">
                     <label for="artist_name">Artist Name</label>
-                    <input type="text" id="artist_name" name="artist_name" required>
+                    <input type="text" id="artist_name" name="name" required>
                 </div>
                 <div class="form-group">
                     <label for="release_date">Genre</label>
-                    <input type="text" id="release_date" name="release_date" required>
+                    <input type="text" id="genre" name="genre" required>
                 </div>
                 <div class="form-group">
                     <label for="artworkPath">Album Cover</label>
