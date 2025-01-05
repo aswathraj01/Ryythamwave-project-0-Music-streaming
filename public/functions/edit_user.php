@@ -11,6 +11,12 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+if (isset($_GET['id'])) {
+    $id = $_GET['id'];
+} else {
+    die("User ID is missing.");
+}
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id = $_POST['id'];
     $username = $_POST['username'];
@@ -33,9 +39,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $conn->close();
 }
 
-$id = $_GET['id'];
 $result = $conn->query("SELECT * FROM users WHERE id='$id'");
-$user = $result->fetch_assoc();
+if ($result->num_rows > 0) {
+    $user = $result->fetch_assoc();
+} else {
+    die("User not found.");
+}
 ?>
 
 <!DOCTYPE html>

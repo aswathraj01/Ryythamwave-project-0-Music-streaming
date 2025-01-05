@@ -12,31 +12,38 @@ if ($conn->connect_error) {
 }
 
 // Fetch track details if an ID is provided
-if (isset($_GET['id'])) {
+if (isset($_GET['id']) && is_numeric($_GET['id'])) {
     $id = intval($_GET['id']);
-    $result = $conn->query("SELECT * FROM songs WHERE id = $id");
-    $track = $result->fetch_assoc();
+    $result = $conn->query("SELECT * FROM songs WHERE id = $id"); // Correct table name
+    if ($result && $result->num_rows > 0) {
+        $track = $result->fetch_assoc();
+    } else {
+        die("Track not found. Please check the ID.");
+    }
 } else {
-    die("No track ID specified.");
+    die("No valid track ID specified.");
 }
 
 // Update track details
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id = intval($_POST['id']);
-    $title = $_POST['title'];
-    $album = $_POST['album'];
-    $artist = $_POST['artist'];
-    $genre = $_POST['genre'];
-    $path = $_POST['path'];
+    $title = $conn->real_escape_string($_POST['title']);
+    $album = $conn->real_escape_string($_POST['album']);
+    $artist = $conn->real_escape_string($_POST['artist']);
+    $genre = $conn->real_escape_string($_POST['genre']);
+    $path = $conn->real_escape_string($_POST['path']);
 
-    $sql = "UPDATE songs SET title = '$title', album = '$album', artist = '$artist', path = '$path' WHERE id = $id";
+    $sql = "UPDATE songs 
+            SET title = '$title', album = '$album', artist = '$artist', genre = '$genre', path = '$path' 
+            WHERE id = $id";
 
     if ($conn->query($sql) === TRUE) {
-        echo "Track updated successfully";
-        header("Location: edit_track.php?id=$id"); // Refresh page to show updated data
+        echo "<script>alert('Track updated successfully');</script>"; // Show success alert
+        // Redirect after showing the message
+        echo "<script>window.location.href = 'edit_track.php?id=$id';</script>";
         exit();
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Error updating record: " . $conn->error;
     }
 }
 
@@ -154,26 +161,31 @@ $conn->close();
         </div>
         <div class="form-container">
             <h2>Edit Track</h2>
-            <form action="edit_track.php" method="post">
-                <input type="hidden" name="id" value="<?php echo $track['id']; ?>">
-                <div class="form-group">
-                    <label for="title">Title:</label>
-                    <input type="text" id="title" name="title" value="<?php echo htmlspecialchars($track['title']); ?>" required>
-                </div>
-                <div class="form-group">
-                    <label for="album">Album ID:</label>
-                    <input type="text" id="album" name="album" value="<?php echo htmlspecialchars($track['album']); ?>" required>
-                </div>
-                <div class="form-group">
-                    <label for="artist">Artist ID:</label>
-                    <input type="text" id="artist" name="artist" value="<?php echo htmlspecialchars($track['artist']); ?>" required>
-                </div>
-                <div class="form-group">
-                    <label for="path">Track Path:</label>
-                    <input type="text" id="path" name="path" value="<?php echo htmlspecialchars($track['path']); ?>" required>
-                </div>
-                <button type="submit" class="submit-btn">Update Track</button>
-            </form>
+            <form action="edit_track.php?id=<?php echo $track['id']; ?>" method="post">
+    <input type="hidden" name="id" value="<?php echo $track['id']; ?>">
+    <div class="form-group">
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" value="<?php echo htmlspecialchars($track['title']); ?>" required>
+    </div>
+    <div class="form-group">
+        <label for="album">Album ID:</label>
+        <input type="text" id="album" name="album" value="<?php echo htmlspecialchars($track['album']); ?>" required>
+    </div>
+    <div class="form-group">
+        <label for="artist">Artist ID:</label>
+        <input type="text" id="artist" name="artist" value="<?php echo htmlspecialchars($track['artist']); ?>" required>
+    </div>
+    <div class="form-group">
+        <label for="genre">Genre:</label>
+        <input type="text" id="genre" name="genre" value="<?php echo htmlspecialchars($track['genre']); ?>" required>
+    </div>
+    <div class="form-group">
+        <label for="path">Track Path:</label>
+        <input type="text" id="path" name="path" value="<?php echo htmlspecialchars($track['path']); ?>" required>
+    </div>
+    <button type="submit" class="submit-btn">Update Track</button>
+</form>
+
         </div>
     </div>
 </body>

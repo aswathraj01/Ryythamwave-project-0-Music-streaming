@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         die("Connection failed: " . $conn->connect_error);
     }
 
-    $sql = "INSERT INTO songs (title, album, artist, genre, path) VALUES ('$title', '$album', '$artist', '$genre', '$path', '$duration')";
+    $sql = "INSERT INTO songs (title, album, artist, genre, path, duration) VALUES ('$title', '$album', '$artist', '$genre', '$path', '$duration')";
 
     if ($conn->query($sql) === TRUE) {
         echo "New track added successfully";

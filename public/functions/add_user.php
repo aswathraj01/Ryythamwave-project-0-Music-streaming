@@ -6,20 +6,23 @@ if (!isset($_SESSION['admin_logged_in'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $first_name = $_POST['first_name'];
-    $last_name = $_POST['last_name'];
-    $mobile_no = $_POST['mobile_no'];
+    // Updated variable names to match your form input names and column names in the database
+    $firstName = $_POST['first_name'];
+    $lastName = $_POST['last_name'];
     $email = $_POST['email'];
     $username = $_POST['username']; // Fetch username
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
+    // Database connection
     $conn = new mysqli("localhost", "root", "", "ryythmwave");
 
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
 
-    $sql = "INSERT INTO users (first_name, last_name, username, mobile_no, email, password) VALUES ('$first_name', '$last_name', '$username', '$mobile_no', '$email', '$password')";
+    // Insert query without mobile_no column, signUpDate will be automatically handled by MySQL if it's set to CURRENT_TIMESTAMP by default
+    $sql = "INSERT INTO users (firstName, lastName, username, email, password) 
+            VALUES ('$firstName', '$lastName', '$username', '$email', '$password')";
 
     if ($conn->query($sql) === TRUE) {
         echo "New user added successfully";
@@ -47,127 +50,126 @@ $users = $conn->query("SELECT * FROM users");
     <title>Add User</title>
     <link rel="icon" type="image/x-icon" href="public/assets/images/logo.png">
     <style>
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    color: #333;
-    background-color: #0c697d;
-}
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            background-color: #0c697d;
+        }
 
-.container {
-    padding: 20px;
-}
+        .container {
+            padding: 20px;
+        }
 
-.header {
-    background-color: #2196F3;
-    color: #fff;
-    padding: 15px;
-    text-align: center;
-    font-size: 24px;
-    border-radius: 5px;
-    margin-bottom: 20px;
-    position: relative;
-}
+        .header {
+            background-color: #2196F3;
+            color: #fff;
+            padding: 15px;
+            text-align: center;
+            font-size: 24px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            position: relative;
+        }
 
-.form-container {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #ffffff;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
 
-.form-container h2 {
-    color: #4CAF50;
-    margin-bottom: 20px;
-}
+        .form-container h2 {
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
 
-.form-group {
-    margin-bottom: 15px;
-}
+        .form-group {
+            margin-bottom: 15px;
+        }
 
-.form-group label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-    color: #333;
-}
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
 
-.form-group input[type="text"],
-.form-group input[type="email"],
-.form-group input[type="password"] {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-sizing: border-box;
-}
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
 
-.form-group input[type="text"]:focus,
-.form-group input[type="email"]:focus,
-.form-group input[type="password"]:focus {
-    border-color: #4CAF50;
-    outline: none;
-}
+        .form-group input[type="text"]:focus,
+        .form-group input[type="email"]:focus,
+        .form-group input[type="password"]:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
 
-.submit-btn {
-    display: inline-block;
-    padding: 10px 20px;
-    font-size: 16px;
-    color: #fff;
-    background-color: #4CAF50;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    text-align: center;
-    text-decoration: none;
-}
+        .submit-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+        }
 
-.submit-btn:hover {
-    background-color: #45a049;
-}
+        .submit-btn:hover {
+            background-color: #45a049;
+        }
 
-.back-button {
-    position: absolute;
-    left: 20px;
-    top: 5px;
-    background-color: #4CAF50;
-    color: #fff;
-    padding: 10px 15px;
-    text-decoration: none;
-    border-radius: 5px;
-}
+        .back-button {
+            position: absolute;
+            left: 20px;
+            top: 5px;
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
 
-.back-button:hover {
-    background-color: #45a049;
-}
+        .back-button:hover {
+            background-color: #45a049;
+        }
 
-table {
-    width: 100%;
-    margin-top: 20px;
-    border-collapse: collapse;
-    max-width: 1000px;
-    margin-left: auto;
-    margin-right: auto;
-}
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+        }
 
-table, th, td {
-    border: 1px solid #ddd;
-    padding: 6px;
-}
+        table, th, td {
+            border: 1px solid #ddd;
+            padding: 6px;
+        }
 
-th {
-    background-color: #f2f2f2;
-    text-align: left;
-}
+        th {
+            background-color: #f2f2f2;
+            text-align: left;
+        }
 
-td {
-    font-size: 14px;
-    word-wrap: break-word;
-}
-
+        td {
+            font-size: 14px;
+            word-wrap: break-word;
+        }
     </style>
 </head>
 <body>
@@ -186,10 +188,6 @@ td {
                 <div class="form-group">
                     <label for="last_name">Last Name:</label>
                     <input type="text" id="last_name" name="last_name" required>
-                </div>
-                <div class="form-group">
-                    <label for="mobile_no">Mobile No.:</label>
-                    <input type="text" id="mobile_no" name="mobile_no" required>
                 </div>
                 <div class="form-group">
                     <label for="email">Email:</label>
@@ -218,7 +216,7 @@ td {
                         <th>Username</th>
                         <th>Password</th>
                         <th>Email</th>
-                        <th>SignUpDate</th>
+                        <th>SignUp Date</th>
                     </tr>
                 </thead>
                 <tbody>

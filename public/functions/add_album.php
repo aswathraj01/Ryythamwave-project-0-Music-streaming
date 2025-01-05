@@ -192,11 +192,11 @@ $albums = $conn->query("SELECT * FROM albums");
                     <input type="text" id="album_name" name="title" required>
                 </div>
                 <div class="form-group">
-                    <label for="artist_name">Artist Name</label>
+                    <label for="artist_name">Artist ID</label>
                     <input type="text" id="artist_name" name="name" required>
                 </div>
                 <div class="form-group">
-                    <label for="release_date">Genre</label>
+                    <label for="release_date">Genre ID</label>
                     <input type="text" id="genre" name="genre" required>
                 </div>
                 <div class="form-group">

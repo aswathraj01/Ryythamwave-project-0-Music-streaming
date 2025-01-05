@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($sql->execute()) {
         // Redirect to admin panel with a success message
-        header("Location: admin_panel.php?success=Category updated successfully");
+        header("Location: ../../admin_panel.php?success=Category updated successfully");
         exit();
     } else {
         echo "Error: " . $sql->error;

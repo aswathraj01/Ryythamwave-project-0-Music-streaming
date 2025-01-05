@@ -11,24 +11,95 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $id = $_POST['id'];
-    $title = $_POST['title'];
+// Check if the album ID is passed in the URL
+if (isset($_GET['id'])) {
+    $id = $_GET['id'];
 
-    $sql = "UPDATE albums SET title='$title' WHERE id='$id'";
-
-    if ($conn->query($sql) === TRUE) {
-        echo "<p>Album updated successfully</p>";
+    // Fetch album data from the database
+    $result = $conn->query("SELECT * FROM albums WHERE id='$id'");
+    if ($result && $result->num_rows > 0) {
+        $album = $result->fetch_assoc();
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "No album found.";
+        exit();
     }
 
-    $conn->close();
+    // If the form is submitted, update the album information
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $title = $_POST['title'];
+        $artist = $_POST['artist'];
+        $genre = $_POST['genre'];
+        $artworkPath = "";
+
+        // If an image is uploaded, handle the file upload
+        if (isset($_FILES['artwork']) && $_FILES['artwork']['error'] == 0) {
+            $targetDir = "../../assets/images/artwork/";
+            $targetFile = $targetDir . basename($_FILES["artwork"]["name"]);
+            $uploadOk = 1;
+            $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
+
+            // Check if the file is an image
+            if (getimagesize($_FILES["artwork"]["tmp_name"]) === false) {
+                echo "File is not an image.";
+                $uploadOk = 0;
+            }
+
+            // Check file size (limit to 5MB)
+            if ($_FILES["artwork"]["size"] > 5000000) {
+                echo "Sorry, your file is too large.";
+                $uploadOk = 0;
+            }
+
+            // Allow only certain file formats
+            if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
+                echo "Sorry, only JPG, JPEG, PNG, and GIF files are allowed.";
+                $uploadOk = 0;
+            }
+
+            // Check if the file already exists
+            if (file_exists($targetFile)) {
+                echo "Sorry, the file already exists.";
+                $uploadOk = 0;
+            }
+
+            // Attempt to upload the file
+            if ($uploadOk == 0) {
+                echo "Sorry, your file was not uploaded.";
+            } else {
+                if (move_uploaded_file($_FILES["artwork"]["tmp_name"], $targetFile)) {
+                    $artworkPath = $targetFile; // Save the path to the uploaded image
+                } else {
+                    echo "Sorry, there was an error uploading your file.";
+                }
+            }
+        }
+
+        // Update the album information in the database
+        $sql = "UPDATE albums SET title='$title', artist='$artist', genre='$genre'";
+
+        // If a new artwork was uploaded, update the artwork path
+        if ($artworkPath != "") {
+            $sql .= ", artworkPath='$artworkPath'";
+        }
+
+        $sql .= " WHERE id='$id'";
+
+        if ($conn->query($sql) === TRUE) {
+            echo "<p>Album updated successfully</p>";
+        } else {
+            echo "Error: " . $sql . "<br>" . $conn->error;
+        }
+
+        // Redirect after update to avoid form resubmission
+        header("Location: edit_album.php?id=$id");
+        exit();
+    }
+} else {
+    echo "No album id specified.";
+    exit();
 }
 
-$id = $_GET['id'];
-$result = $conn->query("SELECT * FROM albums WHERE id='$id'");
-$album = $result->fetch_assoc();
+$conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -115,6 +186,14 @@ $album = $result->fetch_assoc();
             outline: none;
         }
 
+        .form-group input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
         .submit-btn {
             display: inline-block;
             padding: 10px 20px;
@@ -141,11 +220,23 @@ $album = $result->fetch_assoc();
         </div>
         <div class="form-container">
             <h2>Edit Album</h2>
-            <form action="edit_album.php" method="post">
+            <form action="edit_album.php?id=<?php echo htmlspecialchars($id); ?>" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="id" value="<?php echo htmlspecialchars($album['id']); ?>">
                 <div class="form-group">
                     <label for="title">Album Name:</label>
                     <input type="text" id="title" name="title" value="<?php echo htmlspecialchars($album['title']); ?>" required>
+                </div>
+                <div class="form-group">
+                    <label for="artist">Artist:</label>
+                    <input type="text" id="artist" name="artist" value="<?php echo htmlspecialchars($album['artist']); ?>" required>
+                </div>
+                <div class="form-group">
+                    <label for="genre">Genre:</label>
+                    <input type="text" id="genre" name="genre" value="<?php echo htmlspecialchars($album['genre']); ?>" required>
+                </div>
+                <div class="form-group">
+                    <label for="artwork">Artwork:</label>
+                    <input type="file" name="artwork" id="artwork">
                 </div>
                 <button type="submit" class="submit-btn">Update Album</button>
             </form>
