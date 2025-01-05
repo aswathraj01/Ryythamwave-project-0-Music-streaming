@@ -11,18 +11,22 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-if (isset($_GET['id'])) {
-    $id = $_GET['id'];
-} else {
-    die("User ID is missing.");
-}
+$successMessage = "";  // Variable to hold success message
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $id = $_POST['id'];
+    // Ensure the 'id' is passed from the form correctly
+    if (isset($_POST['id']) && !empty($_POST['id'])) {
+        $id = $_POST['id'];
+    } else {
+        echo "User ID is missing from the form. Please check the form submission.";
+        exit();
+    }
+
     $username = $_POST['username'];
     $email = $_POST['email'];
     $password = $_POST['password'];
 
+    // Check if a new password is provided and update it
     if ($password) {
         $password = password_hash($password, PASSWORD_DEFAULT);
         $update_sql = "UPDATE users SET username='$username', email='$email', password='$password' WHERE id='$id'";
@@ -31,21 +35,34 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     if ($conn->query($update_sql) === TRUE) {
-        echo "<p>User updated successfully</p>";
+        $successMessage = "User updated successfully";  // Set success message
+        // Redirect to the admin panel after success
+        header("Location: ../../admin_panel.php");
+        exit();  // Ensure no further code is executed after redirection
     } else {
-        echo "Error: " . $update_sql . "<br>" . $conn->error;
+        echo "Error updating record: " . $conn->error;
     }
-
     $conn->close();
 }
 
-$result = $conn->query("SELECT * FROM users WHERE id='$id'");
-if ($result->num_rows > 0) {
-    $user = $result->fetch_assoc();
+// Fetch user details
+if (isset($_GET['id'])) {  // Ensure the id is passed via GET
+    $id = $_GET['id'];
+    $result = $conn->query("SELECT * FROM users WHERE id='$id'");
+    
+    if ($result->num_rows > 0) {
+        $user = $result->fetch_assoc();
+    } else {
+        echo "User not found. Please check the ID.";
+        exit();
+    }
 } else {
-    die("User not found.");
+    echo "No user ID provided.";
+    exit();
 }
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -151,6 +168,12 @@ if ($result->num_rows > 0) {
         .submit-btn:hover {
             background-color: #45a049;
         }
+
+        .success-message {
+            color: green;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -160,6 +183,9 @@ if ($result->num_rows > 0) {
             Edit User
         </div>
         <div class="form-container">
+            <?php if ($successMessage): ?>
+                <div class="success-message"><?php echo htmlspecialchars($successMessage); ?></div>
+            <?php endif; ?>
             <h2>Edit User</h2>
             <form action="edit_user.php" method="post">
                 <input type="hidden" name="id" value="<?php echo htmlspecialchars($user['id']); ?>">
