@@ -2,7 +2,6 @@
 
 This is a music streaming website created using HTML, CSS, JavaScript, PHP, and MySQL.
 
-![Ryythamwave Logo](path/to/logo.png)
 
 ## Features
 
@@ -54,8 +53,4 @@ Contributions are welcome! Please fork the repository and submit a pull request.
 
 The project is hosted on [Ryythamwave](http://www.ryythamwave.free.nf/).
 
-## License
 
-This project is licensed under the MIT License.
-
-![MIT License](path/to/license.png)
