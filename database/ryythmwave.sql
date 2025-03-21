@@ -43,11 +43,10 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `firstName`, `lastName`, `email`, `password`, `signUpDate`, `profilePic`) VALUES
-(1, 'admin', 'aswath', '', 'testmail@gmail.com', 'admin', '2024-05-10 21:35:00', ''),
-(2, 'mainuser', 'Aswath', 'Raj', 'test@gmail.com', 'bdc87b9c894da5168059e00ebffb9077', '2024-05-11 00:53:13', 'assets/images/profile-pics/head_emerald.png'),
-(3, 'ak12', 'Akshay', '', 'akshay@gmail.com', '50977d6b4d7d7b056427ae04b90b251d', '2024-09-17 22:01:51', ''),
-(4, 'abhimanyu', 'Abhimanyu', 'Vijayakumar', 'Abhimanyu@gmail.com', '482c811da5d5b4bc6d497ffa98491e38', '2024-11-28 18:30:00', 'assets/images/profile-pics/head_emerald.png'),
-(33, '234234', 'sdfdsaf', 'dsfdsfds', 'dxfcvsdf@dfgd.cdfs', '$2y$10$j7/wQ4Xbexm/zYyIzlmy..6Uf', '0000-00-00 00:00:00', '');
+(1, 'admin', 'admin', '', 'testmail@gmail.com', '21232f297a57a5a743894a0e4a801fc3', '2024-05-10 21:35:00', ''),
+(2, 'mainuser', 'user1', 'main', 'testuser1@gmail.com', 'bdc87b9c894da5168059e00ebffb9077', '2024-05-11 00:53:13', 'assets/images/profile-pics/head_emerald.png'),
+(3, 'ak12', 'user2', '', 'testuser2@gmail.com', 'f0cb60e4dfbba5674340ba95d21c3f04', '2024-09-17 22:01:51', ''),
+(4, 'abhimanyu', 'user3', '', 'testuser3@gmail.com', '482c811da5d5b4bc6d497ffa98491e38', '2024-11-28 18:30:00', 'assets/images/profile-pics/head_emerald.png'),
 
 --
 -- Indexes for dumped tables
