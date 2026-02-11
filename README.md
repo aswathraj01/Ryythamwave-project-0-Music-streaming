@@ -46,17 +46,17 @@ Ryythamwave is a full-stack music streaming platform that allows users to explor
 
 ### 🚀 Getting Started
 
-Login / Register,Home Dashboard
-"<img src=""assets/screenshots/login.png"" alt=""Login and Registration Page"" width=""400"">","<img src=""assets/screenshots/home.png"" alt=""User Home Dashboard"" width=""400"">"
+## Login / Register
+![Login](assets/screenshots/login.png)
 
 ## Home Dashboard
-"<img src=""assets/screenshots/home.png"" width=""250"">"
+![Home Dashboard](assets/screenshots/home.png)
 
 ## Playlist
-"<img src=""assets/screenshots/player.png"" width=""250"">"
+![Playlist](assets/screenshots/playlist.png)
 
 ## Admin
-"<img src=""assets/screenshots/admin.png"" width=""250"">"
+![Admin](assets/screenshots/admin.png)
 
 
 #### 1. Clone the repository
