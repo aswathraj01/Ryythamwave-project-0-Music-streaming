@@ -46,6 +46,20 @@ Ryythamwave is a full-stack music streaming platform that allows users to explor
 
 ### 🚀 Getting Started
 
+## Login / Register
+
+"<img src=""assets/screenshots/login.png"" width=""250"">"
+
+## Home Dashboard
+"<img src=""assets/screenshots/home.png"" width=""250"">"
+
+## Playlist
+"<img src=""assets/screenshots/player.png"" width=""250"">"
+
+## Admin
+"<img src=""assets/screenshots/admin.png"" width=""250"">"
+
+
 #### 1. Clone the repository
 ```bash
 git clone [https://github.com/aswathraj01/Ryythamwave-project-0-Music-streaming.git](https://github.com/aswathraj01/Ryythamwave-project-0-Music-streaming.git)
