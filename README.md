@@ -46,9 +46,8 @@ Ryythamwave is a full-stack music streaming platform that allows users to explor
 
 ### 🚀 Getting Started
 
-## Login / Register
-
-"<img src=""assets/screenshots/login.png"" width=""250"">"
+Login / Register,Home Dashboard
+"<img src=""assets/screenshots/login.png"" alt=""Login and Registration Page"" width=""400"">","<img src=""assets/screenshots/home.png"" alt=""User Home Dashboard"" width=""400"">"
 
 ## Home Dashboard
 "<img src=""assets/screenshots/home.png"" width=""250"">"
